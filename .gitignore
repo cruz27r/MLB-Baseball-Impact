@@ -74,7 +74,8 @@ package-lock.json
 *.backup
 *~
 
-# Data files (optional - uncomment if needed)
-# *.csv
-# *.parquet
-# raw_data/
+# Data files
+*.csv
+*.zip
+data/
+raw_data/

@@ -21,11 +21,12 @@ class Database {
      */
     private function __construct() {
         // Load configuration from environment variables or use defaults
-        $this->host = getenv('DB_HOST') ?: 'localhost';
-        $this->database = getenv('DB_NAME') ?: 'mlb_global_era';
-        $this->username = getenv('DB_USER') ?: 'postgres';
-        $this->password = getenv('DB_PASSWORD') ?: '';
-        $this->port = getenv('DB_PORT') ?: '5432';
+        // Support both MLB_DB_* and DB_* prefixes for backward compatibility
+        $this->host = getenv('MLB_DB_HOST') ?: getenv('DB_HOST') ?: 'localhost';
+        $this->database = getenv('MLB_DB_NAME') ?: getenv('DB_NAME') ?: 'mlb_global_era';
+        $this->username = getenv('MLB_DB_USER') ?: getenv('DB_USER') ?: 'postgres';
+        $this->password = getenv('MLB_DB_PASSWORD') ?: getenv('DB_PASSWORD') ?: '';
+        $this->port = getenv('MLB_DB_PORT') ?: getenv('DB_PORT') ?: '5432';
         
         $this->connect();
     }
