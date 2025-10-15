@@ -19,7 +19,9 @@ This project explores how international players have transformed Major League Ba
 - **PHP 7.4+** with PostgreSQL support (pdo_pgsql extension)
 - **Python 3.8+** for ETL scripts
 - **PostgreSQL 12+** for data storage
-- **Polars library** for Python data processing
+- **Python packages**: `psycopg2-binary` (or `psycopg2`) for WAR ingestion
+- **curl** and **unzip** for data downloads
+- **Polars library** (optional, for legacy ETL)
 
 ### Installation
 
@@ -31,6 +33,10 @@ This project explores how international players have transformed Major League Ba
 
 2. **Install Python dependencies:**
    ```bash
+   # For WAR ingestion (required)
+   pip install psycopg2-binary
+   
+   # For legacy Polars ETL (optional)
    pip install polars
    ```
 
@@ -39,7 +45,7 @@ This project explores how international players have transformed Major League Ba
    Set environment variables for database access:
    ```bash
    export DB_HOST=localhost
-   export DB_NAME=mlb_global_era
+   export DB_NAME=mlb        # Use 'mlb' for the new pipeline
    export DB_USER=postgres
    export DB_PASSWORD=your_password
    export DB_PORT=5432
@@ -47,12 +53,59 @@ This project explores how international players have transformed Major League Ba
 
 4. **Initialize the database:**
    ```bash
-   psql -U postgres -d mlb_global_era -f sql/views.sql
+   # Create the database
+   createdb mlb
+   
+   # Run the complete pipeline (downloads data and sets up database)
+   ./scripts/update_all.sh
    ```
 
 ### Running the ETL Pipeline
 
-The ETL (Extract, Transform, Load) pipeline processes raw MLB data using Python and Polars:
+#### Option 1: Full Data Pipeline (Recommended)
+
+The automated pipeline downloads data from SABR Lahman, Retrosheet, and Baseball-Reference, then loads it into PostgreSQL:
+
+```bash
+# Create database
+createdb mlb || true
+
+# Set environment variables (optional)
+export LAHMAN_URL="https://sabr.org/path/to/lahman.zip"
+export RETRO_URL="https://retrosheet.org/path/to/retrosheet.zip"
+
+# Run full update pipeline
+DB=mlb ./scripts/update_all.sh
+```
+
+**What the pipeline does:**
+1. **Download**: Fetches Lahman, Retrosheet, and Baseball-Reference WAR data
+2. **Load**: Imports raw data into PostgreSQL schemas
+3. **Transform**: Parses and structures WAR data via Python ETL
+4. **Analyze**: Creates materialized views with Impact Index metrics
+
+**Data Sources:**
+- **SABR Lahman Database**: Player demographics, statistics, and awards
+- **Retrosheet**: Play-by-play game data (optional)
+- **Baseball-Reference WAR**: Daily WAR (Wins Above Replacement) data
+
+#### Option 2: Individual Scripts
+
+You can also run individual components:
+
+```bash
+# Download specific data sources
+./scripts/download_lahman_sabr.sh "<LAHMAN_URL>"
+./scripts/download_retrosheet.sh "<RETRO_URL>"
+./scripts/download_bref_war.sh
+
+# Refresh database with downloaded data
+./scripts/refresh_db.sh mlb
+```
+
+#### Option 3: Legacy Polars ETL
+
+The original ETL pipeline using Polars for local data processing:
 
 ```bash
 cd etl
@@ -62,11 +115,6 @@ python mlb_metrics_polars.py --input ./raw_data --output ../mlb_out
 **ETL Options:**
 - `--input`: Directory containing raw MLB data files (default: ./raw_data)
 - `--output`: Directory for processed output files (default: ../mlb_out)
-
-**What the ETL does:**
-1. **Extract**: Reads raw MLB data from CSV files
-2. **Transform**: Filters, aggregates, and enriches the data
-3. **Load**: Outputs processed data in CSV and Parquet formats
 
 ### Running the Website
 
@@ -101,11 +149,26 @@ MLB-Baseball-Impact/
 │   └── api/               # REST API endpoints
 │       ├── composition.php    # Team composition data
 │       ├── awards_index.php   # Awards data
-│       └── leaders_index.php  # Statistical leaders data
+│       ├── leaders_index.php  # Statistical leaders data
+│       ├── impact_index.php   # Impact Index metrics (NEW)
+│       └── status.php         # API status
 ├── etl/                   # ETL pipeline
-│   └── mlb_metrics_polars.py # Python ETL script using Polars
+│   ├── mlb_metrics_polars.py # Python ETL script using Polars
+│   └── ingest_bref_war.py     # Baseball-Reference WAR parser (NEW)
+├── scripts/               # Automation scripts (NEW)
+│   ├── download_lahman_sabr.sh   # Download SABR Lahman data
+│   ├── download_retrosheet.sh    # Download Retrosheet data
+│   ├── download_bref_war.sh      # Download B-Ref WAR data
+│   ├── update_all.sh             # Run complete pipeline
+│   └── refresh_db.sh             # Refresh database
 ├── sql/                   # Database schema and queries
-│   └── views.sql          # PostgreSQL materialized views
+│   ├── 01_create_db.sql       # Schema and table definitions
+│   ├── 02_load_lahman.sql     # Load Lahman CSV data
+│   ├── 03_load_bref_war.sql   # Load Baseball-Reference WAR (NEW)
+│   ├── 04_views_analysis.sql  # Player origin analysis views
+│   ├── 05_awards_and_leaders.sql # Awards analysis (NEW)
+│   ├── 06_war_by_origin.sql   # WAR and Impact Index views (NEW)
+│   └── views.sql              # Legacy materialized views
 ├── app/                   # Database connection layer
 │   ├── db.php             # PDO database connection singleton
 │   └── MLBData.php        # Data access methods
@@ -136,14 +199,32 @@ All API endpoints return JSON responses:
 - **`/api/leaders_index.php`**: Statistical leaders
   - Parameters: `year`, `country`, `category`, `limit`
 
+- **`/api/impact_index.php`**: Impact Index metrics (NEW)
+  - Parameters: `year`, `origin`, `limit`
+  - Returns WAR contribution vs roster share by player origin
+  - Impact Index > 1 means group contributes more WAR than roster representation
+  - Example: `/api/impact_index.php?year=2020&origin=Latin`
+
 ### Database Schema
 
-The project uses PostgreSQL materialized views for optimized queries:
+The project uses PostgreSQL schemas and materialized views for optimized queries:
 
-- `mv_foreign_players_summary`: Aggregated statistics by country and year
-- `mv_foreign_awards`: Awards won by foreign players
-- `mv_team_composition`: Foreign vs domestic player distribution per team
-- `mv_statistical_leaders`: Top performers with rankings
+**Schemas:**
+- `core`: Main player and statistics data
+- `bref`: Baseball-Reference WAR data
+- `lahman`: Original Lahman database (mapped to core)
+- `retrosheet`: Retrosheet play-by-play data (optional)
+
+**Key Materialized Views:**
+- `core.mv_yearly_composition`: Player composition by origin and year
+- `core.mv_war_by_origin`: WAR aggregated by player origin (NEW)
+- `core.mv_impact_index`: Impact Index metric (WAR share / Roster share) (NEW)
+- `core.mv_top_war_contributors`: Top WAR leaders by origin (NEW)
+- `core.mv_latin_players_by_country`: Latin American player statistics
+- `mv_foreign_players_summary`: Aggregated statistics by country and year (legacy)
+- `mv_foreign_awards`: Awards won by foreign players (legacy)
+- `mv_team_composition`: Foreign vs domestic player distribution per team (legacy)
+- `mv_statistical_leaders`: Top performers with rankings (legacy)
 
 ## ETL Usage
 
@@ -166,13 +247,39 @@ Processed data is saved in the `mlb_out/` directory:
 After loading new data, refresh the database views:
 
 ```sql
+-- Refresh all legacy views
 SELECT refresh_all_mlb_views();
+
+-- Refresh analysis views
+SELECT core.refresh_analysis_views();
+
+-- Refresh WAR views (requires WAR data)
+SELECT core.refresh_war_views();
 ```
 
 Or refresh individual views:
 
 ```sql
-REFRESH MATERIALIZED VIEW CONCURRENTLY mv_foreign_players_summary;
+REFRESH MATERIALIZED VIEW CONCURRENTLY core.mv_yearly_composition;
+REFRESH MATERIALIZED VIEW CONCURRENTLY core.mv_war_by_origin;
+REFRESH MATERIALIZED VIEW CONCURRENTLY core.mv_impact_index;
+```
+
+### Verifying the Pipeline
+
+After running the pipeline, verify the data:
+
+```bash
+# Check if data was loaded
+psql -d mlb -c "SELECT COUNT(*) FROM core.people;"
+psql -d mlb -c "SELECT COUNT(*) FROM bref.war_bat;"
+psql -d mlb -c "SELECT COUNT(*) FROM bref.war_pitch;"
+
+# View Impact Index results
+psql -d mlb -c "SELECT * FROM core.mv_impact_index ORDER BY year DESC LIMIT 10;"
+
+# Test API endpoint
+curl http://localhost:8080/api/impact_index.php?limit=5
 ```
 
 ## Development
