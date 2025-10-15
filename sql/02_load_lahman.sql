@@ -46,6 +46,34 @@
 \copy core.awardsplayers FROM '~/mlb_data/lahman/AwardsPlayers.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
 
 -- ==========================================================================
+-- Load Teams Data
+-- ==========================================================================
+
+\echo 'Loading Teams data...'
+\copy core.teams FROM '~/mlb_data/lahman/Teams.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
+
+-- ==========================================================================
+-- Load Fielding Data
+-- ==========================================================================
+
+\echo 'Loading Fielding data...'
+\copy core.fielding FROM '~/mlb_data/lahman/Fielding.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
+
+-- ==========================================================================
+-- Load All-Star Full Data
+-- ==========================================================================
+
+\echo 'Loading AllstarFull data...'
+\copy core.allstarfull FROM '~/mlb_data/lahman/AllstarFull.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
+
+-- ==========================================================================
+-- Load Series Post Data
+-- ==========================================================================
+
+\echo 'Loading SeriesPost data...'
+\copy core.seriespost FROM '~/mlb_data/lahman/SeriesPost.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
+
+-- ==========================================================================
 -- Analyze Tables for Query Optimization
 -- ==========================================================================
 
@@ -55,5 +83,9 @@ ANALYZE core.appearances;
 ANALYZE core.batting;
 ANALYZE core.pitching;
 ANALYZE core.awardsplayers;
+ANALYZE core.teams;
+ANALYZE core.fielding;
+ANALYZE core.allstarfull;
+ANALYZE core.seriespost;
 
 \echo 'Lahman data loading complete!'

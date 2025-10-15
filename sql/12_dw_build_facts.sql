@@ -187,7 +187,7 @@ ON CONFLICT (year, player_id) DO UPDATE SET
 
 \echo 'Aggregating fielding statistics by player-season-position...'
 
--- Check if lahman.fielding exists
+-- Check if lahman.fielding or core.fielding exists
 DO $$ 
 BEGIN
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'lahman' AND table_name = 'fielding') THEN
@@ -230,9 +230,50 @@ BEGIN
             e = EXCLUDED.e,
             fld_pct = EXCLUDED.fld_pct;
         
-        RAISE NOTICE 'Fielding season facts populated';
+        RAISE NOTICE 'Fielding season facts populated from lahman.fielding';
+    ELSIF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'core' AND table_name = 'fielding') THEN
+        INSERT INTO dw.fielding_season (
+            year,
+            player_id,
+            pos,
+            g,
+            gs,
+            inn_outs,
+            po,
+            a,
+            e,
+            fld_pct
+        )
+        SELECT 
+            year_id AS year,
+            player_id,
+            pos,
+            SUM(g) AS g,
+            SUM(gs) AS gs,
+            SUM(inn_outs) AS inn_outs,
+            SUM(po) AS po,
+            SUM(a) AS a,
+            SUM(e) AS e,
+            -- Calculate fielding percentage: (PO + A) / (PO + A + E)
+            CASE 
+                WHEN SUM(po) + SUM(a) + SUM(e) > 0 
+                THEN ROUND((SUM(po) + SUM(a))::NUMERIC / NULLIF(SUM(po) + SUM(a) + SUM(e), 0), 3)
+                ELSE NULL
+            END AS fld_pct
+        FROM core.fielding
+        GROUP BY year_id, player_id, pos
+        ON CONFLICT (year, player_id, pos) DO UPDATE SET
+            g = EXCLUDED.g,
+            gs = EXCLUDED.gs,
+            inn_outs = EXCLUDED.inn_outs,
+            po = EXCLUDED.po,
+            a = EXCLUDED.a,
+            e = EXCLUDED.e,
+            fld_pct = EXCLUDED.fld_pct;
+        
+        RAISE NOTICE 'Fielding season facts populated from core.fielding';
     ELSE
-        RAISE NOTICE 'lahman.fielding table not found, skipping fielding facts';
+        RAISE NOTICE 'No fielding table found, skipping fielding facts';
     END IF;
 END $$;
 
@@ -259,7 +300,7 @@ ON CONFLICT (year, player_id, award_id) DO UPDATE SET
 DO $$ 
 BEGIN
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'lahman' AND table_name = 'allstarfull') THEN
-        -- Update with All-Star counts
+        -- Update with All-Star counts from lahman
         INSERT INTO dw.awards_season (year, player_id, award_id, count, allstar_count)
         SELECT 
             yearid AS year,
@@ -273,7 +314,23 @@ BEGIN
             count = EXCLUDED.count,
             allstar_count = EXCLUDED.allstar_count;
         
-        RAISE NOTICE 'All-Star awards added';
+        RAISE NOTICE 'All-Star awards added from lahman.allstarfull';
+    ELSIF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'core' AND table_name = 'allstarfull') THEN
+        -- Update with All-Star counts from core
+        INSERT INTO dw.awards_season (year, player_id, award_id, count, allstar_count)
+        SELECT 
+            year_id AS year,
+            player_id,
+            'All-Star' AS award_id,
+            COUNT(*) AS count,
+            COUNT(*) AS allstar_count
+        FROM core.allstarfull
+        GROUP BY year_id, player_id
+        ON CONFLICT (year, player_id, award_id) DO UPDATE SET
+            count = EXCLUDED.count,
+            allstar_count = EXCLUDED.allstar_count;
+        
+        RAISE NOTICE 'All-Star awards added from core.allstarfull';
     END IF;
 END $$;
 
@@ -318,7 +375,7 @@ ON CONFLICT (year, player_id) DO UPDATE SET
 
 \echo 'Loading postseason team data...'
 
--- Check if lahman.seriespost exists
+-- Check if lahman.seriespost or core.seriespost exists
 DO $$ 
 BEGIN
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'lahman' AND table_name = 'seriespost') THEN
@@ -355,9 +412,44 @@ BEGIN
             losses = EXCLUDED.losses,
             is_champion = EXCLUDED.is_champion;
         
-        RAISE NOTICE 'Postseason team facts populated';
+        RAISE NOTICE 'Postseason team facts populated from lahman.seriespost';
+    ELSIF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'core' AND table_name = 'seriespost') THEN
+        INSERT INTO dw.postseason_team (year, round, lg_id, team_id, wins, losses, is_champion)
+        SELECT 
+            year_id AS year,
+            round,
+            lg_id_winner AS lg_id,
+            team_id_winner AS team_id,
+            wins,
+            losses,
+            CASE WHEN round = 'WS' AND wins > losses THEN true ELSE false END AS is_champion
+        FROM core.seriespost
+        WHERE team_id_winner IS NOT NULL
+        ON CONFLICT (year, round, team_id) DO UPDATE SET
+            wins = EXCLUDED.wins,
+            losses = EXCLUDED.losses,
+            is_champion = EXCLUDED.is_champion;
+        
+        -- Also add losing teams
+        INSERT INTO dw.postseason_team (year, round, lg_id, team_id, wins, losses, is_champion)
+        SELECT 
+            year_id AS year,
+            round,
+            lg_id_loser AS lg_id,
+            team_id_loser AS team_id,
+            losses AS wins,  -- Swap for loser
+            wins AS losses,
+            false AS is_champion
+        FROM core.seriespost
+        WHERE team_id_loser IS NOT NULL
+        ON CONFLICT (year, round, team_id) DO UPDATE SET
+            wins = EXCLUDED.wins,
+            losses = EXCLUDED.losses,
+            is_champion = EXCLUDED.is_champion;
+        
+        RAISE NOTICE 'Postseason team facts populated from core.seriespost';
     ELSE
-        RAISE NOTICE 'lahman.seriespost table not found, skipping postseason facts';
+        RAISE NOTICE 'No seriespost table found, skipping postseason facts';
     END IF;
 END $$;
 

@@ -110,11 +110,11 @@ ON CONFLICT (player_id) DO UPDATE SET
 
 \echo 'Populating teams dimension from Lahman data...'
 
--- Check if lahman.teams exists
+-- Check if lahman.teams or core.teams exists and load accordingly
 DO $$ 
 BEGIN
+    -- First try lahman.teams
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'lahman' AND table_name = 'teams') THEN
-        -- Load from lahman.teams if available
         INSERT INTO dw.teams (
             year,
             team_id,
@@ -150,10 +150,47 @@ BEGIN
             division = EXCLUDED.division;
         
         RAISE NOTICE 'Teams dimension populated from lahman.teams';
-    ELSE
-        RAISE NOTICE 'lahman.teams table not found, checking core schema...';
+    -- If not, check if core schema has teams table
+    ELSIF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'core' AND table_name = 'teams') THEN
+        INSERT INTO dw.teams (
+            year,
+            team_id,
+            franch_id,
+            team_name,
+            lg_id,
+            park,
+            attendance,
+            wins,
+            losses,
+            division
+        )
+        SELECT 
+            year_id AS year,
+            team_id,
+            franch_id,
+            name AS team_name,
+            lg_id,
+            park,
+            attendance,
+            w AS wins,
+            l AS losses,
+            div_id AS division
+        FROM core.teams
+        ON CONFLICT (year, team_id) DO UPDATE SET
+            franch_id = EXCLUDED.franch_id,
+            team_name = EXCLUDED.team_name,
+            lg_id = EXCLUDED.lg_id,
+            park = EXCLUDED.park,
+            attendance = EXCLUDED.attendance,
+            wins = EXCLUDED.wins,
+            losses = EXCLUDED.losses,
+            division = EXCLUDED.division;
         
-        -- Try to derive from core.appearances if lahman.teams doesn't exist
+        RAISE NOTICE 'Teams dimension populated from core.teams';
+    ELSE
+        RAISE NOTICE 'No teams table found, deriving from core.appearances...';
+        
+        -- Try to derive from core.appearances if no teams table exists
         INSERT INTO dw.teams (year, team_id, lg_id)
         SELECT DISTINCT 
             year_id AS year,
