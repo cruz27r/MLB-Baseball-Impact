@@ -460,7 +460,7 @@ END $$;
 \echo 'Building canonical player_season table...'
 
 -- Create aggregated awards counts
-CREATE TEMP TABLE IF NOT EXISTS temp_awards_agg AS
+CREATE TEMP TABLE temp_awards_agg AS
 SELECT 
     year,
     player_id,
