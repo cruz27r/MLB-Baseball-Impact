@@ -79,3 +79,4 @@ package-lock.json
 *.zip
 data/
 raw_data/
+mlb_data/

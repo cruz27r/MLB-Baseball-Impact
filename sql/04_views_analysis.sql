@@ -74,6 +74,11 @@ SELECT
     p.birth_city,
     CASE 
         WHEN p.birth_country = 'USA' THEN 'USA'
+        WHEN lc.country_code IS NOT NULL THEN 'Latin'
+        ELSE 'Other'
+    END AS origin,
+    CASE 
+        WHEN p.birth_country = 'USA' THEN 'USA'
         WHEN lc.country_code IS NOT NULL THEN 'Latin America'
         ELSE 'Other'
     END AS origin_category,
@@ -88,7 +93,7 @@ LEFT JOIN core.latin_countries lc
     ON p.birth_country = lc.country_code;
 
 COMMENT ON VIEW core.player_origin IS 
-    'Categorizes players by origin: USA, Latin America, or Other';
+    'Categorizes players by origin: USA, Latin (Latin America), or Other';
 
 -- ==========================================================================
 -- Yearly Composition Materialized View
@@ -100,6 +105,7 @@ WITH yearly_players AS (
     SELECT DISTINCT
         a.year_id,
         a.player_id,
+        po.origin,
         po.origin_category,
         po.birth_country,
         po.latin_country_name,
@@ -107,29 +113,54 @@ WITH yearly_players AS (
     FROM core.appearances a
     INNER JOIN core.player_origin po ON a.player_id = po.player_id
     WHERE a.g_all > 0  -- Only count players who actually appeared in games
+),
+totals AS (
+    SELECT 
+        year_id,
+        COUNT(DISTINCT player_id) AS total_players
+    FROM yearly_players
+    GROUP BY year_id
+),
+by_origin AS (
+    SELECT 
+        year_id,
+        origin,
+        origin_category,
+        COUNT(DISTINCT player_id) AS player_count,
+        COUNT(DISTINCT birth_country) AS country_count,
+        STRING_AGG(DISTINCT birth_country, ', ' ORDER BY birth_country) AS countries
+    FROM yearly_players
+    GROUP BY year_id, origin, origin_category
 )
 SELECT 
-    year_id,
-    origin_category,
-    COUNT(DISTINCT player_id) AS player_count,
-    COUNT(DISTINCT birth_country) AS country_count,
+    b.year_id AS year,
+    t.total_players,
+    SUM(CASE WHEN b.origin = 'USA' THEN b.player_count ELSE 0 END) AS us_players,
+    SUM(CASE WHEN b.origin = 'Latin' THEN b.player_count ELSE 0 END) AS latin_players,
+    SUM(CASE WHEN b.origin = 'Other' THEN b.player_count ELSE 0 END) AS foreign_players,
     ROUND(
-        100.0 * COUNT(DISTINCT player_id) / 
-        SUM(COUNT(DISTINCT player_id)) OVER (PARTITION BY year_id), 
+        100.0 * SUM(CASE WHEN b.origin = 'USA' THEN b.player_count ELSE 0 END) / 
+        NULLIF(t.total_players, 0), 
         2
-    ) AS percentage,
-    STRING_AGG(DISTINCT birth_country, ', ' ORDER BY birth_country) AS countries
-FROM yearly_players
-GROUP BY year_id, origin_category
-ORDER BY year_id DESC, player_count DESC;
+    ) AS us_percentage,
+    ROUND(
+        100.0 * SUM(CASE WHEN b.origin = 'Latin' THEN b.player_count ELSE 0 END) / 
+        NULLIF(t.total_players, 0), 
+        2
+    ) AS latin_percentage,
+    ROUND(
+        100.0 * SUM(CASE WHEN b.origin = 'Other' THEN b.player_count ELSE 0 END) / 
+        NULLIF(t.total_players, 0), 
+        2
+    ) AS foreign_percentage
+FROM by_origin b
+JOIN totals t ON t.year_id = b.year_id
+GROUP BY b.year_id, t.total_players
+ORDER BY b.year_id DESC;
 
 -- Index on materialized view for fast queries
-CREATE UNIQUE INDEX IF NOT EXISTS idx_yearly_composition_year_origin 
-    ON core.mv_yearly_composition(year_id, origin_category);
-CREATE INDEX IF NOT EXISTS idx_yearly_composition_year 
-    ON core.mv_yearly_composition(year_id);
-CREATE INDEX IF NOT EXISTS idx_yearly_composition_origin 
-    ON core.mv_yearly_composition(origin_category);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_yearly_composition_year 
+    ON core.mv_yearly_composition(year);
 
 COMMENT ON MATERIALIZED VIEW core.mv_yearly_composition IS 
     'Yearly composition of MLB players by origin category (USA, Latin America, Other)';
