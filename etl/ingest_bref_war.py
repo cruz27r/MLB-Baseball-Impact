@@ -3,7 +3,8 @@
 CS437 MLB Global Era - Baseball-Reference WAR Data Ingestion
 
 This script parses raw Baseball-Reference WAR data from the raw tables
-and loads it into structured tables for analysis.
+and loads it into structured tables for analysis. It also builds a
+crosswalk from B-Ref player IDs to Lahman player IDs.
 
 Usage:
     python3 etl/ingest_bref_war.py [--db-name DB_NAME]
@@ -31,11 +32,11 @@ def get_db_connection(db_name='mlb'):
     """Create and return a database connection."""
     try:
         conn = psycopg2.connect(
-            host=os.getenv('DB_HOST', 'localhost'),
+            host=os.getenv('MLB_DB_HOST', os.getenv('DB_HOST', 'localhost')),
             database=db_name,
-            user=os.getenv('DB_USER', 'postgres'),
-            password=os.getenv('DB_PASSWORD', ''),
-            port=os.getenv('DB_PORT', '5432')
+            user=os.getenv('MLB_DB_USER', os.getenv('DB_USER', 'postgres')),
+            password=os.getenv('MLB_DB_PASSWORD', os.getenv('DB_PASSWORD', '')),
+            port=os.getenv('MLB_DB_PORT', os.getenv('DB_PORT', '5432'))
         )
         return conn
     except Exception as e:
@@ -259,6 +260,203 @@ def parse_and_load_pitching_war(conn):
     return count
 
 
+def load_id_overrides(conn):
+    """Load manual ID overrides from config file."""
+    overrides = {}
+    config_path = 'config/id_overrides.csv'
+    
+    if not os.path.exists(config_path):
+        print("  ℹ No id_overrides.csv found, skipping manual overrides")
+        return overrides
+    
+    try:
+        with open(config_path, 'r') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                bref_id = row.get('bref_id', '').strip()
+                player_id = row.get('player_id', '').strip()
+                if bref_id and player_id:
+                    overrides[bref_id] = player_id
+        print(f"  ✓ Loaded {len(overrides)} ID overrides")
+    except Exception as e:
+        print(f"  ⚠ Error loading ID overrides: {e}")
+    
+    return overrides
+
+
+def build_player_crosswalk(conn):
+    """Build crosswalk from B-Ref player IDs to Lahman player IDs."""
+    print("Building player ID crosswalk...")
+    
+    cur = conn.cursor()
+    overrides = load_id_overrides(conn)
+    
+    # Get all unique player IDs from WAR data
+    cur.execute("""
+        SELECT DISTINCT playerid, name_common, yearid
+        FROM (
+            SELECT playerid, name_common, yearid FROM bref.war_bat WHERE playerid IS NOT NULL
+            UNION
+            SELECT playerid, name_common, yearid FROM bref.war_pitch WHERE playerid IS NOT NULL
+        ) t
+        ORDER BY playerid, yearid
+    """)
+    
+    bref_players = cur.fetchall()
+    print(f"  Found {len(bref_players)} unique B-Ref player-seasons")
+    
+    # Create crosswalk mapping
+    crosswalk = {}
+    high_confidence = 0
+    medium_confidence = 0
+    low_confidence = 0
+    no_match = 0
+    
+    for bref_id, name_common, year in bref_players:
+        if not bref_id:
+            continue
+        
+        # Check if already mapped
+        if bref_id in crosswalk:
+            continue
+        
+        # Check for manual override first
+        if bref_id in overrides:
+            crosswalk[bref_id] = (overrides[bref_id], 'override')
+            high_confidence += 1
+            continue
+        
+        # Try direct match in dw.players if bref_id column exists
+        try:
+            cur.execute("""
+                SELECT player_id FROM dw.players 
+                WHERE bref_id = %s LIMIT 1
+            """, (bref_id,))
+            result = cur.fetchone()
+            if result:
+                crosswalk[bref_id] = (result[0], 'high')
+                high_confidence += 1
+                continue
+        except:
+            pass
+        
+        # Try match via core.people bbref_id
+        try:
+            cur.execute("""
+                SELECT player_id FROM core.people 
+                WHERE bbref_id = %s LIMIT 1
+            """, (bref_id,))
+            result = cur.fetchone()
+            if result:
+                crosswalk[bref_id] = (result[0], 'high')
+                high_confidence += 1
+                continue
+        except:
+            pass
+        
+        # Try fuzzy match by name and birth year
+        if name_common and year:
+            try:
+                # Parse name (usually "FirstName LastName")
+                name_parts = name_common.strip().split()
+                if len(name_parts) >= 2:
+                    first_name = name_parts[0]
+                    last_name = ' '.join(name_parts[1:])
+                    
+                    # Estimate birth year (assume debut around age 22-25)
+                    est_birth_year_min = year - 30
+                    est_birth_year_max = year - 18
+                    
+                    cur.execute("""
+                        SELECT player_id FROM core.people 
+                        WHERE LOWER(name_first) = LOWER(%s) 
+                          AND LOWER(name_last) = LOWER(%s)
+                          AND birth_year BETWEEN %s AND %s
+                        LIMIT 1
+                    """, (first_name, last_name, est_birth_year_min, est_birth_year_max))
+                    
+                    result = cur.fetchone()
+                    if result:
+                        crosswalk[bref_id] = (result[0], 'medium')
+                        medium_confidence += 1
+                        continue
+            except:
+                pass
+        
+        # No match found
+        crosswalk[bref_id] = (None, 'none')
+        no_match += 1
+    
+    print(f"  ✓ Built crosswalk with {len(crosswalk)} mappings:")
+    print(f"    - High confidence: {high_confidence}")
+    print(f"    - Medium confidence: {medium_confidence}")
+    print(f"    - No match: {no_match}")
+    
+    return crosswalk
+
+
+def update_war_with_crosswalk(conn, crosswalk):
+    """Update WAR tables with Lahman player IDs from crosswalk."""
+    print("Updating WAR tables with player ID crosswalk...")
+    
+    cur = conn.cursor()
+    
+    # Update batting WAR
+    bat_updated = 0
+    for bref_id, (player_id, confidence) in crosswalk.items():
+        if player_id:
+            try:
+                cur.execute("""
+                    UPDATE bref.war_bat 
+                    SET playerid = %s 
+                    WHERE playerid = %s
+                """, (player_id, bref_id))
+                bat_updated += cur.rowcount
+            except:
+                pass
+    
+    # Update pitching WAR
+    pitch_updated = 0
+    for bref_id, (player_id, confidence) in crosswalk.items():
+        if player_id:
+            try:
+                cur.execute("""
+                    UPDATE bref.war_pitch 
+                    SET playerid = %s 
+                    WHERE playerid = %s
+                """, (player_id, bref_id))
+                pitch_updated += cur.rowcount
+            except:
+                pass
+    
+    conn.commit()
+    print(f"  ✓ Updated {bat_updated} batting WAR records")
+    print(f"  ✓ Updated {pitch_updated} pitching WAR records")
+    
+    # Update dw.players with bref_id where missing
+    if crosswalk:
+        updated_players = 0
+        try:
+            cur.execute("SELECT 1 FROM information_schema.tables WHERE table_schema = 'dw' AND table_name = 'players'")
+            if cur.fetchone():
+                for bref_id, (player_id, confidence) in crosswalk.items():
+                    if player_id and confidence in ('high', 'override'):
+                        try:
+                            cur.execute("""
+                                UPDATE dw.players 
+                                SET bref_id = %s 
+                                WHERE player_id = %s AND (bref_id IS NULL OR bref_id = '')
+                            """, (bref_id, player_id))
+                            updated_players += cur.rowcount
+                        except:
+                            pass
+                conn.commit()
+                if updated_players > 0:
+                    print(f"  ✓ Updated {updated_players} dw.players records with bref_id")
+        except:
+            pass
+
+
 def main():
     """Main execution function."""
     parser = argparse.ArgumentParser(
@@ -287,12 +485,19 @@ def main():
         # Parse and load pitching WAR
         pitch_count = parse_and_load_pitching_war(conn)
         
+        # Build player ID crosswalk
+        crosswalk = build_player_crosswalk(conn)
+        
+        # Update WAR tables with crosswalk
+        update_war_with_crosswalk(conn, crosswalk)
+        
         print()
         print("=" * 50)
         print("✓ WAR Data Ingestion Complete")
         print("=" * 50)
         print(f"Total batting records: {bat_count}")
         print(f"Total pitching records: {pitch_count}")
+        print(f"Player ID mappings: {len([x for x in crosswalk.values() if x[0]])}")
         print()
         
     except Exception as e:

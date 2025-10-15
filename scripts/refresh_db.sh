@@ -93,6 +93,26 @@ if [ -f "$SQL_DIR/views.sql" ]; then
 fi
 echo ""
 
+echo "Step 8: Creating data warehouse schema..."
+psql -d "$DB_NAME" -f "$SQL_DIR/10_dw_schema.sql"
+echo "✓ Data warehouse schema created"
+echo ""
+
+echo "Step 9: Building dimension tables..."
+psql -d "$DB_NAME" -f "$SQL_DIR/11_dw_build_dimensions.sql"
+echo "✓ Dimension tables populated"
+echo ""
+
+echo "Step 10: Building fact tables and player_season..."
+psql -d "$DB_NAME" -f "$SQL_DIR/12_dw_build_facts.sql"
+echo "✓ Fact tables and player_season populated"
+echo ""
+
+echo "Step 11: Creating data warehouse materialized views..."
+psql -d "$DB_NAME" -f "$SQL_DIR/13_dw_materialized_views.sql"
+echo "✓ Data warehouse materialized views created"
+echo ""
+
 echo "============================================"
 echo "✅ Database refresh complete!"
 echo "============================================"
@@ -100,6 +120,7 @@ echo ""
 echo "Next steps:"
 echo "  1. Verify data: psql -d $DB_NAME -c 'SELECT COUNT(*) FROM core.people;'"
 echo "  2. Check WAR data: psql -d $DB_NAME -c 'SELECT COUNT(*) FROM bref.war_bat;'"
-echo "  3. View Impact Index: psql -d $DB_NAME -c 'SELECT * FROM core.mv_impact_index LIMIT 10;'"
-echo "  4. Start web server: php -S localhost:8080 -t public"
+echo "  3. View Player Season: psql -d $DB_NAME -c 'SELECT COUNT(*) FROM dw.player_season;'"
+echo "  4. View Impact Index: psql -d $DB_NAME -c 'SELECT * FROM dw.mv_impact_index ORDER BY year DESC LIMIT 10;'"
+echo "  5. Start web server: php -S localhost:8080 -t public"
 echo ""

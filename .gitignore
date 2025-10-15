@@ -76,6 +76,7 @@ package-lock.json
 
 # Data files
 *.csv
+!config/*.csv
 *.zip
 data/
 raw_data/
