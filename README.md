@@ -168,7 +168,17 @@ MLB-Baseball-Impact/
 │   ├── 04_views_analysis.sql  # Player origin analysis views
 │   ├── 05_awards_and_leaders.sql # Awards analysis (NEW)
 │   ├── 06_war_by_origin.sql   # WAR and Impact Index views (NEW)
+│   ├── 10_dw_schema.sql       # Data Warehouse schema (NEW)
+│   ├── 11_dw_build_dimensions.sql  # DW dimension tables (NEW)
+│   ├── 12_dw_build_facts.sql  # DW fact tables and player_season (NEW)
+│   ├── 13_dw_materialized_views.sql # DW analytical views (NEW)
+│   ├── 99_validate_dw.sql     # DW validation script (NEW)
 │   └── views.sql              # Legacy materialized views
+├── config/                # Configuration files (NEW)
+│   ├── country_map.csv    # Country code mappings
+│   └── id_overrides.csv   # Manual player ID overrides
+├── docs/                  # Documentation (NEW)
+│   └── DW_SCHEMA.md       # Data warehouse schema documentation
 ├── app/                   # Database connection layer
 │   ├── db.php             # PDO database connection singleton
 │   └── MLBData.php        # Data access methods
@@ -176,6 +186,37 @@ MLB-Baseball-Impact/
 ├── .gitignore             # Git ignore rules
 └── README.md              # This file
 ```
+
+## Data Warehouse (dw) Schema
+
+The project includes a **unified data warehouse (dw) schema** that merges Lahman, Baseball-Reference WAR, and optional Retrosheet data into analysis-ready tables:
+
+### Key Features
+- **Star schema design** optimized for analytical queries
+- **Canonical player_season table** with all metrics in one place
+- **Origin classification** (USA, Latin, Other) for diversity analysis
+- **Impact Index metric** (WAR share / roster share) as primary evidence
+- **8 materialized views** for pre-aggregated insights
+
+### Quick Start with DW
+```bash
+# Full pipeline (downloads data and builds DW)
+./scripts/update_all.sh
+
+# Or build DW from existing data
+psql -d mlb -f sql/10_dw_schema.sql
+psql -d mlb -f sql/11_dw_build_dimensions.sql
+psql -d mlb -f sql/12_dw_build_facts.sql
+psql -d mlb -f sql/13_dw_materialized_views.sql
+
+# Validate
+psql -d mlb -f sql/99_validate_dw.sql
+
+# Query Impact Index
+psql -d mlb -c "SELECT * FROM dw.mv_impact_index WHERE year >= 2015 ORDER BY year DESC, origin_group;"
+```
+
+See **[docs/DW_SCHEMA.md](docs/DW_SCHEMA.md)** for complete documentation.
 
 ## Site Layout
 
@@ -210,21 +251,43 @@ All API endpoints return JSON responses:
 The project uses PostgreSQL schemas and materialized views for optimized queries:
 
 **Schemas:**
-- `core`: Main player and statistics data
+- `core`: Main player and statistics data (loaded from Lahman)
 - `bref`: Baseball-Reference WAR data
-- `lahman`: Original Lahman database (mapped to core)
+- `dw`: **Unified data warehouse** - analysis-ready tables (NEW)
+- `lahman`: Reserved for future use
 - `retrosheet`: Retrosheet play-by-play data (optional)
 
-**Key Materialized Views:**
+**Data Warehouse (dw) Tables:**
+- `dw.player_season`: Canonical wide table with all metrics per player-year
+- `dw.players`: Player dimension with origin classification
+- `dw.teams`: Team dimension with attendance
+- `dw.countries`: Country reference with Latin/Caribbean classification
+- `dw.batting_season`, `dw.pitching_season`: Aggregated statistics
+- `dw.war_season`: Baseball-Reference WAR by player-season
+- `dw.awards_season`: Awards won by player-season
+- `dw.postseason_team`: Postseason participation and results
+
+**Data Warehouse Materialized Views:**
+- `dw.mv_yearly_composition`: Player composition by origin and year
+- `dw.mv_war_by_origin`: WAR aggregated by player origin
+- `dw.mv_impact_index`: **Impact Index metric** (WAR share / Roster share)
+- `dw.mv_awards_share`: Awards distribution by origin
+- `dw.mv_hr25_by_origin`: Power hitters (25+ HR) by origin
+- `dw.mv_championship_contrib`: WAR on contending and championship teams
+- `dw.mv_interest_proxies`: Attendance metrics by origin
+- `dw.mv_top_war_contributors`: Top 10 WAR leaders per origin per year
+
+**Legacy Views (core schema):**
 - `core.mv_yearly_composition`: Player composition by origin and year
-- `core.mv_war_by_origin`: WAR aggregated by player origin (NEW)
-- `core.mv_impact_index`: Impact Index metric (WAR share / Roster share) (NEW)
-- `core.mv_top_war_contributors`: Top WAR leaders by origin (NEW)
+- `core.mv_war_by_origin`: WAR aggregated by player origin
+- `core.mv_impact_index`: Impact Index metric
 - `core.mv_latin_players_by_country`: Latin American player statistics
-- `mv_foreign_players_summary`: Aggregated statistics by country and year (legacy)
-- `mv_foreign_awards`: Awards won by foreign players (legacy)
-- `mv_team_composition`: Foreign vs domestic player distribution per team (legacy)
-- `mv_statistical_leaders`: Top performers with rankings (legacy)
+- `mv_foreign_players_summary`: Aggregated statistics by country and year
+- `mv_foreign_awards`: Awards won by foreign players
+- `mv_team_composition`: Foreign vs domestic player distribution per team
+- `mv_statistical_leaders`: Top performers with rankings
+
+**Recommendation**: Use `dw.*` tables and views for new analysis. Legacy `core.*` views maintained for backward compatibility.
 
 ## ETL Usage
 

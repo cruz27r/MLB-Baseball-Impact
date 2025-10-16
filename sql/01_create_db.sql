@@ -192,6 +192,144 @@ CREATE INDEX IF NOT EXISTS idx_awards_year ON core.awardsplayers(year_id);
 CREATE INDEX IF NOT EXISTS idx_awards_award ON core.awardsplayers(award_id);
 
 -- ==========================================================================
+-- Core Tables - Teams
+-- ==========================================================================
+
+-- Teams table - team information by year
+CREATE TABLE IF NOT EXISTS core.teams (
+    year_id INTEGER NOT NULL,
+    lg_id VARCHAR(2),
+    team_id VARCHAR(3) NOT NULL,
+    franch_id VARCHAR(3),
+    div_id VARCHAR(1),
+    rank INTEGER,
+    g INTEGER,
+    g_home INTEGER,
+    w INTEGER,
+    l INTEGER,
+    div_win VARCHAR(1),
+    wc_win VARCHAR(1),
+    lg_win VARCHAR(1),
+    ws_win VARCHAR(1),
+    r INTEGER,
+    ab INTEGER,
+    h INTEGER,
+    double INTEGER,
+    triple INTEGER,
+    hr INTEGER,
+    bb INTEGER,
+    so INTEGER,
+    sb INTEGER,
+    cs INTEGER,
+    hbp INTEGER,
+    sf INTEGER,
+    ra INTEGER,
+    er INTEGER,
+    era NUMERIC(5,2),
+    cg INTEGER,
+    sho INTEGER,
+    sv INTEGER,
+    ipouts INTEGER,
+    ha INTEGER,
+    hra INTEGER,
+    bba INTEGER,
+    soa INTEGER,
+    e INTEGER,
+    dp INTEGER,
+    fp NUMERIC(5,3),
+    name VARCHAR(50),
+    park VARCHAR(100),
+    attendance INTEGER,
+    bpf INTEGER,
+    ppf INTEGER,
+    team_id_br VARCHAR(3),
+    team_id_lahman45 VARCHAR(3),
+    team_id_retro VARCHAR(3),
+    PRIMARY KEY (year_id, team_id)
+);
+
+-- Index on teams
+CREATE INDEX IF NOT EXISTS idx_teams_year ON core.teams(year_id);
+CREATE INDEX IF NOT EXISTS idx_teams_team ON core.teams(team_id);
+CREATE INDEX IF NOT EXISTS idx_teams_franch ON core.teams(franch_id);
+
+-- ==========================================================================
+-- Core Tables - Fielding
+-- ==========================================================================
+
+-- Fielding statistics table
+CREATE TABLE IF NOT EXISTS core.fielding (
+    player_id VARCHAR(10) NOT NULL,
+    year_id INTEGER NOT NULL,
+    stint INTEGER NOT NULL,
+    team_id VARCHAR(3),
+    lg_id VARCHAR(2),
+    pos VARCHAR(2) NOT NULL,
+    g INTEGER,
+    gs INTEGER,
+    inn_outs INTEGER,
+    po INTEGER,
+    a INTEGER,
+    e INTEGER,
+    dp INTEGER,
+    pb INTEGER,
+    wp INTEGER,
+    sb INTEGER,
+    cs INTEGER,
+    zr NUMERIC(5,3),
+    PRIMARY KEY (player_id, year_id, stint, pos)
+);
+
+-- Index on fielding stats
+CREATE INDEX IF NOT EXISTS idx_fielding_player ON core.fielding(player_id);
+CREATE INDEX IF NOT EXISTS idx_fielding_year ON core.fielding(year_id);
+CREATE INDEX IF NOT EXISTS idx_fielding_pos ON core.fielding(pos);
+
+-- ==========================================================================
+-- Core Tables - All-Star Full
+-- ==========================================================================
+
+-- All-Star game appearances
+CREATE TABLE IF NOT EXISTS core.allstarfull (
+    player_id VARCHAR(10) NOT NULL,
+    year_id INTEGER NOT NULL,
+    game_num INTEGER NOT NULL,
+    game_id VARCHAR(12),
+    team_id VARCHAR(3),
+    lg_id VARCHAR(2),
+    gp INTEGER,
+    starting_pos INTEGER,
+    PRIMARY KEY (player_id, year_id, game_num)
+);
+
+-- Index on all-star appearances
+CREATE INDEX IF NOT EXISTS idx_allstar_player ON core.allstarfull(player_id);
+CREATE INDEX IF NOT EXISTS idx_allstar_year ON core.allstarfull(year_id);
+
+-- ==========================================================================
+-- Core Tables - Series Post
+-- ==========================================================================
+
+-- Postseason series results
+CREATE TABLE IF NOT EXISTS core.seriespost (
+    year_id INTEGER NOT NULL,
+    round VARCHAR(5) NOT NULL,
+    team_id_winner VARCHAR(3),
+    lg_id_winner VARCHAR(2),
+    team_id_loser VARCHAR(3),
+    lg_id_loser VARCHAR(2),
+    wins INTEGER,
+    losses INTEGER,
+    ties INTEGER,
+    PRIMARY KEY (year_id, round, team_id_winner)
+);
+
+-- Index on series post
+CREATE INDEX IF NOT EXISTS idx_seriespost_year ON core.seriespost(year_id);
+CREATE INDEX IF NOT EXISTS idx_seriespost_winner ON core.seriespost(team_id_winner);
+CREATE INDEX IF NOT EXISTS idx_seriespost_loser ON core.seriespost(team_id_loser);
+
+-- ==========================================================================
 -- Comments
 -- ==========================================================================
 
@@ -205,3 +343,7 @@ COMMENT ON TABLE core.appearances IS 'Player appearances by team, year, and posi
 COMMENT ON TABLE core.batting IS 'Player batting statistics by year';
 COMMENT ON TABLE core.pitching IS 'Player pitching statistics by year';
 COMMENT ON TABLE core.awardsplayers IS 'Awards won by players';
+COMMENT ON TABLE core.teams IS 'Team information and statistics by year';
+COMMENT ON TABLE core.fielding IS 'Player fielding statistics by year and position';
+COMMENT ON TABLE core.allstarfull IS 'All-Star game appearances by player';
+COMMENT ON TABLE core.seriespost IS 'Postseason series results';
