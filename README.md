@@ -16,10 +16,9 @@ This project explores how international players have transformed Major League Ba
 
 ### Prerequisites
 
-- **PHP 7.4+** with PostgreSQL support (pdo_pgsql extension)
+- **PHP 7.4+** with MySQL support (pdo_mysql extension)
 - **Python 3.8+** for ETL scripts
-- **PostgreSQL 12+** for data storage
-- **Python packages**: `psycopg2-binary` (or `psycopg2`) for WAR ingestion
+- **MySQL 8.0+** for data storage
 - **curl** and **unzip** for data downloads
 - **Polars library** (optional, for legacy ETL)
 
@@ -31,58 +30,57 @@ This project explores how international players have transformed Major League Ba
    cd MLB-Baseball-Impact
    ```
 
-2. **Install Python dependencies:**
+2. **Install Python dependencies (optional):**
    ```bash
-   # For WAR ingestion (required)
-   pip install psycopg2-binary
-   
    # For legacy Polars ETL (optional)
    pip install polars
    ```
 
 3. **Configure database connection:**
    
-   Set environment variables for database access:
+   Copy the example config and update with your MySQL credentials:
    ```bash
-   export DB_HOST=localhost
-   export DB_NAME=mlb        # Use 'mlb' for the new pipeline
-   export DB_USER=postgres
-   export DB_PASSWORD=your_password
-   export DB_PORT=5432
+   cp app/config.example.php app/config.php
+   # Edit app/config.php with your MySQL connection details
    ```
 
 4. **Initialize the database:**
    ```bash
-   # Create the database
-   createdb mlb
+   # Create MySQL database
+   mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS mlb;"
+   mysql -u root -p -e "CREATE USER IF NOT EXISTS 'mlbuser'@'localhost' IDENTIFIED BY 'mlbpass';"
+   mysql -u root -p -e "GRANT ALL PRIVILEGES ON mlb.* TO 'mlbuser'@'localhost';"
    
-   # Run the complete pipeline (downloads data and sets up database)
-   ./scripts/update_all.sh
+   # Download data sources
+   ./scripts/download_lahman_sabr.sh
+   ./scripts/download_retrosheet.sh
+   ./scripts/download_bref_war.sh
+   
+   # Load data into MySQL
+   ./scripts/load_mysql.sh mlb mlbuser mlbpass localhost 3306
    ```
 
 ### Running the ETL Pipeline
 
 #### Option 1: Full Data Pipeline (Recommended)
 
-The automated pipeline downloads data from SABR Lahman, Retrosheet, and Baseball-Reference, then loads it into PostgreSQL:
+The automated pipeline downloads data from SABR Lahman, Retrosheet, and Baseball-Reference, then loads it into MySQL:
 
 ```bash
-# Create database
-createdb mlb || true
+# Download data sources
+./scripts/download_lahman_sabr.sh
+./scripts/download_retrosheet.sh
+./scripts/download_bref_war.sh
 
-# Set environment variables (optional)
-export LAHMAN_URL="https://sabr.org/path/to/lahman.zip"
-export RETRO_URL="https://retrosheet.org/path/to/retrosheet.zip"
-
-# Run full update pipeline
-DB=mlb ./scripts/update_all.sh
+# Load into MySQL
+./scripts/load_mysql.sh mlb mlbuser mlbpass localhost 3306
 ```
 
 **What the pipeline does:**
 1. **Download**: Fetches Lahman, Retrosheet, and Baseball-Reference WAR data
-2. **Load**: Imports raw data into PostgreSQL schemas
-3. **Transform**: Parses and structures WAR data via Python ETL
-4. **Analyze**: Creates materialized views with Impact Index metrics
+2. **Load**: Imports raw data into MySQL staging tables
+3. **Transform**: Builds data warehouse tables from staging data
+4. **Analyze**: Ready for querying and visualization
 
 **Data Sources:**
 - **SABR Lahman Database**: Player demographics, statistics, and awards
@@ -95,12 +93,12 @@ You can also run individual components:
 
 ```bash
 # Download specific data sources
-./scripts/download_lahman_sabr.sh "<LAHMAN_URL>"
-./scripts/download_retrosheet.sh "<RETRO_URL>"
+./scripts/download_lahman_sabr.sh
+./scripts/download_retrosheet.sh
 ./scripts/download_bref_war.sh
 
-# Refresh database with downloaded data
-./scripts/refresh_db.sh mlb
+# Load data into MySQL
+./scripts/load_mysql.sh mlb mlbuser mlbpass localhost 3306
 ```
 
 #### Option 3: Legacy Polars ETL
@@ -155,30 +153,16 @@ MLB-Baseball-Impact/
 ├── etl/                   # ETL pipeline
 │   ├── mlb_metrics_polars.py # Python ETL script using Polars
 │   └── ingest_bref_war.py     # Baseball-Reference WAR parser (NEW)
-├── scripts/               # Automation scripts (NEW)
+├── scripts/               # Automation scripts
 │   ├── download_lahman_sabr.sh   # Download SABR Lahman data
 │   ├── download_retrosheet.sh    # Download Retrosheet data
 │   ├── download_bref_war.sh      # Download B-Ref WAR data
-│   ├── update_all.sh             # Run complete pipeline
-│   └── refresh_db.sh             # Refresh database
-├── sql/                   # Database schema and queries
-│   ├── 01_create_db.sql       # Schema and table definitions
-│   ├── 02_load_lahman.sql     # Load Lahman CSV data
-│   ├── 03_load_bref_war.sql   # Load Baseball-Reference WAR (NEW)
-│   ├── 04_views_analysis.sql  # Player origin analysis views
-│   ├── 05_awards_and_leaders.sql # Awards analysis (NEW)
-│   ├── 06_war_by_origin.sql   # WAR and Impact Index views (NEW)
-│   ├── 10_dw_schema.sql       # Data Warehouse schema (NEW)
-│   ├── 11_dw_build_dimensions.sql  # DW dimension tables (NEW)
-│   ├── 12_dw_build_facts.sql  # DW fact tables and player_season (NEW)
-│   ├── 13_dw_materialized_views.sql # DW analytical views (NEW)
-│   ├── 99_validate_dw.sql     # DW validation script (NEW)
-│   └── views.sql              # Legacy materialized views
-├── config/                # Configuration files (NEW)
-│   ├── country_map.csv    # Country code mappings
-│   └── id_overrides.csv   # Manual player ID overrides
-├── docs/                  # Documentation (NEW)
-│   └── DW_SCHEMA.md       # Data warehouse schema documentation
+│   └── load_mysql.sh             # Load data into MySQL database
+├── sql_mysql/             # MySQL database schema and queries
+│   ├── 01_create_schemas.sql     # Schema and table definitions
+│   ├── 02_create_staging.sql     # Staging tables
+│   ├── 03_load_helpers.sql       # Helper procedures and indexes
+│   └── 04_build_dw.sql           # Data warehouse build script
 ├── app/                   # Database connection layer
 │   ├── db.php             # PDO database connection singleton
 │   └── MLBData.php        # Data access methods
@@ -198,25 +182,17 @@ The project includes a **unified data warehouse (dw) schema** that merges Lahman
 - **Impact Index metric** (WAR share / roster share) as primary evidence
 - **8 materialized views** for pre-aggregated insights
 
-### Quick Start with DW
+### Quick Start with MySQL
+
 ```bash
-# Full pipeline (downloads data and builds DW)
-./scripts/update_all.sh
+# Download data sources
+./scripts/download_lahman_sabr.sh
+./scripts/download_retrosheet.sh
+./scripts/download_bref_war.sh
 
-# Or build DW from existing data
-psql -d mlb -f sql/10_dw_schema.sql
-psql -d mlb -f sql/11_dw_build_dimensions.sql
-psql -d mlb -f sql/12_dw_build_facts.sql
-psql -d mlb -f sql/13_dw_materialized_views.sql
-
-# Validate
-psql -d mlb -f sql/99_validate_dw.sql
-
-# Query Impact Index
-psql -d mlb -c "SELECT * FROM dw.mv_impact_index WHERE year >= 2015 ORDER BY year DESC, origin_group;"
+# Load into MySQL database
+./scripts/load_mysql.sh mlb mlbuser mlbpass localhost 3306
 ```
-
-See **[docs/DW_SCHEMA.md](docs/DW_SCHEMA.md)** for complete documentation.
 
 ## Site Layout
 
@@ -248,46 +224,25 @@ All API endpoints return JSON responses:
 
 ### Database Schema
 
-The project uses PostgreSQL schemas and materialized views for optimized queries:
+The project uses MySQL schemas for data storage and analysis:
 
 **Schemas:**
-- `core`: Main player and statistics data (loaded from Lahman)
-- `bref`: Baseball-Reference WAR data
-- `dw`: **Unified data warehouse** - analysis-ready tables (NEW)
-- `lahman`: Reserved for future use
-- `retrosheet`: Retrosheet play-by-play data (optional)
+- `staging`: Temporary tables for data loading from CSV files
+- `dw`: **Data warehouse** - analysis-ready tables and views
 
 **Data Warehouse (dw) Tables:**
 - `dw.player_season`: Canonical wide table with all metrics per player-year
 - `dw.players`: Player dimension with origin classification
-- `dw.teams`: Team dimension with attendance
-- `dw.countries`: Country reference with Latin/Caribbean classification
+- `dw.teams`: Team dimension
 - `dw.batting_season`, `dw.pitching_season`: Aggregated statistics
-- `dw.war_season`: Baseball-Reference WAR by player-season
 - `dw.awards_season`: Awards won by player-season
-- `dw.postseason_team`: Postseason participation and results
 
-**Data Warehouse Materialized Views:**
-- `dw.mv_yearly_composition`: Player composition by origin and year
-- `dw.mv_war_by_origin`: WAR aggregated by player origin
-- `dw.mv_impact_index`: **Impact Index metric** (WAR share / Roster share)
-- `dw.mv_awards_share`: Awards distribution by origin
-- `dw.mv_hr25_by_origin`: Power hitters (25+ HR) by origin
-- `dw.mv_championship_contrib`: WAR on contending and championship teams
-- `dw.mv_interest_proxies`: Attendance metrics by origin
-- `dw.mv_top_war_contributors`: Top 10 WAR leaders per origin per year
-
-**Legacy Views (core schema):**
-- `core.mv_yearly_composition`: Player composition by origin and year
-- `core.mv_war_by_origin`: WAR aggregated by player origin
-- `core.mv_impact_index`: Impact Index metric
-- `core.mv_latin_players_by_country`: Latin American player statistics
-- `mv_foreign_players_summary`: Aggregated statistics by country and year
-- `mv_foreign_awards`: Awards won by foreign players
-- `mv_team_composition`: Foreign vs domestic player distribution per team
-- `mv_statistical_leaders`: Top performers with rankings
-
-**Recommendation**: Use `dw.*` tables and views for new analysis. Legacy `core.*` views maintained for backward compatibility.
+**Staging Tables:**
+- `staging_people`: Player demographics from Retrosheet
+- `staging_appearances`: Player appearances by team/year
+- `staging_teams`: Team information
+- `staging_war_bat`: Batting WAR data from Baseball-Reference
+- `staging_war_pitch`: Pitching WAR data from Baseball-Reference
 
 ## ETL Usage
 
@@ -305,44 +260,18 @@ Processed data is saved in the `mlb_out/` directory:
 - Parquet files for efficient storage and loading
 - Summary report with ETL metadata
 
-### Refreshing Materialized Views
-
-After loading new data, refresh the database views:
-
-```sql
--- Refresh all legacy views
-SELECT refresh_all_mlb_views();
-
--- Refresh analysis views
-SELECT core.refresh_analysis_views();
-
--- Refresh WAR views (requires WAR data)
-SELECT core.refresh_war_views();
-```
-
-Or refresh individual views:
-
-```sql
-REFRESH MATERIALIZED VIEW CONCURRENTLY core.mv_yearly_composition;
-REFRESH MATERIALIZED VIEW CONCURRENTLY core.mv_war_by_origin;
-REFRESH MATERIALIZED VIEW CONCURRENTLY core.mv_impact_index;
-```
-
 ### Verifying the Pipeline
 
 After running the pipeline, verify the data:
 
 ```bash
-# Check if data was loaded
-psql -d mlb -c "SELECT COUNT(*) FROM core.people;"
-psql -d mlb -c "SELECT COUNT(*) FROM bref.war_bat;"
-psql -d mlb -c "SELECT COUNT(*) FROM bref.war_pitch;"
-
-# View Impact Index results
-psql -d mlb -c "SELECT * FROM core.mv_impact_index ORDER BY year DESC LIMIT 10;"
+# Check if data was loaded (using MySQL)
+mysql -u mlbuser -p mlb -e "SELECT COUNT(*) FROM staging_people;"
+mysql -u mlbuser -p mlb -e "SELECT COUNT(*) FROM staging_war_bat;"
+mysql -u mlbuser -p mlb -e "SELECT COUNT(*) FROM staging_war_pitch;"
 
 # Test API endpoint
-curl http://localhost:8080/api/impact_index.php?limit=5
+curl http://localhost:8000/api/status.php
 ```
 
 ## Development
@@ -358,21 +287,21 @@ php -S localhost:8000
 
 ### Database Configuration
 
-Database settings can be configured via environment variables or by modifying `app/db.php`:
+Database settings are configured in `app/config.php`:
 
 - `DB_HOST`: Database host (default: localhost)
-- `DB_NAME`: Database name (default: mlb_global_era)
-- `DB_USER`: Database user (default: postgres)
-- `DB_PASSWORD`: Database password
-- `DB_PORT`: Database port (default: 5432)
+- `DB_NAME`: Database name (default: mlb)
+- `DB_USER`: Database user (default: mlbuser)
+- `DB_PASS`: Database password (default: mlbpass)
+- `DB_PORT`: Database port (default: 3306)
 
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: PHP 7.4+
-- **Database**: PostgreSQL 12+
-- **ETL**: Python 3.8+ with Polars library
-- **Data Formats**: CSV, Parquet
+- **Database**: MySQL 8.0+
+- **ETL**: Python 3.8+ with Polars library (optional)
+- **Data Formats**: CSV
 
 ## Contributing
 
