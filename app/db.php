@@ -5,7 +5,6 @@ $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4',
 $options = [
   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
   PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-  PDO::MYSQL_ATTR_LOCAL_INFILE => true,
 ];
 try {
   $pdo = new PDO($dsn, $config['DB_USER'], $config['DB_PASS'], $options);
