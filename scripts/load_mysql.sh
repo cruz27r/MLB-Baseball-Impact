@@ -12,7 +12,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RETRO_CSV="$ROOT_DIR/data/retrosheet/csv"
 BREF_DIR="$ROOT_DIR/data/bref_war"
 
-mysql() { command mysql -u"$USER" -p"$PASS" -h"$HOST" -P"$PORT" "$DB" --local-infile=1 -e "$1"; }
+mysql() { MYSQL_PWD="$PASS" command mysql -u"$USER" -h"$HOST" -P"$PORT" "$DB" --local-infile=1 -e "$1"; }
 
 echo "== Schemas =="
 mysql "SOURCE $ROOT_DIR/sql_mysql/01_create_schemas.sql;"
