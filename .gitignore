@@ -69,13 +69,14 @@ composer.lock
 # Node modules (if JavaScript dependencies are added later)
 node_modules/
 package-lock.json
+yarn.lock
 
 # Backup files
 *.bak
 *.backup
 *~
 
-# Data files
+# Data files (except sample/seed data)
 *.csv
 *.zip
 *.md5
@@ -83,3 +84,11 @@ data/
 raw_data/
 mlb_data/
 *.pyc
+
+# Keep README files in ignored directories
+!data/README.md
+!raw_data/README.md
+
+# Build artifacts
+*.min.js
+*.min.css

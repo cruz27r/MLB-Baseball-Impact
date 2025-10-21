@@ -116,16 +116,88 @@ python mlb_metrics_polars.py --input ./raw_data --output ../mlb_out
 
 ### Running the Website
 
-1. **Start a PHP development server:**
+#### Quick Start
+
+1. **Configure database connection:**
    ```bash
-   cd public
-   php -S localhost:8000
+   # Copy the example environment file
+   cp .env.example .env
+   
+   # Edit .env with your MySQL credentials
+   # Update MLB_DB_HOST, MLB_DB_PORT, MLB_DB_NAME, MLB_DB_USER, MLB_DB_PASS
+   nano .env
    ```
 
-2. **Open in browser:**
+2. **Start the PHP development server:**
+   ```bash
+   # From the project root directory
+   php -S localhost:8080 -t public
+   
+   # Or from the public directory
+   cd public
+   php -S localhost:8080
    ```
-   http://localhost:8000
+
+3. **Open in browser:**
    ```
+   http://localhost:8080
+   ```
+
+#### Stadium-Themed Website
+
+The website features a baseball stadium-inspired design with:
+
+- **Deep green field colors** with grass stripe texture background
+- **Scoreboard-style panels** for KPIs and key statistics
+- **Clay/baseline brown accents** for navigation and cards
+- **Responsive design** that works on desktop, tablet, and mobile
+- **Six analysis pages:**
+  - **Home** - Project overview and quick KPIs
+  - **Players** - Roster composition by origin over time
+  - **Performance** - WAR and statistical analysis
+  - **Awards** - MVP, Cy Young, All-Star selections
+  - **Championships** - World Series team composition
+  - **Play-by-Play** - Retrosheet game logs and events
+
+#### Environment Configuration
+
+The `.env` file configures the MySQL database connection:
+
+```bash
+MLB_DB_HOST=localhost      # Database host
+MLB_DB_PORT=3306          # Database port (default MySQL port)
+MLB_DB_NAME=mlb           # Database name
+MLB_DB_USER=your_user     # Database username
+MLB_DB_PASS=your_pass     # Database password
+```
+
+**Important:** Never commit `.env` to version control. Use `.env.example` as a template.
+
+#### Graceful Error Handling
+
+The website is designed to work even when database tables aren't loaded:
+
+- **Database connection errors** show helpful messages with setup instructions
+- **Missing tables** display "Data not loaded yet" banners instead of fatal errors
+- **Each page includes data status badges** showing which tables are ready
+- **Sample/placeholder data** provides visual examples of final output
+
+This allows you to:
+1. Set up and view the website immediately
+2. Load data incrementally as scripts complete
+3. Test the design before data is fully populated
+
+#### Testing Without Data
+
+To see the website design without loading data:
+
+```bash
+# Just configure a valid MySQL connection in .env
+# Tables don't need to exist yet
+php -S localhost:8080 -t public
+```
+
+Visit each page to see the stadium theme and placeholder content.
 
 ## Project Structure
 
