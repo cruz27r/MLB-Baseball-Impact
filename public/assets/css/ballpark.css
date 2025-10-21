@@ -1,0 +1,718 @@
+/**
+ * CS437 MLB Global Era - Ballpark Stadium Theme
+ * 
+ * Stadium-inspired design with deep green field colors, clay/baseline brown,
+ * scoreboard dark panels, and off-white text blocks.
+ */
+
+/* ==========================================================================
+   CSS Variables - Stadium Color Palette
+   ========================================================================== */
+:root {
+    /* Field colors */
+    --field-green: #0e5135;
+    --grass-dark: #0a3d28;
+    --grass-light: #12603f;
+    
+    /* Infield/baseline colors */
+    --clay-brown: #a67c52;
+    --baseline-tan: #c4976b;
+    
+    /* Scoreboard colors */
+    --scoreboard-dark: #1a1a1a;
+    --scoreboard-green: #2d5016;
+    
+    /* Text colors */
+    --text-primary: #f5f5f5;
+    --text-secondary: #e0e0e0;
+    --text-dark: #2a2a2a;
+    
+    /* Accent colors */
+    --warning-yellow: #ffd700;
+    --alert-red: #cc3333;
+    --info-blue: #4a90e2;
+    
+    /* Structural */
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   Base Styles & Reset
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--grass-dark);
+    background-image: 
+        repeating-linear-gradient(
+            90deg,
+            var(--grass-dark) 0px,
+            var(--grass-dark) 40px,
+            var(--grass-light) 40px,
+            var(--grass-light) 80px
+        );
+    background-attachment: fixed;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin: 1.5rem 0 1rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin: 1rem 0 0.75rem;
+}
+
+.lead {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Layout Container
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   Header - Sticky Navigation with Stadium Theme
+   ========================================================================== */
+.site-header {
+    background: linear-gradient(135deg, var(--scoreboard-dark) 0%, var(--field-green) 100%);
+    color: var(--text-primary);
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 3px solid var(--clay-brown);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.site-title {
+    margin: 0;
+}
+
+.site-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation */
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+}
+
+.main-nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.main-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.main-nav a.active {
+    background-color: var(--clay-brown);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* ==========================================================================
+   Main Content Area
+   ========================================================================== */
+main {
+    min-height: calc(100vh - 200px);
+    padding: 2rem 0;
+}
+
+.page-title {
+    background: linear-gradient(135deg, var(--scoreboard-dark) 0%, var(--scoreboard-green) 100%);
+    color: var(--text-primary);
+    padding: 2rem;
+    margin: -2rem 0 2rem 0;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid var(--clay-brown);
+}
+
+.page-title h1 {
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   Card Components - Scoreboard Style Panels
+   ========================================================================== */
+.card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border-bottom: 2px solid var(--field-green);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.card-header h2,
+.card-header h3 {
+    margin: 0;
+    color: var(--field-green);
+}
+
+.card-scoreboard {
+    background: linear-gradient(135deg, var(--scoreboard-dark) 0%, #2a2a2a 100%);
+    color: var(--warning-yellow);
+    border: 3px solid var(--clay-brown);
+}
+
+.card-scoreboard h2,
+.card-scoreboard h3 {
+    color: var(--warning-yellow);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ==========================================================================
+   KPI Cards - Stats Display
+   ========================================================================== */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.kpi-card {
+    background: linear-gradient(135deg, var(--scoreboard-dark) 0%, var(--scoreboard-green) 100%);
+    color: var(--text-primary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    border: 2px solid var(--clay-brown);
+}
+
+.kpi-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--warning-yellow);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    margin: 0.5rem 0;
+}
+
+.kpi-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+.kpi-note {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Alert/Banner Components
+   ========================================================================== */
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    border-color: var(--info-blue);
+    color: #0d47a1;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: var(--warning-yellow);
+    color: #856404;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-color: var(--alert-red);
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: var(--field-green);
+    color: #155724;
+}
+
+.banner {
+    background: linear-gradient(135deg, var(--scoreboard-dark) 0%, var(--field-green) 100%);
+    color: var(--text-primary);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+.banner h2 {
+    color: var(--warning-yellow);
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   Data Tables
+   ========================================================================== */
+.table-wrapper {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+}
+
+thead {
+    background: linear-gradient(135deg, var(--field-green) 0%, var(--grass-light) 100%);
+    color: var(--text-primary);
+}
+
+th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+}
+
+td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* ==========================================================================
+   Forms & Inputs
+   ========================================================================== */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--field-green);
+    box-shadow: 0 0 0 3px rgba(14, 81, 53, 0.1);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--field-green) 0%, var(--grass-light) 100%);
+    color: var(--text-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+    background: var(--clay-brown);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--baseline-tan);
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+/* ==========================================================================
+   Filter Controls
+   ========================================================================== */
+.filters {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   Chart Placeholders
+   ========================================================================== */
+.chart-placeholder {
+    background: #f5f5f5;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 3rem;
+    text-align: center;
+    color: #666;
+    margin: 1.5rem 0;
+}
+
+.chart-placeholder::before {
+    content: '📊';
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+    background: linear-gradient(135deg, var(--scoreboard-dark) 0%, var(--field-green) 100%);
+    color: var(--text-primary);
+    padding: 2rem 0;
+    margin-top: 4rem;
+    border-top: 3px solid var(--clay-brown);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-attribution {
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.footer-attribution a {
+    color: var(--warning-yellow);
+    text-decoration: none;
+}
+
+.footer-attribution a:hover {
+    text-decoration: underline;
+}
+
+.footer-nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.footer-nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--warning-yellow);
+}
+
+/* ==========================================================================
+   Data Status Badge
+   ========================================================================== */
+.data-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.data-status.ready {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.data-status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.data-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ==========================================================================
+   Tabs
+   ========================================================================== */
+.tabs {
+    border-bottom: 2px solid var(--field-green);
+    margin-bottom: 1.5rem;
+}
+
+.tab-list {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background-color: rgba(14, 81, 53, 0.05);
+}
+
+.tab-button.active {
+    border-bottom-color: var(--clay-brown);
+    color: var(--field-green);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .main-nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    
+    .main-nav a {
+        display: block;
+        text-align: center;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .main-nav {
+        display: none;
+        width: 100%;
+    }
+    
+    .main-nav.active {
+        display: block;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .kpi-value {
+        font-size: 2rem;
+    }
+    
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    th, td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }

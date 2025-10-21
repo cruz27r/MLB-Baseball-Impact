@@ -10,24 +10,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS437 MLB Global Era - Baseball Impact Analysis</title>
-    <link rel="stylesheet" href="/assets/styles.css">
+    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : ''; ?>CS437 MLB Baseball Impact</title>
+    <link rel="stylesheet" href="/assets/css/ballpark.css">
 </head>
 <body>
     <header class="site-header">
         <div class="container">
             <div class="header-content">
                 <h1 class="site-title">
-                    <a href="/index.php">MLB Global Era</a>
+                    <a href="/index.php">MLB Baseball Impact</a>
                 </h1>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="/index.php">Home</a></li>
-                        <li><a href="/findings.php">Findings</a></li>
-                        <li><a href="/explore.php">Explore</a></li>
-                        <li><a href="/methods.php">Methods</a></li>
-                    </ul>
-                </nav>
+                <?php include __DIR__ . '/nav.php'; ?>
             </div>
         </div>
     </header>
