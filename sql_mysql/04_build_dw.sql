@@ -20,9 +20,10 @@ SELECT
   CAST(a.year_id AS UNSIGNED) AS year,
   o.origin,
   COUNT(DISTINCT a.retro_id) AS players
-FROM staging_appearances a
+FROM (
+  SELECT * FROM staging_appearances WHERE year_id REGEXP '^[0-9]{4}$'
+) a
 JOIN dw_player_origin o ON o.retro_id = a.retro_id
-WHERE a.year_id REGEXP '^[0-9]{4}$'
 GROUP BY year, o.origin;
 
 DROP VIEW IF EXISTS v_roster_share;
