@@ -40,7 +40,7 @@ CREATE VIEW v_war_share AS
 SELECT
   CAST(wb.year_id AS UNSIGNED) AS year,
   o.origin,
-  SUM(CASE WHEN wb.war REGEXP '^-?[0-9.]+$' THEN wb.war+0 ELSE 0 END) AS war_total
+  SUM(CASE WHEN wb.war REGEXP '^-?[0-9.]+$' THEN CAST(wb.war AS DECIMAL(10,2)) ELSE 0 END) AS war_total
 FROM staging_war_bat wb
 JOIN dw_player_origin o ON o.retro_id = wb.player_id
 GROUP BY year, o.origin;
