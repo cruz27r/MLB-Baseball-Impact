@@ -41,6 +41,7 @@ env/
 # Environment variables
 .env
 .env.local
+app/config.php
 
 # Database files
 *.db
@@ -79,6 +80,8 @@ package-lock.json
 !config/*.csv
 !analysis/out/.gitkeep
 *.zip
+*.md5
 data/
 raw_data/
 mlb_data/
+*.pyc
