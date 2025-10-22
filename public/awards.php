@@ -14,7 +14,7 @@ include __DIR__ . '/partials/header.php';
 $selectedAward = $_GET['award'] ?? 'all';
 ?>
 
-<main>
+<main id="main-content">
     <div class="page-title">
         <div class="container">
             <h1>Awards & Recognition</h1>
@@ -32,19 +32,19 @@ $selectedAward = $_GET['award'] ?? 'all';
             </p>
         </div>
 
-        <!-- Award Type Tabs -->
-        <div class="tabs" data-tab-group="awards">
+        <!-- Award Type Tabs styled as scoreboard labels -->
+        <div class="tabs scoreboard" data-tab-group="awards" role="tablist">
             <ul class="tab-list">
-                <li><button class="tab-button active" data-tab="all">All Awards</button></li>
-                <li><button class="tab-button" data-tab="mvp">MVP</button></li>
-                <li><button class="tab-button" data-tab="cy-young">Cy Young</button></li>
-                <li><button class="tab-button" data-tab="roy">Rookie of the Year</button></li>
-                <li><button class="tab-button" data-tab="all-star">All-Star</button></li>
+                <li role="presentation"><button class="tab-button active scoreboard__tile" data-tab="all" role="tab" aria-selected="true">All Awards</button></li>
+                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="mvp" role="tab" aria-selected="false">MVP</button></li>
+                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="cy-young" role="tab" aria-selected="false">Cy Young</button></li>
+                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="roy" role="tab" aria-selected="false">ROY</button></li>
+                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="all-star" role="tab" aria-selected="false">All-Star</button></li>
             </ul>
         </div>
 
         <!-- All Awards Tab -->
-        <div class="tab-content active" data-tab="all" data-tab-group="awards">
+        <div class="tab-content active" data-tab="all" data-tab-group="awards" role="tabpanel" aria-hidden="false">
             <div class="card">
                 <div class="card-header">
                     <h2>🏆 All Awards by Country</h2>

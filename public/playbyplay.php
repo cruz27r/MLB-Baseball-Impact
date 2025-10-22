@@ -15,7 +15,7 @@ $selectedYear = $_GET['year'] ?? 2024;
 $selectedTeam = $_GET['team'] ?? '';
 ?>
 
-<main>
+<main id="main-content">
     <div class="page-title">
         <div class="container">
             <h1>Play-by-Play Analysis</h1>
@@ -39,7 +39,7 @@ $selectedTeam = $_GET['team'] ?? '';
         </div>
 
         <!-- Filters -->
-        <div class="filters">
+        <div class="filters ticket">
             <h3>Filter Options</h3>
             <form method="GET" action="">
                 <div class="filter-row">
@@ -65,8 +65,8 @@ $selectedTeam = $_GET['team'] ?? '';
         </div>
 
         <!-- Game Logs -->
-        <div class="card">
-            <div class="card-header">
+        <div class="card wall">
+            <div class="card-header wall__panel">
                 <h2>⚾ Game Logs</h2>
             </div>
             

@@ -14,7 +14,7 @@ include __DIR__ . '/partials/header.php';
 $selectedYear = $_GET['year'] ?? 'all';
 ?>
 
-<main>
+<main id="main-content">
     <div class="page-title">
         <div class="container">
             <h1>Championship Analysis</h1>
@@ -33,7 +33,7 @@ $selectedYear = $_GET['year'] ?? 'all';
         </div>
 
         <!-- Filters -->
-        <div class="filters">
+        <div class="filters ticket">
             <h3>Filter by Era</h3>
             <form method="GET" action="">
                 <div class="filter-row">
@@ -54,7 +54,7 @@ $selectedYear = $_GET['year'] ?? 'all';
         </div>
 
         <!-- World Series Winners -->
-        <div class="card">
+        <div class="card championship-card">
             <div class="card-header">
                 <h2>🏆 World Series Champions</h2>
             </div>

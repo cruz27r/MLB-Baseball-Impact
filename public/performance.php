@@ -15,7 +15,7 @@ $startYear = $_GET['start_year'] ?? 2015;
 $endYear = $_GET['end_year'] ?? 2024;
 ?>
 
-<main>
+<main id="main-content">
     <div class="page-title">
         <div class="container">
             <h1>Performance Analysis</h1>
@@ -40,7 +40,7 @@ $endYear = $_GET['end_year'] ?? 2024;
         </div>
 
         <!-- Filters -->
-        <div class="filters">
+        <div class="filters ticket">
             <h3>Year Range</h3>
             <form method="GET" action="">
                 <div class="filter-row">
@@ -62,8 +62,8 @@ $endYear = $_GET['end_year'] ?? 2024;
         </div>
 
         <!-- Hitters Performance -->
-        <div class="card">
-            <div class="card-header">
+        <div class="card wall">
+            <div class="card-header wall__panel">
                 <h2>⚾ Batting Performance by Origin</h2>
             </div>
             
