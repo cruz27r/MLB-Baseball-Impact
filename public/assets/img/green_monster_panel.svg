@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" aria-labelledby="monster-panel-title">
+  <title id="monster-panel-title">Green Monster Wall Panel</title>
+  <defs>
+    <pattern id="panelLines" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="50" x2="100" y2="50" stroke="#0e5135" stroke-width="1" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- Panel background -->
+  <rect width="400" height="400" fill="#1a5e3b"/>
+  
+  <!-- Horizontal panel lines -->
+  <rect width="400" height="400" fill="url(#panelLines)"/>
+  
+  <!-- Vertical dividers -->
+  <line x1="100" y1="0" x2="100" y2="400" stroke="#0e5135" stroke-width="2" opacity="0.5"/>
+  <line x1="200" y1="0" x2="200" y2="400" stroke="#0e5135" stroke-width="2" opacity="0.5"/>
+  <line x1="300" y1="0" x2="300" y2="400" stroke="#0e5135" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Border -->
+  <rect x="2" y="2" width="396" height="396" fill="none" stroke="#12442a" stroke-width="4"/>
+</svg>

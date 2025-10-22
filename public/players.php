@@ -20,7 +20,7 @@ if (!Db::isConnected()) {
 }
 ?>
 
-<main>
+<main id="main-content">
     <div class="page-title">
         <div class="container">
             <h1>Player Composition Analysis</h1>
@@ -50,7 +50,7 @@ if (!Db::isConnected()) {
         </div>
 
         <!-- Filters -->
-        <div class="filters">
+        <div class="filters ticket">
             <h3>Filter Options</h3>
             <form method="GET" action="">
                 <div class="filter-row">

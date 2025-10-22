@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" aria-labelledby="fenway-silhouette-title">
+  <title id="fenway-silhouette-title">Fenway Park Inspired Outfield Wall Silhouette</title>
+  <defs>
+    <linearGradient id="wallGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a5e3b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#12442a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1200" height="300" fill="#eaf3ff" opacity="0.3"/>
+  
+  <!-- Left field wall -->
+  <path d="M 0 200 L 0 150 L 280 150 L 280 200 Z" fill="url(#wallGradient)"/>
+  
+  <!-- Green Monster (center) -->
+  <path d="M 280 150 L 280 50 L 820 50 L 820 150 Z" fill="url(#wallGradient)"/>
+  
+  <!-- Monster top -->
+  <rect x="280" y="45" width="540" height="5" fill="#12442a"/>
+  
+  <!-- Right field wall -->
+  <path d="M 820 150 L 820 110 L 1050 130 L 1050 200 Z" fill="url(#wallGradient)"/>
+  
+  <!-- Right field corner -->
+  <path d="M 1050 200 L 1050 140 L 1200 160 L 1200 200 Z" fill="url(#wallGradient)"/>
+  
+  <!-- Scoreboard panels on Monster -->
+  <rect x="320" y="70" width="60" height="60" fill="#111315" stroke="#0e5135" stroke-width="2"/>
+  <rect x="400" y="70" width="180" height="60" fill="#111315" stroke="#0e5135" stroke-width="2"/>
+  <rect x="600" y="70" width="180" height="60" fill="#111315" stroke="#0e5135" stroke-width="2"/>
+  
+  <!-- Wall panels detail lines -->
+  <line x1="280" y1="60" x2="820" y2="60" stroke="#0e5135" stroke-width="1"/>
+  <line x1="280" y1="90" x2="820" y2="90" stroke="#0e5135" stroke-width="1"/>
+  <line x1="280" y1="120" x2="820" y2="120" stroke="#0e5135" stroke-width="1"/>
+  
+  <!-- Vertical panel separators -->
+  <line x1="450" y1="50" x2="450" y2="150" stroke="#0e5135" stroke-width="1" opacity="0.5"/>
+  <line x1="620" y1="50" x2="620" y2="150" stroke="#0e5135" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Foul pole (left) -->
+  <rect x="275" y="30" width="8" height="170" fill="#f8d24a"/>
+  <circle cx="279" cy="30" r="6" fill="#f8d24a"/>
+  
+  <!-- Foul pole (right) -->
+  <rect x="1048" y="70" width="8" height="130" fill="#f8d24a"/>
+  <circle cx="1052" cy="70" r="6" fill="#f8d24a"/>
+</svg>

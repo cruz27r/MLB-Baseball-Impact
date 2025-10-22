@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" aria-labelledby="brick-pattern-title">
+  <title id="brick-pattern-title">Brick Pattern for Accents</title>
+  <defs>
+    <pattern id="bricks" x="0" y="0" width="200" height="100" patternUnits="userSpaceOnUse">
+      <!-- Row 1 -->
+      <rect x="0" y="0" width="90" height="22" fill="#7a2f2f" stroke="#5a1f1f" stroke-width="1"/>
+      <rect x="95" y="0" width="90" height="22" fill="#7a2f2f" stroke="#5a1f1f" stroke-width="1"/>
+      
+      <!-- Row 2 (offset) -->
+      <rect x="-45" y="25" width="90" height="22" fill="#8a3535" stroke="#5a1f1f" stroke-width="1"/>
+      <rect x="50" y="25" width="90" height="22" fill="#8a3535" stroke="#5a1f1f" stroke-width="1"/>
+      <rect x="145" y="25" width="90" height="22" fill="#8a3535" stroke="#5a1f1f" stroke-width="1"/>
+      
+      <!-- Row 3 -->
+      <rect x="0" y="50" width="90" height="22" fill="#7a2f2f" stroke="#5a1f1f" stroke-width="1"/>
+      <rect x="95" y="50" width="90" height="22" fill="#7a2f2f" stroke="#5a1f1f" stroke-width="1"/>
+      
+      <!-- Row 4 (offset) -->
+      <rect x="-45" y="75" width="90" height="22" fill="#8a3535" stroke="#5a1f1f" stroke-width="1"/>
+      <rect x="50" y="75" width="90" height="22" fill="#8a3535" stroke="#5a1f1f" stroke-width="1"/>
+      <rect x="145" y="75" width="90" height="22" fill="#8a3535" stroke="#5a1f1f" stroke-width="1"/>
+    </pattern>
+  </defs>
+  
+  <rect width="200" height="100" fill="url(#bricks)"/>
+</svg>
