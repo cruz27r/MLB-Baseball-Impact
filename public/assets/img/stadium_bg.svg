@@ -1,0 +1,25 @@
+<svg width="1200" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blurred stadium background placeholder -->
+  <defs>
+    <linearGradient id="stadiumGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e5135;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#1a2332;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#8a5a3b;stop-opacity:0.3" />
+    </linearGradient>
+    <filter id="blur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="400" fill="#0b1220"/>
+  
+  <!-- Blurred elements suggesting stadium -->
+  <ellipse cx="200" cy="200" rx="150" ry="100" fill="url(#stadiumGradient)" filter="url(#blur)" opacity="0.6"/>
+  <ellipse cx="600" cy="250" rx="200" ry="120" fill="url(#stadiumGradient)" filter="url(#blur)" opacity="0.5"/>
+  <ellipse cx="1000" cy="200" rx="150" ry="100" fill="url(#stadiumGradient)" filter="url(#blur)" opacity="0.6"/>
+  
+  <!-- Subtle field lines -->
+  <line x1="0" y1="320" x2="1200" y2="320" stroke="#0e5135" stroke-width="2" opacity="0.3"/>
+  <line x1="0" y1="340" x2="1200" y2="340" stroke="#0e5135" stroke-width="1" opacity="0.2"/>
+</svg>
