@@ -667,6 +667,8 @@ select:focus {
 /* ==========================================================================
    Responsive Design
    ========================================================================== */
+
+/* Tablet and below */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -677,6 +679,10 @@ select:focus {
         flex-direction: column;
         gap: 0.5rem;
         width: 100%;
+    }
+    
+    .nav--scoreline li::after {
+        display: none;
     }
     
     .main-nav a {
@@ -705,6 +711,18 @@ select:focus {
         font-size: 1.5rem;
     }
     
+    h2::after {
+        right: 16px;
+    }
+    
+    .hero--fenway h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero--fenway::after {
+        display: none; /* Hide foul pole on mobile */
+    }
+    
     .kpi-value {
         font-size: 2rem;
     }
@@ -724,8 +742,25 @@ select:focus {
     .btn {
         width: 100%;
     }
+    
+    .tab-list {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .tab-button {
+        flex: 1 1 auto;
+        min-width: 100px;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .scoreboard__tile {
+        min-width: 70px;
+    }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
     .container {
         padding: 0 15px;
@@ -735,9 +770,66 @@ select:focus {
         padding: 1rem;
     }
     
+    .hero--fenway {
+        padding: 2rem 0 1rem;
+    }
+    
+    .hero--fenway h1 {
+        font-size: 1.75rem;
+    }
+    
+    .page-title h1 {
+        font-size: 1.75rem;
+    }
+    
     th, td {
         padding: 0.5rem;
         font-size: 0.875rem;
+    }
+    
+    .ticket::before {
+        left: 8px;
+    }
+    
+    .ticket {
+        padding-left: 1.5rem;
+    }
+    
+    .championship-card::before {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .kpi-value {
+        font-size: 1.75rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .site-header,
+    .site-footer,
+    .skip-link,
+    .mobile-menu-toggle,
+    .filters,
+    .btn-group {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .card,
+    .table-wrapper {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
     }
 }
 
