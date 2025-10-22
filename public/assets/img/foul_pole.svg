@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 400" aria-labelledby="foul-pole-title">
+  <title id="foul-pole-title">Foul Pole Accent</title>
+  <defs>
+    <linearGradient id="poleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e8bd2f;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f8d24a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8bd2f;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main pole -->
+  <rect x="8" y="0" width="24" height="400" fill="url(#poleGradient)"/>
+  
+  <!-- Shadow/depth -->
+  <rect x="8" y="0" width="4" height="400" fill="#d4a829" opacity="0.5"/>
+  <rect x="28" y="0" width="4" height="400" fill="#fff" opacity="0.2"/>
+  
+  <!-- Top cap -->
+  <ellipse cx="20" cy="10" rx="16" ry="8" fill="#f8d24a"/>
+  <ellipse cx="20" cy="10" rx="16" ry="6" fill="#ffe066"/>
+  
+  <!-- Stripe segments -->
+  <rect x="10" y="50" width="20" height="20" fill="#cc3333" opacity="0.8"/>
+  <rect x="10" y="120" width="20" height="20" fill="#cc3333" opacity="0.8"/>
+  <rect x="10" y="190" width="20" height="20" fill="#cc3333" opacity="0.8"/>
+  <rect x="10" y="260" width="20" height="20" fill="#cc3333" opacity="0.8"/>
+  <rect x="10" y="330" width="20" height="20" fill="#cc3333" opacity="0.8"/>
+</svg>

@@ -54,11 +54,11 @@ if (Db::isConnected()) {
 }
 ?>
 
-<main>
-    <div class="page-title">
+<main id="main-content">
+    <div class="hero--fenway">
         <div class="container">
             <h1>MLB Baseball Impact Analysis</h1>
-            <p class="page-subtitle">Exploring the Global Transformation of Major League Baseball</p>
+            <p class="lead">Exploring the Global Transformation of Major League Baseball</p>
         </div>
     </div>
 
@@ -133,7 +133,7 @@ if (Db::isConnected()) {
         </div>
 
         <?php if (!Db::isConnected() || !tableExists('staging_people')): ?>
-        <div class="banner">
+        <div class="banner banner--disclaimer">
             <h2>⚾ Data Loading Required</h2>
             <p>To see live statistics, run the data loading scripts:</p>
             <pre style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 4px; margin: 1rem 0;">

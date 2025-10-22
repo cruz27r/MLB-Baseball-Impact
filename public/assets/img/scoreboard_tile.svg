@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" aria-labelledby="scoreboard-tile-title">
+  <title id="scoreboard-tile-title">Manual Scoreboard Tile</title>
+  <defs>
+    <filter id="inset">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Tile background -->
+  <rect width="120" height="120" fill="#111315" rx="4"/>
+  
+  <!-- Border groove -->
+  <rect x="4" y="4" width="112" height="112" fill="none" stroke="#0e5135" stroke-width="3"/>
+  
+  <!-- Inner panel with inset effect -->
+  <rect x="12" y="12" width="96" height="96" fill="#1a1a1a" filter="url(#inset)"/>
+  
+  <!-- Corner screws -->
+  <circle cx="10" cy="10" r="3" fill="#2a2a2a" stroke="#555" stroke-width="0.5"/>
+  <circle cx="110" cy="10" r="3" fill="#2a2a2a" stroke="#555" stroke-width="0.5"/>
+  <circle cx="10" cy="110" r="3" fill="#2a2a2a" stroke="#555" stroke-width="0.5"/>
+  <circle cx="110" cy="110" r="3" fill="#2a2a2a" stroke="#555" stroke-width="0.5"/>
+  
+  <!-- Screw slots -->
+  <line x1="8" y1="10" x2="12" y2="10" stroke="#444" stroke-width="0.5"/>
+  <line x1="108" y1="10" x2="112" y2="10" stroke="#444" stroke-width="0.5"/>
+  <line x1="8" y1="110" x2="12" y2="110" stroke="#444" stroke-width="0.5"/>
+  <line x1="108" y1="110" x2="112" y2="110" stroke="#444" stroke-width="0.5"/>
+</svg>
