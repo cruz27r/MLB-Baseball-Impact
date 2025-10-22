@@ -10,14 +10,16 @@
  * renderMetricChip('WAR Share', '34.5%', 'info');
  */
 
-function renderMetricChip($label, $value, $variant = 'default') {
-    $variantClass = 'metric-chip-' . $variant;
-    ?>
-    <span class="metric-chip <?php echo htmlspecialchars($variantClass); ?>" role="status">
-        <span class="metric-chip-label"><?php echo htmlspecialchars($label); ?>:</span>
-        <span class="metric-chip-value"><?php echo htmlspecialchars($value); ?></span>
-    </span>
-    <?php
+if (!function_exists('renderMetricChip')) {
+    function renderMetricChip($label, $value, $variant = 'default') {
+        $variantClass = 'metric-chip-' . $variant;
+        ?>
+        <span class="metric-chip <?php echo htmlspecialchars($variantClass); ?>" role="status">
+            <span class="metric-chip-label"><?php echo htmlspecialchars($label); ?>:</span>
+            <span class="metric-chip-value"><?php echo htmlspecialchars($value); ?></span>
+        </span>
+        <?php
+    }
 }
 ?>
 

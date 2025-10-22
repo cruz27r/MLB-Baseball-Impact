@@ -13,28 +13,30 @@
  * ]);
  */
 
-function renderSectionHero($options = []) {
-    $defaults = [
-        'title' => 'Section Title',
-        'subtitle' => '',
-        'background' => 'gradient',
-        'class' => ''
-    ];
-    
-    $opts = array_merge($defaults, $options);
-    $heroClass = 'section-hero section-hero-' . $opts['background'] . ' ' . $opts['class'];
-    ?>
-    <section class="<?php echo htmlspecialchars($heroClass); ?>">
-        <div class="container">
-            <div class="section-hero-content">
-                <h1><?php echo htmlspecialchars($opts['title']); ?></h1>
-                <?php if ($opts['subtitle']): ?>
-                    <p class="lead"><?php echo htmlspecialchars($opts['subtitle']); ?></p>
-                <?php endif; ?>
+if (!function_exists('renderSectionHero')) {
+    function renderSectionHero($options = []) {
+        $defaults = [
+            'title' => 'Section Title',
+            'subtitle' => '',
+            'background' => 'gradient',
+            'class' => ''
+        ];
+        
+        $opts = array_merge($defaults, $options);
+        $heroClass = 'section-hero section-hero-' . $opts['background'] . ' ' . $opts['class'];
+        ?>
+        <section class="<?php echo htmlspecialchars($heroClass); ?>">
+            <div class="container">
+                <div class="section-hero-content">
+                    <h1><?php echo htmlspecialchars($opts['title']); ?></h1>
+                    <?php if ($opts['subtitle']): ?>
+                        <p class="lead"><?php echo htmlspecialchars($opts['subtitle']); ?></p>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
-    </section>
-    <?php
+        </section>
+        <?php
+    }
 }
 ?>
 
