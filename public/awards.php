@@ -1,6 +1,6 @@
 <?php
 /**
- * CS437 MLB Global Era - Awards Page
+ * Fenway Modern - Awards Page
  * 
  * Award counts and shares by origin (MVP, Cy Young, ROY, All-Star).
  */
@@ -9,18 +9,17 @@ require_once __DIR__ . '/../app/helpers.php';
 
 $pageTitle = 'Awards Analysis';
 include __DIR__ . '/partials/header.php';
-
-// Get selected award type
-$selectedAward = $_GET['award'] ?? 'all';
+include __DIR__ . '/components/section-hero.php';
+include __DIR__ . '/components/empty-state.php';
+include __DIR__ . '/components/metric-chip.php';
 ?>
 
 <main id="main-content">
-    <div class="page-title">
-        <div class="container">
-            <h1>Awards & Recognition</h1>
-            <p class="page-subtitle">MVP, Cy Young, Rookie of the Year, and All-Star selections by origin</p>
-        </div>
-    </div>
+    <?php renderSectionHero([
+        'title' => 'Awards & Accolades',
+        'subtitle' => 'MVP, Cy Young, Rookie of the Year, and All-Star selections by player origin',
+        'background' => 'gradient'
+    ]); ?>
 
     <div class="container">
         <!-- Introduction -->
@@ -32,313 +31,74 @@ $selectedAward = $_GET['award'] ?? 'all';
             </p>
         </div>
 
-        <!-- Award Type Tabs styled as scoreboard labels -->
-        <div class="tabs scoreboard" data-tab-group="awards" role="tablist">
-            <ul class="tab-list">
-                <li role="presentation"><button class="tab-button active scoreboard__tile" data-tab="all" role="tab" aria-selected="true">All Awards</button></li>
-                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="mvp" role="tab" aria-selected="false">MVP</button></li>
-                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="cy-young" role="tab" aria-selected="false">Cy Young</button></li>
-                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="roy" role="tab" aria-selected="false">ROY</button></li>
-                <li role="presentation"><button class="tab-button scoreboard__tile" data-tab="all-star" role="tab" aria-selected="false">All-Star</button></li>
-            </ul>
-        </div>
-
-        <!-- All Awards Tab -->
-        <div class="tab-content active" data-tab="all" data-tab-group="awards" role="tabpanel" aria-hidden="false">
-            <div class="card">
-                <div class="card-header">
-                    <h2>🏆 All Awards by Country</h2>
-                </div>
-                
-                <?php
-                if (Db::isConnected()) {
-                    list($rows, $error) = safeQuery("
-                        SELECT 
-                            COALESCE(NULLIF(TRIM(p.birth_country),''), 'Unknown') AS birth_country,
-                            ap.award_id,
-                            COUNT(*) AS award_count
-                        FROM staging_awards_players ap
-                        JOIN staging_people p ON ap.player_id = p.player_id
-                        WHERE ap.award_id IN ('MVP', 'Cy Young Award', 'Rookie of the Year', 'All-Star Game')
-                        GROUP BY birth_country, ap.award_id
-                        ORDER BY birth_country, award_count DESC
-                        LIMIT 100
-                    ");
-                    
-                    if ($error) {
-                        echo "<div class='alert alert-warning'>";
-                        echo "<strong>Data Not Available:</strong> {$error}";
-                        echo "</div>";
-                    } elseif ($rows && count($rows) > 0) {
-                        echo "<div class='table-wrapper'>";
-                        echo "<table>";
-                        echo "<thead><tr>";
-                        echo "<th>Country</th><th>Award Type</th><th>Count</th>";
-                        echo "</tr></thead>";
-                        echo "<tbody>";
-                        
-                        foreach ($rows as $row) {
-                            echo "<tr>";
-                            echo "<td>" . e($row['birth_country']) . "</td>";
-                            echo "<td>" . e($row['award_id']) . "</td>";
-                            echo "<td>" . formatInt($row['award_count']) . "</td>";
-                            echo "</tr>";
-                        }
-                        
-                        echo "</tbody></table>";
-                        echo "</div>";
-                    } else {
-                        echo "<p>No award data available. Please load the Lahman database.</p>";
-                    }
-                } else {
-                    echo "<div class='alert alert-warning'>";
-                    echo "<p><strong>Database not connected.</strong> Configure your .env file.</p>";
-                    echo "</div>";
-                }
-                ?>
-            </div>
-        </div>
-
-        <!-- MVP Tab -->
-        <div class="tab-content" data-tab="mvp" data-tab-group="awards">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Most Valuable Player (MVP)</h2>
-                </div>
-                
-                <?php
-                if (Db::isConnected()) {
-                    list($rows, $error) = safeQuery("
-                        SELECT 
-                            COALESCE(NULLIF(TRIM(p.birth_country),''), 'Unknown') AS birth_country,
-                            COUNT(*) AS mvp_count,
-                            GROUP_CONCAT(DISTINCT CONCAT(p.name_first, ' ', p.name_last) ORDER BY ap.year_id DESC SEPARATOR ', ') AS players
-                        FROM staging_awards_players ap
-                        JOIN staging_people p ON ap.player_id = p.player_id
-                        WHERE ap.award_id = 'MVP'
-                        GROUP BY birth_country
-                        ORDER BY mvp_count DESC
-                        LIMIT 20
-                    ");
-                    
-                    if ($error) {
-                        echo "<div class='alert alert-warning'>";
-                        echo "<strong>Data Not Available:</strong> {$error}";
-                        echo "</div>";
-                    } elseif ($rows && count($rows) > 0) {
-                        echo "<div class='table-wrapper'>";
-                        echo "<table>";
-                        echo "<thead><tr>";
-                        echo "<th>Country</th><th>MVP Awards</th><th>Recent Winners</th>";
-                        echo "</tr></thead>";
-                        echo "<tbody>";
-                        
-                        foreach ($rows as $row) {
-                            $players = $row['players'] ?? '';
-                            $playerList = strlen($players) > 100 ? substr($players, 0, 100) . '...' : $players;
-                            echo "<tr>";
-                            echo "<td>" . e($row['birth_country']) . "</td>";
-                            echo "<td>" . formatInt($row['mvp_count']) . "</td>";
-                            echo "<td style='font-size: 0.9rem;'>" . e($playerList) . "</td>";
-                            echo "</tr>";
-                        }
-                        
-                        echo "</tbody></table>";
-                        echo "</div>";
-                    } else {
-                        echo "<p>No MVP data available.</p>";
-                    }
-                }
-                ?>
-            </div>
-        </div>
-
-        <!-- Cy Young Tab -->
-        <div class="tab-content" data-tab="cy-young" data-tab-group="awards">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Cy Young Award</h2>
-                </div>
-                
-                <?php
-                if (Db::isConnected()) {
-                    list($rows, $error) = safeQuery("
-                        SELECT 
-                            COALESCE(NULLIF(TRIM(p.birth_country),''), 'Unknown') AS birth_country,
-                            COUNT(*) AS cy_count,
-                            GROUP_CONCAT(DISTINCT CONCAT(p.name_first, ' ', p.name_last) ORDER BY ap.year_id DESC SEPARATOR ', ') AS players
-                        FROM staging_awards_players ap
-                        JOIN staging_people p ON ap.player_id = p.player_id
-                        WHERE ap.award_id = 'Cy Young Award'
-                        GROUP BY birth_country
-                        ORDER BY cy_count DESC
-                        LIMIT 20
-                    ");
-                    
-                    if ($error || !$rows || count($rows) === 0) {
-                        echo "<div class='alert alert-info'>";
-                        echo "<p>No Cy Young data available yet.</p>";
-                        echo "</div>";
-                    } else {
-                        echo "<div class='table-wrapper'>";
-                        echo "<table>";
-                        echo "<thead><tr>";
-                        echo "<th>Country</th><th>Cy Young Awards</th><th>Recent Winners</th>";
-                        echo "</tr></thead>";
-                        echo "<tbody>";
-                        
-                        foreach ($rows as $row) {
-                            $players = $row['players'] ?? '';
-                            $playerList = strlen($players) > 100 ? substr($players, 0, 100) . '...' : $players;
-                            echo "<tr>";
-                            echo "<td>" . e($row['birth_country']) . "</td>";
-                            echo "<td>" . formatInt($row['cy_count']) . "</td>";
-                            echo "<td style='font-size: 0.9rem;'>" . e($playerList) . "</td>";
-                            echo "</tr>";
-                        }
-                        
-                        echo "</tbody></table>";
-                        echo "</div>";
-                    }
-                }
-                ?>
-            </div>
-        </div>
-
-        <!-- ROY Tab -->
-        <div class="tab-content" data-tab="roy" data-tab-group="awards">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Rookie of the Year</h2>
-                </div>
-                
-                <?php
-                if (Db::isConnected()) {
-                    list($rows, $error) = safeQuery("
-                        SELECT 
-                            COALESCE(NULLIF(TRIM(p.birth_country),''), 'Unknown') AS birth_country,
-                            COUNT(*) AS roy_count
-                        FROM staging_awards_players ap
-                        JOIN staging_people p ON ap.player_id = p.player_id
-                        WHERE ap.award_id = 'Rookie of the Year'
-                        GROUP BY birth_country
-                        ORDER BY roy_count DESC
-                        LIMIT 20
-                    ");
-                    
-                    if ($error || !$rows || count($rows) === 0) {
-                        echo "<div class='alert alert-info'>";
-                        echo "<p>No Rookie of the Year data available yet.</p>";
-                        echo "</div>";
-                    } else {
-                        echo "<div class='table-wrapper'>";
-                        echo "<table>";
-                        echo "<thead><tr>";
-                        echo "<th>Country</th><th>ROY Awards</th>";
-                        echo "</tr></thead>";
-                        echo "<tbody>";
-                        
-                        foreach ($rows as $row) {
-                            echo "<tr>";
-                            echo "<td>" . e($row['birth_country']) . "</td>";
-                            echo "<td>" . formatInt($row['roy_count']) . "</td>";
-                            echo "</tr>";
-                        }
-                        
-                        echo "</tbody></table>";
-                        echo "</div>";
-                    }
-                }
-                ?>
-            </div>
-        </div>
-
-        <!-- All-Star Tab -->
-        <div class="tab-content" data-tab="all-star" data-tab-group="awards">
-            <div class="card">
-                <div class="card-header">
-                    <h2>All-Star Game Selections</h2>
-                </div>
-                
-                <?php
-                if (Db::isConnected()) {
-                    list($rows, $error) = safeQuery("
-                        SELECT 
-                            COALESCE(NULLIF(TRIM(p.birth_country),''), 'Unknown') AS birth_country,
-                            COUNT(*) AS allstar_count
-                        FROM staging_awards_players ap
-                        JOIN staging_people p ON ap.player_id = p.player_id
-                        WHERE ap.award_id = 'All-Star Game'
-                        GROUP BY birth_country
-                        ORDER BY allstar_count DESC
-                        LIMIT 20
-                    ");
-                    
-                    if ($error || !$rows || count($rows) === 0) {
-                        echo "<div class='alert alert-info'>";
-                        echo "<p>No All-Star data available yet.</p>";
-                        echo "</div>";
-                    } else {
-                        echo "<div class='table-wrapper'>";
-                        echo "<table>";
-                        echo "<thead><tr>";
-                        echo "<th>Country</th><th>All-Star Selections</th>";
-                        echo "</tr></thead>";
-                        echo "<tbody>";
-                        
-                        foreach ($rows as $row) {
-                            echo "<tr>";
-                            echo "<td>" . e($row['birth_country']) . "</td>";
-                            echo "<td>" . formatInt($row['allstar_count']) . "</td>";
-                            echo "</tr>";
-                        }
-                        
-                        echo "</tbody></table>";
-                        echo "</div>";
-                    }
-                }
-                ?>
-            </div>
-        </div>
-
-        <!-- Chart Placeholder -->
+        <!-- Awards Categories -->
         <div class="card">
             <div class="card-header">
-                <h3>Award Share by Origin (Sample)</h3>
+                <h3>Award Categories</h3>
             </div>
-            <div class="chart-placeholder" 
-                 data-values='[542, 123, 89, 67, 45]'
-                 data-labels='USA,D.R.,Venezuela,Cuba,P.R.'>
-                📊 Chart: Total awards by country
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-md);">
+                <?php 
+                renderMetricChip('MVP Awards', 'Pending', 'accent');
+                renderMetricChip('Cy Young', 'Pending', 'info');
+                renderMetricChip('Rookie of Year', 'Pending', 'success');
+                renderMetricChip('All-Stars', 'Pending', 'warning');
+                ?>
             </div>
-            <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
-                <em>Note: Sample data shown. Will update with actual award counts once data is loaded.</em>
-            </p>
         </div>
 
-        <!-- Data Status -->
-        <?php
-        $requiredTables = ['staging_awards_players', 'staging_people'];
-        $status = getDataStatus($requiredTables);
-        ?>
-        
-        <div class="card">
-            <h3>Required Data Tables</h3>
-            <div style="display: grid; grid-template-columns: 1fr auto; gap: 0.5rem;">
-                <?php foreach ($requiredTables as $table): ?>
-                    <?php
-                    $exists = in_array($table, $status['ready']);
-                    $statusClass = $exists ? 'ready' : 'pending';
-                    $statusText = $exists ? 'Ready' : 'Pending';
-                    ?>
-                    <div style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                        <?php echo e($table); ?>
-                    </div>
-                    <div style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                        <span class="data-status <?php echo $statusClass; ?>"><?php echo $statusText; ?></span>
-                    </div>
-                <?php endforeach; ?>
+        <!-- Data Visualization Placeholders -->
+        <div class="card-grid card-grid-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Awards Share by Origin</h3>
+                </div>
+                <?php renderEmptyState([
+                    'icon' => '🏆',
+                    'title' => 'Chart Placeholder',
+                    'message' => 'CSV table showing award counts by country and type.',
+                    'hint' => 'Data from staging_awards_players table.'
+                ]); ?>
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Historical Trends</h3>
+                </div>
+                <?php renderEmptyState([
+                    'icon' => '📊',
+                    'title' => 'Timeline Chart',
+                    'message' => 'Awards won by international players over time.',
+                    'hint' => 'PNG visualization from analysis pipeline.'
+                ]); ?>
+            </div>
+        </div>
+
+        <!-- Top Countries -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Leading Countries by Award Type</h3>
+            </div>
+            <?php renderEmptyState([
+                'icon' => '🌍',
+                'title' => 'Data Pending',
+                'message' => 'Breakdown of award-winning countries across categories.',
+                'hint' => 'Connect to database to see live statistics.'
+            ]); ?>
+        </div>
+
+        <!-- Methodology -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Award Categories Analyzed</h3>
+            </div>
+            <ul style="line-height: 2; color: var(--text-secondary);">
+                <li><strong style="color: var(--chalk-cream);">Most Valuable Player (MVP):</strong> League award for best overall player</li>
+                <li><strong style="color: var(--chalk-cream);">Cy Young Award:</strong> Best pitcher in each league</li>
+                <li><strong style="color: var(--chalk-cream);">Rookie of the Year:</strong> Top first-year player</li>
+                <li><strong style="color: var(--chalk-cream);">All-Star Selections:</strong> Mid-season recognition game</li>
+                <li><strong style="color: var(--chalk-cream);">Gold Glove:</strong> Defensive excellence</li>
+                <li><strong style="color: var(--chalk-cream);">Silver Slugger:</strong> Offensive excellence by position</li>
+            </ul>
         </div>
     </div>
 </main>
