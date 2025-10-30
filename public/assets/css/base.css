@@ -25,29 +25,32 @@
    CSS Variables - Design Tokens
    ========================================================================== */
 :root {
-    /* Colors - Fenway Modern Palette */
-    --bg: #0b1220;
-    --panel: #111a2b;
-    --fenway-green: #0e5135;
-    --infield-clay: #8a5a3b;
-    --chalk-cream: #f3efe7;
-    --accent-red: #b21f2d;
+    /* Colors - Boston Red Sox & Fenway Park Palette */
+    --bg: #0C2340;              /* Red Sox Navy Blue (primary background) */
+    --panel: #14304d;           /* Slightly lighter navy for panels */
+    --redsox-red: #BD3039;      /* Official Red Sox Red */
+    --fenway-green: #0e5135;    /* Fenway Park Green Monster */
+    --green-monster: #006747;   /* Deep Green Monster green */
+    --infield-clay: #b8956a;    /* Warm infield dirt */
+    --warning-track: #c4a57b;   /* Warning track tan */
+    --chalk-cream: #ffffff;     /* Bright white chalk lines */
     --muted: #7c8794;
     --ok: #2e8751;
     --warn: #c27b12;
     
     /* Extended palette */
-    --bg-elevated: #1a2332;
-    --border: #2a3544;
-    --text-primary: #f3efe7;
-    --text-secondary: #a8b2c1;
-    --text-muted: #7c8794;
+    --bg-elevated: #1a3a5c;     /* Elevated Red Sox navy */
+    --border: #BD3039;          /* Red Sox red for borders */
+    --text-primary: #ffffff;
+    --text-secondary: #c8d3e0;
+    --text-muted: #8899aa;
     
     /* Semantic colors */
     --success: #2e8751;
     --warning: #c27b12;
-    --error: #b21f2d;
+    --error: #BD3039;           /* Red Sox red for errors */
     --info: #2a5ea8;
+    --accent-red: #BD3039;      /* Red Sox red accent */
     
     /* Spacing scale */
     --space-xs: 0.25rem;

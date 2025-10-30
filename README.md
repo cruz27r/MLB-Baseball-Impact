@@ -12,6 +12,18 @@ This project explores how international players have transformed Major League Ba
 - Team composition changes over time
 - Comparative analysis across different eras
 
+### Diamond UI - Interactive Baseball Field Navigation
+
+The project includes a **Diamond UI** - a Fenway-inspired, interactive baseball diamond layout that serves as a visual navigation metaphor. Each field zone (Home, 1B, 2B, 3B, LF, CF, RF) is clickable and reveals related baseball data and statistics.
+
+**Key Features:**
+- **CSS-only interactivity** using `:target` pseudo-class (no JavaScript required)
+- **Zoomable field zones** that expand to reveal data panels with HTML tables
+- **Responsive design** using Flexbox and Grid layouts
+- **Keyboard navigation** with full accessibility support
+- **Search/filter forms** demonstrating HTML form patterns (GET method)
+- **Semantic HTML** with proper table structure and form elements
+
 ## Quick Start
 
 ### Prerequisites
@@ -198,6 +210,128 @@ php -S localhost:8080 -t public
 ```
 
 Visit each page to see the stadium theme and placeholder content.
+
+## Diamond UI - Interactive Field Layout
+
+### Overview
+
+The **Diamond UI** provides an innovative way to explore baseball data through an interactive baseball field metaphor. Each zone on the field represents a different category of data, creating an intuitive and engaging navigation experience.
+
+### Accessing Diamond UI
+
+The Diamond UI is available at:
+```
+http://localhost:8080/index.html
+```
+
+Or simply open `public/index.html` directly in your web browser (no server required for basic functionality).
+
+### How to Navigate
+
+1. **View the Diamond**: The main page displays a baseball field layout with clickable zones
+2. **Click a Zone**: Click any field position (Home, 1B, 2B, 3B, LF, CF, RF) to explore its data
+3. **View Data**: Each zone reveals a panel with:
+   - Sample data tables with baseball statistics
+   - Filter forms to search and refine data
+   - Relevant metrics for that field position
+4. **Return to Field**: Click "✕ Back to Diamond" to return to the main field view
+5. **Keyboard Navigation**: Use Tab to move between zones, Enter to activate
+
+### Field Zone Map
+
+- **Home Plate (⚾)**: Player directory and demographics
+- **First Base (1B)**: Batting statistics and offensive metrics
+- **Second Base (2B)**: Awards and recognition (MVP, Cy Young, All-Star)
+- **Third Base (3B)**: Pitching and defensive statistics
+- **Left Field (LF)**: Team standings and statistics
+- **Center Field (CF)**: Defensive metrics and fielding data
+- **Right Field (RF)**: Power statistics (home runs, slugging)
+
+### Features
+
+**CSS-Only Interactions**:
+- Uses `:target` pseudo-class for zone expansion (no JavaScript)
+- `:hover` and `:focus` states for visual feedback
+- Smooth animations via CSS transitions
+
+**Responsive Design**:
+- Flexbox and Grid layouts adapt to screen size
+- Mobile-friendly with touch-optimized interactions
+- Tables stack on narrow screens for readability
+
+**Accessibility**:
+- Semantic HTML structure
+- Keyboard navigation support
+- Screen reader friendly labels
+- Focus indicators for keyboard users
+- Skip links for quick navigation
+
+**Forms and Tables**:
+- HTML tables with `<caption>`, `<thead>`, `<tbody>`, `<th>`, `<td>`
+- Search/filter forms using GET method with query strings
+- Form validation with `required`, `min`, `max`, `pattern` attributes
+- Proper `<label>` associations with `for` attributes
+
+### Additional Pages
+
+- **`people.html`**: Detailed player directory with sample People table data
+- **`forms.html`**: Comprehensive search and filter forms for various data types
+
+### Technical Implementation
+
+The Diamond UI follows class-approved techniques:
+
+**HTML**:
+- Semantic elements (`<section>`, `<nav>`, `<header>`, `<footer>`, `<main>`)
+- Accessible forms with proper labels and attributes
+- HTML tables with proper structure
+- ID anchors for in-page navigation
+
+**CSS**:
+- External stylesheets (`base.css`, `diamond.css`, `styles.css`)
+- CSS Variables for design tokens
+- Box Model (margin, padding, border, border-radius)
+- Positioning (relative, absolute) for field layout
+- Flexbox and Grid for responsive layouts
+- Pseudo-classes (`:hover`, `:focus`, `:target`, `:nth-child`)
+- Pseudo-elements (`::before`, `::after`) for decorative elements
+- Transitions and animations (with `prefers-reduced-motion` support)
+
+**No JavaScript** for core functionality (optional enhancement scripts use progressive enhancement)
+
+### Files Structure
+
+```
+public/
+├── index.html          # Diamond UI main page
+├── people.html         # People directory stub
+├── forms.html          # Search/filter forms
+└── assets/
+    └── css/
+        ├── base.css     # Design system & base styles
+        ├── diamond.css  # Diamond field layout (optional)
+        └── styles.css   # Main Diamond UI styles
+```
+
+### Browser Compatibility
+
+Works in all modern browsers that support:
+- CSS Grid and Flexbox
+- CSS Variables (Custom Properties)
+- `:target` pseudo-class
+- HTML5 form validation
+
+Tested in: Chrome, Firefox, Safari, Edge
+
+### Future Enhancements
+
+The Diamond UI is designed to integrate with the MySQL backend:
+- Dynamic data loading from database
+- Real-time filtering and search
+- Chart visualizations
+- Play-by-play integration
+
+Current implementation uses static mock data to demonstrate the interface patterns.
 
 ## Project Structure
 

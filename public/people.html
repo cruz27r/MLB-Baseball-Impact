@@ -1,0 +1,239 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Directory - MLB Baseball Impact</title>
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title">People Directory</h1>
+            <nav>
+                <a href="index.html">← Back to Diamond</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="container">
+            <h2>Player Information</h2>
+            <p class="lead">Browse complete player demographics and career information from the SABR Lahman Database.</p>
+
+            
+            <div class="filter-info">
+                <p><strong>Active Filters:</strong></p>
+                <ul id="active-filters">
+                    <li>No filters applied - showing all records</li>
+                </ul>
+            </div>
+
+            
+            <table class="data-table">
+                <caption>Player Directory - People Table Fields (Static Mock Data)</caption>
+                <thead>
+                    <tr>
+                        <th>Player ID</th>
+                        <th>Name (First Last)</th>
+                        <th>Birth Year</th>
+                        <th>Birth Country</th>
+                        <th>Birth State</th>
+                        <th>Birth City</th>
+                        <th>Debut Year</th>
+                        <th>Final Year</th>
+                        <th>Height (in)</th>
+                        <th>Weight (lbs)</th>
+                        <th>Bats</th>
+                        <th>Throws</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Player ID">ruthba01</td>
+                        <td data-label="Name (First Last)">Babe Ruth</td>
+                        <td data-label="Birth Year">1895</td>
+                        <td data-label="Birth Country">USA</td>
+                        <td data-label="Birth State">MD</td>
+                        <td data-label="Birth City">Baltimore</td>
+                        <td data-label="Debut Year">1914</td>
+                        <td data-label="Final Year">1935</td>
+                        <td data-label="Height (in)">74</td>
+                        <td data-label="Weight (lbs)">215</td>
+                        <td data-label="Bats">L</td>
+                        <td data-label="Throws">L</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">bondsba01</td>
+                        <td data-label="Name (First Last)">Barry Bonds</td>
+                        <td data-label="Birth Year">1964</td>
+                        <td data-label="Birth Country">USA</td>
+                        <td data-label="Birth State">CA</td>
+                        <td data-label="Birth City">Riverside</td>
+                        <td data-label="Debut Year">1986</td>
+                        <td data-label="Final Year">2007</td>
+                        <td data-label="Height (in)">74</td>
+                        <td data-label="Weight (lbs)">228</td>
+                        <td data-label="Bats">L</td>
+                        <td data-label="Throws">L</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">rodrial01</td>
+                        <td data-label="Name (First Last)">Alex Rodriguez</td>
+                        <td data-label="Birth Year">1975</td>
+                        <td data-label="Birth Country">USA</td>
+                        <td data-label="Birth State">NY</td>
+                        <td data-label="Birth City">New York</td>
+                        <td data-label="Debut Year">1994</td>
+                        <td data-label="Final Year">2016</td>
+                        <td data-label="Height (in)">75</td>
+                        <td data-label="Weight (lbs)">225</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">suzukic01</td>
+                        <td data-label="Name (First Last)">Ichiro Suzuki</td>
+                        <td data-label="Birth Year">1973</td>
+                        <td data-label="Birth Country">Japan</td>
+                        <td data-label="Birth State"></td>
+                        <td data-label="Birth City">Kasugai</td>
+                        <td data-label="Debut Year">2001</td>
+                        <td data-label="Final Year">2019</td>
+                        <td data-label="Height (in)">71</td>
+                        <td data-label="Weight (lbs)">175</td>
+                        <td data-label="Bats">L</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">pujolal01</td>
+                        <td data-label="Name (First Last)">Albert Pujols</td>
+                        <td data-label="Birth Year">1980</td>
+                        <td data-label="Birth Country">Dominican Republic</td>
+                        <td data-label="Birth State"></td>
+                        <td data-label="Birth City">Santo Domingo</td>
+                        <td data-label="Debut Year">2001</td>
+                        <td data-label="Final Year">2022</td>
+                        <td data-label="Height (in)">75</td>
+                        <td data-label="Weight (lbs)">235</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">martipe02</td>
+                        <td data-label="Name (First Last)">Pedro Martinez</td>
+                        <td data-label="Birth Year">1971</td>
+                        <td data-label="Birth Country">Dominican Republic</td>
+                        <td data-label="Birth State"></td>
+                        <td data-label="Birth City">Manoguayabo</td>
+                        <td data-label="Debut Year">1992</td>
+                        <td data-label="Final Year">2009</td>
+                        <td data-label="Height (in)">71</td>
+                        <td data-label="Weight (lbs)">180</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">jeterde01</td>
+                        <td data-label="Name (First Last)">Derek Jeter</td>
+                        <td data-label="Birth Year">1974</td>
+                        <td data-label="Birth Country">USA</td>
+                        <td data-label="Birth State">NJ</td>
+                        <td data-label="Birth City">Pequannock</td>
+                        <td data-label="Debut Year">1995</td>
+                        <td data-label="Final Year">2014</td>
+                        <td data-label="Height (in)">75</td>
+                        <td data-label="Weight (lbs)">195</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">clemero02</td>
+                        <td data-label="Name (First Last)">Roberto Clemente</td>
+                        <td data-label="Birth Year">1934</td>
+                        <td data-label="Birth Country">Puerto Rico</td>
+                        <td data-label="Birth State"></td>
+                        <td data-label="Birth City">Carolina</td>
+                        <td data-label="Debut Year">1955</td>
+                        <td data-label="Final Year">1972</td>
+                        <td data-label="Height (in)">71</td>
+                        <td data-label="Weight (lbs)">175</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">robinbr01</td>
+                        <td data-label="Name (First Last)">Brooks Robinson</td>
+                        <td data-label="Birth Year">1937</td>
+                        <td data-label="Birth Country">USA</td>
+                        <td data-label="Birth State">AR</td>
+                        <td data-label="Birth City">Little Rock</td>
+                        <td data-label="Debut Year">1955</td>
+                        <td data-label="Final Year">1977</td>
+                        <td data-label="Height (in)">73</td>
+                        <td data-label="Weight (lbs)">190</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Player ID">maricju01</td>
+                        <td data-label="Name (First Last)">Juan Marichal</td>
+                        <td data-label="Birth Year">1937</td>
+                        <td data-label="Birth Country">Dominican Republic</td>
+                        <td data-label="Birth State"></td>
+                        <td data-label="Birth City">Laguna Verde</td>
+                        <td data-label="Debut Year">1960</td>
+                        <td data-label="Final Year">1975</td>
+                        <td data-label="Height (in)">72</td>
+                        <td data-label="Weight (lbs)">185</td>
+                        <td data-label="Bats">R</td>
+                        <td data-label="Throws">R</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            
+            <div class="card">
+                <h3>About This Data</h3>
+                <p>
+                    This table demonstrates the structure of the People table from the SABR Lahman Database. 
+                    In a production environment, this would be populated dynamically from the database based 
+                    on filter criteria provided via the search form.
+                </p>
+                <p>
+                    <strong>Key Fields:</strong>
+                </p>
+                <ul>
+                    <li><strong>playerID:</strong> Unique identifier (retrosheet format)</li>
+                    <li><strong>Birth Info:</strong> Year, country, state/province, city</li>
+                    <li><strong>Career Span:</strong> Debut and final year in MLB</li>
+                    <li><strong>Physical:</strong> Height, weight</li>
+                    <li><strong>Handedness:</strong> Batting and throwing preference (L/R/B)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2024 MLB Baseball Impact Project - CS437</p>
+        </div>
+    </footer>
+
+    
+    <script>
+        // Display query string parameters if present
+        const params = new URLSearchParams(window.location.search);
+        const filterList = document.getElementById('active-filters');
+        if (params.toString()) {
+            filterList.innerHTML = '';
+            params.forEach((value, key) => {
+                const li = document.createElement('li');
+                li.textContent = `${key}: ${value}`;
+                filterList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
