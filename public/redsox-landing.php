@@ -3,9 +3,8 @@
  * Red Sox Landing Page
  * 
  * Modern Squarespace-inspired landing page with Red Sox branding
+ * Simplified version with placeholder tables
  */
-
-require_once __DIR__ . '/../app/db.php';
 
 $pageTitle = 'Red Sox Analytics Platform';
 ?>
@@ -74,12 +73,11 @@ $pageTitle = 'Red Sox Analytics Platform';
                 
                 <div class="rs-navbar-links">
                     <a href="#tables-explorer" class="rs-navbar-link">Tables</a>
-                    <a href="/redsox-analysis.php" class="rs-navbar-link">Analysis</a>
                     <a href="/index.php" class="rs-navbar-link">Classic View</a>
                 </div>
                 
-                <a href="/redsox-analysis.php" class="rs-btn rs-btn-primary rs-btn-sm rs-navbar-cta">
-                    Get Started
+                <a href="#tables-explorer" class="rs-btn rs-btn-primary rs-btn-sm rs-navbar-cta">
+                    Explore Data
                 </a>
             </div>
         </div>
@@ -96,8 +94,8 @@ $pageTitle = 'Red Sox Analytics Platform';
                         Explore comprehensive MLB statistics with modern analytics and visualizations.
                     </p>
                     <div class="rs-hero-actions">
-                        <a href="/redsox-analysis.php" class="rs-btn rs-btn-primary rs-btn-lg">Get Started</a>
-                        <a href="#tables-explorer" class="rs-btn rs-btn-secondary rs-btn-lg">Explore Tables</a>
+                        <a href="#tables-explorer" class="rs-btn rs-btn-primary rs-btn-lg">Explore Tables</a>
+                        <a href="/index.php" class="rs-btn rs-btn-secondary rs-btn-lg">Classic View</a>
                     </div>
                 </div>
             </div>
@@ -110,91 +108,71 @@ $pageTitle = 'Red Sox Analytics Platform';
                     <h2 class="rs-section-title">Database Tables Explorer</h2>
                     <p class="rs-section-subtitle" style="margin-left: auto; margin-right: auto;">
                         Explore the structure of our MLB database. Each table contains carefully curated data 
-                        ready for analysis. Click any card to preview sample data.
+                        ready for analysis.
                     </p>
                 </div>
 
                 <?php
-                // Fetch available tables
-                $tables = [];
-                $db_connected = Db::isConnected();
+                // Placeholder tables - hardcoded for display
+                $placeholderTables = [
+                    [
+                        'name' => 'player_demographics',
+                        'rowCount' => '20,435',
+                        'lastUpdated' => 'Oct 15, 2024',
+                        'columns' => ['player_id', 'first_name', 'last_name', 'birth_date', 'birth_country', 'position']
+                    ],
+                    [
+                        'name' => 'batting_statistics',
+                        'rowCount' => '156,890',
+                        'lastUpdated' => 'Oct 20, 2024',
+                        'columns' => ['player_id', 'year', 'team_id', 'games', 'at_bats', 'hits', 'home_runs', 'rbi']
+                    ],
+                    [
+                        'name' => 'pitching_statistics',
+                        'rowCount' => '89,234',
+                        'lastUpdated' => 'Oct 20, 2024',
+                        'columns' => ['player_id', 'year', 'team_id', 'wins', 'losses', 'era', 'strikeouts']
+                    ],
+                    [
+                        'name' => 'team_standings',
+                        'rowCount' => '2,850',
+                        'lastUpdated' => 'Oct 18, 2024',
+                        'columns' => ['team_id', 'year', 'league', 'wins', 'losses', 'division_rank']
+                    ],
+                    [
+                        'name' => 'awards_honors',
+                        'rowCount' => '4,567',
+                        'lastUpdated' => 'Oct 10, 2024',
+                        'columns' => ['player_id', 'award_name', 'year', 'league', 'category']
+                    ]
+                ];
                 
-                if ($db_connected) {
-                    try {
-                        $pdo = Db::getDb();
-                        
-                        // Get tables from dw schema
-                        $stmt = $pdo->query("
-                            SELECT 
-                                TABLE_NAME,
-                                TABLE_ROWS,
-                                UPDATE_TIME
-                            FROM information_schema.TABLES 
-                            WHERE TABLE_SCHEMA = 'dw'
-                            ORDER BY TABLE_NAME
-                        ");
-                        
-                        $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        
-                        // Get column info for each table
-                        foreach ($tables as &$table) {
-                            $stmt = $pdo->prepare("
-                                SELECT COLUMN_NAME 
-                                FROM information_schema.COLUMNS 
-                                WHERE TABLE_SCHEMA = 'dw' 
-                                  AND TABLE_NAME = ?
-                                ORDER BY ORDINAL_POSITION
-                                LIMIT 6
-                            ");
-                            $stmt->execute([$table['TABLE_NAME']]);
-                            $table['columns'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                        }
-                    } catch (PDOException $e) {
-                        $tables = [];
+                echo '<div class="rs-tables-grid">';
+                $index = 0;
+                foreach ($placeholderTables as $table) {
+                    $borderClass = ($index % 2 === 0) ? 'rs-table-card-navy' : 'rs-table-card-red';
+                    
+                    echo '<div class="rs-table-card ' . $borderClass . '">';
+                    echo '    <div class="rs-table-name">' . htmlspecialchars($table['name']) . '</div>';
+                    echo '    <div class="rs-table-meta">';
+                    echo '        <span><strong>' . $table['rowCount'] . '</strong> rows</span>';
+                    echo '        <span>Updated: ' . htmlspecialchars($table['lastUpdated']) . '</span>';
+                    echo '    </div>';
+                    
+                    echo '    <div class="rs-table-columns">';
+                    foreach (array_slice($table['columns'], 0, 6) as $col) {
+                        echo '<span class="rs-table-column-pill">' . htmlspecialchars($col) . '</span>';
                     }
-                }
-                
-                if (!empty($tables)) {
-                    echo '<div class="rs-tables-grid">';
-                    $index = 0;
-                    foreach ($tables as $table) {
-                        $borderClass = ($index % 2 === 0) ? 'rs-table-card-navy' : 'rs-table-card-red';
-                        $tableName = htmlspecialchars($table['TABLE_NAME']);
-                        $rowCount = number_format((int)$table['TABLE_ROWS']);
-                        $lastUpdated = $table['UPDATE_TIME'] ? date('M j, Y', strtotime($table['UPDATE_TIME'])) : 'N/A';
-                        
-                        echo '<div class="rs-table-card ' . $borderClass . '">';
-                        echo '    <div class="rs-table-name">' . $tableName . '</div>';
-                        echo '    <div class="rs-table-meta">';
-                        echo '        <span><strong>' . $rowCount . '</strong> rows</span>';
-                        echo '        <span>Updated: ' . htmlspecialchars($lastUpdated) . '</span>';
-                        echo '    </div>';
-                        
-                        if (!empty($table['columns'])) {
-                            echo '    <div class="rs-table-columns">';
-                            foreach (array_slice($table['columns'], 0, 6) as $col) {
-                                echo '<span class="rs-table-column-pill">' . htmlspecialchars($col) . '</span>';
-                            }
-                            echo '    </div>';
-                        }
-                        
-                        echo '    <div class="rs-table-actions">';
-                        echo '        <a href="/redsox-table-preview.php?table=' . urlencode($tableName) . '" class="rs-btn rs-btn-ghost rs-btn-sm">Preview →</a>';
-                        echo '    </div>';
-                        echo '</div>';
-                        
-                        $index++;
-                    }
+                    echo '    </div>';
+                    
+                    echo '    <div class="rs-table-actions">';
+                    echo '        <button class="rs-btn rs-btn-ghost rs-btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Coming Soon</button>';
+                    echo '    </div>';
                     echo '</div>';
-                } else {
-                    echo '<div class="rs-card" style="text-align: center; margin-top: 2rem;">';
-                    echo '    <h3 style="color: var(--redsox-slate); margin-bottom: 1rem;">Database Not Connected</h3>';
-                    echo '    <p style="color: var(--redsox-gray);">Please configure your database connection in .env file to view available tables.</p>';
-                    if (!$db_connected && Db::getError()) {
-                        echo '    <p style="color: var(--redsox-red); margin-top: 1rem; font-size: 0.875rem;">' . htmlspecialchars(Db::getHelp()) . '</p>';
-                    }
-                    echo '</div>';
+                    
+                    $index++;
                 }
+                echo '</div>';
                 ?>
             </div>
         </section>
@@ -212,19 +190,11 @@ $pageTitle = 'Red Sox Analytics Platform';
                 
                 <div class="rs-kpi-grid">
                     <div class="rs-kpi-tile">
-                        <div class="rs-kpi-value"><?php echo $db_connected && !empty($tables) ? count($tables) : '0'; ?></div>
+                        <div class="rs-kpi-value">5</div>
                         <div class="rs-kpi-label">Data Tables</div>
                     </div>
                     <div class="rs-kpi-tile">
-                        <div class="rs-kpi-value">
-                            <?php 
-                            if ($db_connected && !empty($tables)) {
-                                echo number_format(array_sum(array_column($tables, 'TABLE_ROWS')));
-                            } else {
-                                echo '0';
-                            }
-                            ?>
-                        </div>
+                        <div class="rs-kpi-value">274K+</div>
                         <div class="rs-kpi-label">Total Records</div>
                     </div>
                     <div class="rs-kpi-tile">
@@ -242,12 +212,12 @@ $pageTitle = 'Red Sox Analytics Platform';
         <!-- CTA Band -->
         <section class="rs-cta-band">
             <div class="rs-container">
-                <h2 class="rs-cta-band-title">View the Final Analysis →</h2>
+                <h2 class="rs-cta-band-title">Ready to Explore MLB Data? →</h2>
                 <p class="rs-cta-band-text">
-                    Dive into comprehensive statistical outcomes and insights from our complete dataset
+                    Access comprehensive baseball statistics and analytics
                 </p>
-                <a href="/redsox-analysis.php" class="rs-btn rs-btn-secondary rs-btn-lg" style="background-color: white; color: var(--redsox-red); border-color: white;">
-                    Open Analysis Dashboard
+                <a href="/index.php" class="rs-btn rs-btn-secondary rs-btn-lg" style="background-color: white; color: var(--redsox-red); border-color: white;">
+                    View Classic Dashboard
                 </a>
             </div>
         </section>
@@ -301,7 +271,6 @@ $pageTitle = 'Red Sox Analytics Platform';
                     <h3 class="rs-footer-title">Quick Links</h3>
                     <ul class="rs-footer-links">
                         <li><a href="/redsox-landing.php" class="rs-footer-link">Home</a></li>
-                        <li><a href="/redsox-analysis.php" class="rs-footer-link">Final Analysis</a></li>
                         <li><a href="/index.php" class="rs-footer-link">Classic View</a></li>
                     </ul>
                 </div>

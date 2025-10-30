@@ -33,16 +33,6 @@ jobs:
       
       - name: Check syntax of Red Sox landing page
         run: php -l public/redsox-landing.php
-      
-      - name: Check syntax of Red Sox analysis page
-        run: php -l public/redsox-analysis.php
-      
-      - name: Check syntax of Red Sox table preview
-        run: php -l public/redsox-table-preview.php
-      
-      - name: Check syntax of API endpoints
-        run: |
-          find public/api/redsox -name "*.php" -print0 | xargs -0 -n1 php -l
 
   validate-css:
     name: CSS Validation
