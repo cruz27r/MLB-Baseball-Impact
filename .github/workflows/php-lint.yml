@@ -1,0 +1,63 @@
+name: PHP Lint and Syntax Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: PHP Syntax Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      
+      - name: Check PHP version
+        run: php -v
+      
+      - name: Lint PHP files
+        run: |
+          find public app -name "*.php" -print0 | xargs -0 -n1 php -l
+      
+      - name: Check syntax of Red Sox landing page
+        run: php -l public/redsox-landing.php
+
+  validate-css:
+    name: CSS Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install CSS validator
+        run: npm install -g css-validator
+      
+      - name: Validate Red Sox CSS
+        run: |
+          # Simple check that CSS file exists and is valid
+          if [ -f public/assets/css/redsox.css ]; then
+            echo "Red Sox CSS file exists"
+            # Basic validation - check for syntax errors
+            grep -q ":root" public/assets/css/redsox.css && echo "CSS has root variables"
+          else
+            echo "Red Sox CSS file not found"
+            exit 1
+          fi

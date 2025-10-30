@@ -1,0 +1,692 @@
+/**
+ * Red Sox Theme - Squarespace-inspired Design System
+ * 
+ * Modern, clean aesthetic inspired by the Boston Red Sox brand.
+ * 
+ * Color Palette:
+ * --redsox-red: #BD3039 - Primary brand color
+ * --redsox-navy: #0D2B56 - Deep navy background
+ * --redsox-white: #FFFFFF - Pure white
+ * --redsox-off: #F7F7F7 - Off-white background
+ * --redsox-slate: #1F2937 - Slate text color
+ * 
+ * Typography:
+ * Headlines: Inter Black/Semibold
+ * Body: Inter Regular (system fallback OK)
+ */
+
+/* ==========================================================================
+   CSS Variables - Red Sox Design Tokens
+   ========================================================================== */
+:root {
+    /* Red Sox Official Colors */
+    --redsox-red: #BD3039;
+    --redsox-navy: #0D2B56;
+    --redsox-white: #FFFFFF;
+    --redsox-off: #F7F7F7;
+    --redsox-slate: #1F2937;
+    
+    /* Extended palette */
+    --redsox-navy-light: #1a3d6f;
+    --redsox-navy-dark: #081528;
+    --redsox-red-light: #d4444d;
+    --redsox-red-dark: #9a2730;
+    --redsox-gray: #6B7280;
+    --redsox-gray-light: #D1D5DB;
+    
+    /* Semantic colors */
+    --rs-bg-primary: var(--redsox-navy);
+    --rs-bg-secondary: var(--redsox-off);
+    --rs-bg-elevated: var(--redsox-navy-light);
+    --rs-text-primary: var(--redsox-white);
+    --rs-text-secondary: rgba(255, 255, 255, 0.8);
+    --rs-text-muted: rgba(255, 255, 255, 0.6);
+    --rs-text-dark: var(--redsox-slate);
+    --rs-border: rgba(255, 255, 255, 0.1);
+    --rs-border-light: rgba(0, 0, 0, 0.1);
+    
+    /* Spacing */
+    --rs-space-xs: 0.25rem;
+    --rs-space-sm: 0.5rem;
+    --rs-space-md: 1rem;
+    --rs-space-lg: 1.5rem;
+    --rs-space-xl: 2rem;
+    --rs-space-2xl: 3rem;
+    --rs-space-3xl: 4rem;
+    --rs-space-4xl: 6rem;
+    
+    /* Border radius */
+    --rs-radius-sm: 0.375rem;
+    --rs-radius-md: 0.5rem;
+    --rs-radius-lg: 0.75rem;
+    --rs-radius-xl: 1rem;
+    --rs-radius-2xl: 1.5rem;
+    
+    /* Shadows */
+    --rs-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --rs-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --rs-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --rs-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --rs-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    
+    /* Typography */
+    --rs-font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Transitions */
+    --rs-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+.redsox-theme {
+    font-family: var(--rs-font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.redsox-theme *,
+.redsox-theme *::before,
+.redsox-theme *::after {
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Container
+   ========================================================================== */
+.rs-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--rs-space-lg);
+    padding-right: var(--rs-space-lg);
+}
+
+@media (min-width: 640px) {
+    .rs-container {
+        padding-left: var(--rs-space-xl);
+        padding-right: var(--rs-space-xl);
+    }
+}
+
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+.rs-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(13, 43, 86, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rs-border);
+}
+
+.rs-navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--rs-space-lg);
+    padding-bottom: var(--rs-space-lg);
+}
+
+.rs-navbar-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--redsox-white);
+    text-decoration: none;
+    transition: color var(--rs-transition);
+}
+
+.rs-navbar-logo:hover {
+    color: var(--redsox-red);
+}
+
+.rs-navbar-links {
+    display: none;
+    align-items: center;
+    gap: var(--rs-space-xl);
+}
+
+@media (min-width: 768px) {
+    .rs-navbar-links {
+        display: flex;
+    }
+}
+
+.rs-navbar-link {
+    color: var(--rs-text-secondary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: color var(--rs-transition);
+}
+
+.rs-navbar-link:hover {
+    color: var(--redsox-white);
+}
+
+.rs-navbar-cta {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .rs-navbar-cta {
+        display: inline-flex;
+    }
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.rs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    border-radius: var(--rs-radius-xl);
+    text-decoration: none;
+    transition: all var(--rs-transition);
+    cursor: pointer;
+    border: none;
+}
+
+/* Primary Button (Red) */
+.rs-btn-primary {
+    background-color: var(--redsox-red);
+    color: var(--redsox-white);
+}
+
+.rs-btn-primary:hover {
+    background-color: var(--redsox-red-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--rs-shadow-lg);
+}
+
+/* Secondary Button (White border on navy) */
+.rs-btn-secondary {
+    background-color: transparent;
+    color: var(--redsox-white);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.rs-btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--redsox-white);
+}
+
+/* Ghost Button */
+.rs-btn-ghost {
+    background-color: transparent;
+    color: var(--redsox-slate);
+}
+
+.rs-btn-ghost:hover {
+    background-color: rgba(31, 41, 55, 0.05);
+}
+
+/* Small Button */
+.rs-btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Large Button */
+.rs-btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* ==========================================================================
+   Card Component
+   ========================================================================== */
+.rs-card {
+    background-color: var(--redsox-white);
+    border-radius: var(--rs-radius-2xl);
+    padding: var(--rs-space-xl);
+    box-shadow: var(--rs-shadow-md);
+    transition: all var(--rs-transition);
+}
+
+.rs-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--rs-shadow-xl);
+}
+
+.rs-card-dark {
+    background-color: var(--redsox-navy-light);
+    color: var(--redsox-white);
+}
+
+/* ==========================================================================
+   Badge Component
+   ========================================================================== */
+.rs-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--rs-radius-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.rs-badge-red {
+    background-color: var(--redsox-red);
+    color: var(--redsox-white);
+}
+
+.rs-badge-navy {
+    background-color: var(--redsox-navy);
+    color: var(--redsox-white);
+}
+
+.rs-badge-outline {
+    background-color: transparent;
+    border: 1px solid currentColor;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.rs-hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--redsox-navy) 0%, var(--redsox-slate) 100%);
+    color: var(--redsox-white);
+    overflow: hidden;
+}
+
+.rs-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(189, 48, 57, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.rs-hero-content {
+    position: relative;
+    z-index: 1;
+    padding-top: var(--rs-space-4xl);
+    padding-bottom: var(--rs-space-4xl);
+}
+
+.rs-hero-headline {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--rs-space-lg);
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+    .rs-hero-headline {
+        font-size: 4.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .rs-hero-headline {
+        font-size: 5.5rem;
+    }
+}
+
+.rs-hero-subtext {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--rs-text-secondary);
+    max-width: 42rem;
+    margin-bottom: var(--rs-space-2xl);
+}
+
+@media (min-width: 768px) {
+    .rs-hero-subtext {
+        font-size: 1.25rem;
+    }
+}
+
+.rs-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--rs-space-md);
+}
+
+/* ==========================================================================
+   Section Alternating Backgrounds
+   ========================================================================== */
+.rs-section {
+    padding: var(--rs-space-4xl) 0;
+}
+
+.rs-section-dark {
+    background-color: var(--redsox-navy);
+    color: var(--redsox-white);
+}
+
+.rs-section-light {
+    background-color: var(--redsox-off);
+    color: var(--redsox-slate);
+}
+
+.rs-section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: var(--rs-space-lg);
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+    .rs-section-title {
+        font-size: 3rem;
+    }
+}
+
+.rs-section-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: inherit;
+    opacity: 0.8;
+    max-width: 48rem;
+    margin-bottom: var(--rs-space-2xl);
+}
+
+/* ==========================================================================
+   Tables Explorer Grid
+   ========================================================================== */
+.rs-tables-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--rs-space-xl);
+    margin-top: var(--rs-space-2xl);
+}
+
+@media (min-width: 640px) {
+    .rs-tables-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .rs-tables-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .rs-tables-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.rs-table-card {
+    background-color: var(--redsox-white);
+    border-radius: var(--rs-radius-2xl);
+    padding: var(--rs-space-xl);
+    border: 2px solid transparent;
+    transition: all var(--rs-transition);
+    cursor: pointer;
+}
+
+.rs-table-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--rs-shadow-xl);
+}
+
+.rs-table-card-navy {
+    border-color: var(--redsox-navy);
+}
+
+.rs-table-card-red {
+    border-color: var(--redsox-red);
+}
+
+.rs-table-card:hover.rs-table-card-navy {
+    background-color: rgba(13, 43, 86, 0.02);
+}
+
+.rs-table-card:hover.rs-table-card-red {
+    background-color: rgba(189, 48, 57, 0.02);
+}
+
+.rs-table-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--redsox-slate);
+    margin-bottom: var(--rs-space-sm);
+}
+
+.rs-table-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rs-space-xs);
+    margin-bottom: var(--rs-space-md);
+    font-size: 0.875rem;
+    color: var(--redsox-gray);
+}
+
+.rs-table-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--rs-space-xs);
+    margin-bottom: var(--rs-space-md);
+}
+
+.rs-table-column-pill {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    background-color: var(--redsox-off);
+    color: var(--redsox-slate);
+    border-radius: var(--rs-radius-sm);
+}
+
+.rs-table-actions {
+    display: flex;
+    gap: var(--rs-space-sm);
+    margin-top: var(--rs-space-md);
+}
+
+/* ==========================================================================
+   CTA Band
+   ========================================================================== */
+.rs-cta-band {
+    background-color: var(--redsox-red);
+    color: var(--redsox-white);
+    padding: var(--rs-space-3xl) 0;
+    text-align: center;
+}
+
+.rs-cta-band-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--rs-space-md);
+}
+
+@media (min-width: 768px) {
+    .rs-cta-band-title {
+        font-size: 2.5rem;
+    }
+}
+
+.rs-cta-band-text {
+    font-size: 1.125rem;
+    margin-bottom: var(--rs-space-xl);
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.rs-footer {
+    background-color: var(--redsox-navy-dark);
+    color: var(--rs-text-secondary);
+    padding: var(--rs-space-3xl) 0 var(--rs-space-xl);
+}
+
+.rs-footer-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--rs-space-2xl);
+    margin-bottom: var(--rs-space-2xl);
+}
+
+@media (min-width: 768px) {
+    .rs-footer-content {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.rs-footer-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--redsox-white);
+    margin-bottom: var(--rs-space-md);
+}
+
+.rs-footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rs-footer-links li {
+    margin-bottom: var(--rs-space-sm);
+}
+
+.rs-footer-link {
+    color: var(--rs-text-secondary);
+    text-decoration: none;
+    transition: color var(--rs-transition);
+}
+
+.rs-footer-link:hover {
+    color: var(--redsox-white);
+}
+
+.rs-footer-bottom {
+    border-top: 1px solid var(--rs-border);
+    padding-top: var(--rs-space-lg);
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   KPI Tiles
+   ========================================================================== */
+.rs-kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--rs-space-lg);
+    margin-top: var(--rs-space-2xl);
+}
+
+@media (min-width: 640px) {
+    .rs-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .rs-kpi-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.rs-kpi-tile {
+    background-color: var(--redsox-white);
+    border-radius: var(--rs-radius-xl);
+    padding: var(--rs-space-xl);
+    box-shadow: var(--rs-shadow-md);
+    text-align: center;
+}
+
+.rs-kpi-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--redsox-red);
+    margin-bottom: var(--rs-space-sm);
+}
+
+.rs-kpi-label {
+    font-size: 0.875rem;
+    color: var(--redsox-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Accordion
+   ========================================================================== */
+.rs-accordion {
+    margin-top: var(--rs-space-2xl);
+}
+
+.rs-accordion-item {
+    background-color: var(--redsox-white);
+    border-radius: var(--rs-radius-lg);
+    margin-bottom: var(--rs-space-md);
+    overflow: hidden;
+    box-shadow: var(--rs-shadow-sm);
+}
+
+.rs-accordion-header {
+    width: 100%;
+    padding: var(--rs-space-lg);
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--redsox-slate);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color var(--rs-transition);
+}
+
+.rs-accordion-header:hover {
+    background-color: var(--redsox-off);
+}
+
+.rs-accordion-content {
+    padding: 0 var(--rs-space-lg) var(--rs-space-lg);
+    color: var(--redsox-gray);
+    line-height: 1.75;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+.rs-text-center {
+    text-align: center;
+}
+
+.rs-text-left {
+    text-align: left;
+}
+
+.rs-text-right {
+    text-align: right;
+}
+
+.rs-mt-0 { margin-top: 0; }
+.rs-mt-sm { margin-top: var(--rs-space-sm); }
+.rs-mt-md { margin-top: var(--rs-space-md); }
+.rs-mt-lg { margin-top: var(--rs-space-lg); }
+.rs-mt-xl { margin-top: var(--rs-space-xl); }
+.rs-mt-2xl { margin-top: var(--rs-space-2xl); }
+
+.rs-mb-0 { margin-bottom: 0; }
+.rs-mb-sm { margin-bottom: var(--rs-space-sm); }
+.rs-mb-md { margin-bottom: var(--rs-space-md); }
+.rs-mb-lg { margin-bottom: var(--rs-space-lg); }
+.rs-mb-xl { margin-bottom: var(--rs-space-xl); }
+.rs-mb-2xl { margin-bottom: var(--rs-space-2xl); }
