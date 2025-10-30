@@ -326,11 +326,6 @@
     }
 }
 
-/* Hide diamond section when any panel is active */
-.diamond-section:has(~ .data-panel:target) {
-    display: none;
-}
-
 /* Panel header */
 .panel-header {
     display: flex;
