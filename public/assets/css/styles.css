@@ -373,9 +373,10 @@
     position: relative;
 }
 
+/* Home Plate - bottom corner of diamond */
 .zone-home {
     position: absolute;
-    bottom: -15%;
+    bottom: -8%;
     left: 50%;
     transform: translateX(-50%) rotate(-45deg);
     background: linear-gradient(135deg, var(--redsox-red) 0%, #8a1a25 100%);
@@ -388,7 +389,7 @@
     background: linear-gradient(135deg, #d94450 0%, var(--redsox-red) 100%);
     border-color: #d94450;
     box-shadow: 0 0 30px rgba(189, 48, 57, 0.6);
-    transform: translateX(-50%) rotate(-45deg) translateY(-6px) scale(1.08);
+    transform: translateX(-50%) rotate(-45deg) scale(1.08);
 }
 
 .zone-home .zone-label {
@@ -402,10 +403,11 @@
     transform: rotate(45deg);
 }
 
+/* First Base - right corner of diamond */
 .zone-1b {
     position: absolute;
     top: 50%;
-    right: -15%;
+    right: -8%;
     transform: translateY(-50%) rotate(-45deg);
     border-color: var(--redsox-red);
 }
@@ -414,7 +416,7 @@
 .zone-1b:focus {
     border-color: var(--redsox-red);
     box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
-    transform: translateY(-50%) rotate(-45deg) translateY(-6px) scale(1.08);
+    transform: translateY(-50%) rotate(-45deg) scale(1.08);
 }
 
 .zone-1b .zone-label,
@@ -422,9 +424,10 @@
     transform: rotate(45deg);
 }
 
+/* Second Base - top corner of diamond */
 .zone-2b {
     position: absolute;
-    top: -15%;
+    top: -8%;
     left: 50%;
     transform: translateX(-50%) rotate(-45deg);
     border-color: var(--redsox-red);
@@ -434,7 +437,7 @@
 .zone-2b:focus {
     border-color: var(--redsox-red);
     box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
-    transform: translateX(-50%) rotate(-45deg) translateY(-6px) scale(1.08);
+    transform: translateX(-50%) rotate(-45deg) scale(1.08);
 }
 
 .zone-2b .zone-label,
@@ -442,10 +445,11 @@
     transform: rotate(45deg);
 }
 
+/* Third Base - left corner of diamond */
 .zone-3b {
     position: absolute;
     top: 50%;
-    left: -15%;
+    left: -8%;
     transform: translateY(-50%) rotate(-45deg);
     border-color: var(--redsox-red);
 }
@@ -454,7 +458,7 @@
 .zone-3b:focus {
     border-color: var(--redsox-red);
     box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
-    transform: translateY(-50%) rotate(-45deg) translateY(-6px) scale(1.08);
+    transform: translateY(-50%) rotate(-45deg) scale(1.08);
 }
 
 .zone-3b .zone-label,
