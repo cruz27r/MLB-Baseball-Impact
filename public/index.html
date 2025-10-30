@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 <body>
-    <!-- Skip to main content for accessibility -->
+    
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
     <header class="site-header">
@@ -28,9 +28,9 @@
                     <p>Click each zone to explore related data and statistics. Each field position reveals its story.</p>
                 </div>
 
-                <!-- Baseball Diamond Field Layout -->
+                
                 <div class="diamond-container">
-                    <!-- Outfield zones -->
+                    
                     <a href="#zone-lf" class="zone zone-lf" id="link-lf" aria-label="Left Field - Outfield Statistics">
                         <span class="zone-label">LF</span>
                         <span class="zone-title">Left Field</span>
@@ -46,27 +46,27 @@
                         <span class="zone-title">Right Field</span>
                     </a>
 
-                    <!-- Infield diamond -->
+                    
                     <div class="infield-diamond">
-                        <!-- Third Base -->
+                        
                         <a href="#zone-3b" class="zone zone-3b" id="link-3b" aria-label="Third Base - Hot Corner Stats">
                             <span class="zone-label">3B</span>
                             <span class="zone-title">Third Base</span>
                         </a>
 
-                        <!-- Second Base -->
+                        
                         <a href="#zone-2b" class="zone zone-2b" id="link-2b" aria-label="Second Base - Double Play Data">
                             <span class="zone-label">2B</span>
                             <span class="zone-title">Second Base</span>
                         </a>
 
-                        <!-- First Base -->
+                        
                         <a href="#zone-1b" class="zone zone-1b" id="link-1b" aria-label="First Base - Batting Statistics">
                             <span class="zone-label">1B</span>
                             <span class="zone-title">First Base</span>
                         </a>
 
-                        <!-- Home Plate -->
+                        
                         <a href="#zone-home" class="zone zone-home" id="link-home" aria-label="Home Plate - People Directory">
                             <span class="zone-label">⚾</span>
                             <span class="zone-title">Home</span>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                <!-- Legend and instructions -->
+                
                 <div class="legend">
                     <h3>Field Guide</h3>
                     <ul>
@@ -88,9 +88,9 @@
             </div>
         </section>
 
-        <!-- Data reveal panels (hidden until zone is targeted) -->
         
-        <!-- Home Plate Panel -->
+        
+        
         <section class="data-panel" id="zone-home">
             <div class="container">
                 <div class="panel-header">
@@ -99,7 +99,7 @@
                 </div>
                 
                 <div class="panel-content">
-                    <!-- Filter form -->
+                    
                     <form method="GET" action="people.html" class="filter-form">
                         <div class="form-group">
                             <label for="search-name">Player Name:</label>
@@ -116,7 +116,7 @@
                         <button type="submit" class="btn-primary">Search People</button>
                     </form>
 
-                    <!-- Sample data table -->
+                    
                     <table class="data-table">
                         <caption>Sample Player Directory (Mock Data)</caption>
                         <thead>
@@ -170,7 +170,7 @@
             </div>
         </section>
 
-        <!-- First Base Panel -->
+        
         <section class="data-panel" id="zone-1b">
             <div class="container">
                 <div class="panel-header">
@@ -234,7 +234,7 @@
             </div>
         </section>
 
-        <!-- Second Base Panel -->
+        
         <section class="data-panel" id="zone-2b">
             <div class="container">
                 <div class="panel-header">
@@ -251,7 +251,7 @@
                         <div class="form-group">
                             <label for="award-type">Award Type:</label>
                             <select id="award-type" name="award">
-                                <option value="">All Awards</option>
+                                <option value>All Awards</option>
                                 <option value="MVP">MVP</option>
                                 <option value="CY">Cy Young</option>
                                 <option value="ROY">Rookie of the Year</option>
@@ -300,7 +300,7 @@
             </div>
         </section>
 
-        <!-- Third Base Panel -->
+        
         <section class="data-panel" id="zone-3b">
             <div class="container">
                 <div class="panel-header">
@@ -335,8 +335,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Gerrit Cole</td>
+                                <td data-label="Player">Gerrit Cole</td>
                                 <td data-label="Team">NYY</td>
                                 <td data-label="W-L">15-4</td>
                                 <td data-label="ERA">2.63</td>
@@ -344,8 +343,7 @@
                                 <td data-label="WHIP">1.02</td>
                             </tr>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Blake Snell</td>
+                                <td data-label="Player">Blake Snell</td>
                                 <td data-label="Team">SD</td>
                                 <td data-label="W-L">14-9</td>
                                 <td data-label="ERA">2.25</td>
@@ -353,8 +351,7 @@
                                 <td data-label="WHIP">1.19</td>
                             </tr>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Zack Wheeler</td>
+                                <td data-label="Player">Zack Wheeler</td>
                                 <td data-label="Team">PHI</td>
                                 <td data-label="W-L">13-6</td>
                                 <td data-label="ERA">3.61</td>
@@ -367,7 +364,7 @@
             </div>
         </section>
 
-        <!-- Left Field Panel -->
+        
         <section class="data-panel" id="zone-lf">
             <div class="container">
                 <div class="panel-header">
@@ -384,7 +381,7 @@
                         <div class="form-group">
                             <label for="league">League:</label>
                             <select id="league" name="league">
-                                <option value="">Both Leagues</option>
+                                <option value>Both Leagues</option>
                                 <option value="AL">American League</option>
                                 <option value="NL">National League</option>
                             </select>
@@ -405,16 +402,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Team">Atlanta Braves</td>
+                                <td data-label="Team">Atlanta Braves</td>
                                 <td data-label="W-L">104-58</td>
                                 <td data-label="PCT">.642</td>
                                 <td data-label="GB">-</td>
                                 <td data-label="Runs">947</td>
                             </tr>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Team">Los Angeles Dodgers</td>
+                                <td data-label="Team">Los Angeles Dodgers</td>
                                 <td data-label="W-L">100-62</td>
                                 <td data-label="PCT">.617</td>
                                 <td data-label="GB">-</td>
@@ -426,7 +421,7 @@
             </div>
         </section>
 
-        <!-- Center Field Panel -->
+        
         <section class="data-panel" id="zone-cf">
             <div class="container">
                 <div class="panel-header">
@@ -443,7 +438,7 @@
                         <div class="form-group">
                             <label for="position">Position:</label>
                             <select id="position" name="position">
-                                <option value="">All Positions</option>
+                                <option value>All Positions</option>
                                 <option value="IF">Infield</option>
                                 <option value="OF">Outfield</option>
                                 <option value="C">Catcher</option>
@@ -465,16 +460,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Nolan Arenado</td>
+                                <td data-label="Player">Nolan Arenado</td>
                                 <td data-label="Position">3B</td>
                                 <td data-label="Team">STL</td>
                                 <td data-label="Fielding %">.981</td>
                                 <td data-label="DRS">+18</td>
                             </tr>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Mookie Betts</td>
+                                <td data-label="Player">Mookie Betts</td>
                                 <td data-label="Position">OF</td>
                                 <td data-label="Team">LAD</td>
                                 <td data-label="Fielding %">.988</td>
@@ -486,7 +479,7 @@
             </div>
         </section>
 
-        <!-- Right Field Panel -->
+        
         <section class="data-panel" id="zone-rf">
             <div class="container">
                 <div class="panel-header">
@@ -524,16 +517,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Aaron Judge</td>
+                                <td data-label="Player">Aaron Judge</td>
                                 <td data-label="Team">NYY</td>
                                 <td data-label="HR">62</td>
                                 <td data-label="SLG">.686</td>
                                 <td data-label="ISO">.375</td>
                             </tr>
                             <tr>
-                                <td data-label="<tr>
-                                <th>Player">Kyle Schwarber</td>
+                                <td data-label="Player">Kyle Schwarber</td>
                                 <td data-label="Team">PHI</td>
                                 <td data-label="HR">46</td>
                                 <td data-label="SLG">.504</td>
@@ -548,7 +539,7 @@
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2024 MLB Baseball Impact Project - CS437</p>
+            <p>© 2024 MLB Baseball Impact Project - CS437</p>
             <p>Data from SABR Lahman Database, Retrosheet, and Baseball-Reference</p>
         </div>
     </footer>

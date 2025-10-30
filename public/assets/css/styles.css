@@ -1,8 +1,9 @@
 /**
- * Diamond UI - Main Stylesheet
+ * Diamond UI - Fenway Park Edition
  * 
- * Styles for the interactive baseball diamond navigation with CSS-only zoom effects.
+ * Boston Red Sox themed interactive baseball diamond with Fenway Park features.
  * Uses :target pseudo-class for zone expansion and content reveal.
+ * Features the iconic Green Monster in left field.
  * Responsive layout with Flexbox and Grid.
  */
 
@@ -11,11 +12,12 @@
    ========================================================================== */
 .site-header {
     background: var(--panel);
-    border-bottom: 2px solid var(--fenway-green);
+    border-bottom: 3px solid var(--redsox-red);
     padding: var(--space-lg) 0;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 8px rgba(189, 48, 57, 0.3);
 }
 
 .site-title {
@@ -97,7 +99,7 @@
 }
 
 /* ==========================================================================
-   Diamond Container - Field Layout
+   Diamond Container - Fenway Park Field Layout
    ========================================================================== */
 .diamond-container {
     position: relative;
@@ -105,9 +107,33 @@
     margin: 0 auto var(--space-3xl);
     padding: var(--space-3xl) var(--space-lg);
     aspect-ratio: 1;
+    background: radial-gradient(circle at center, 
+        rgba(14, 81, 53, 0.15) 0%,
+        rgba(0, 103, 71, 0.08) 50%,
+        rgba(12, 35, 64, 0.3) 100%);
 }
 
-/* Infield diamond shape */
+/* Outfield grass background */
+.diamond-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(14, 81, 53, 0.1) 0px,
+        rgba(14, 81, 53, 0.1) 40px,
+        rgba(0, 103, 71, 0.15) 40px,
+        rgba(0, 103, 71, 0.15) 80px
+    );
+    opacity: 0.3;
+    pointer-events: none;
+    border-radius: var(--radius-lg);
+}
+
+/* Infield diamond shape - Clay/dirt infield */
 .infield-diamond {
     position: absolute;
     top: 50%;
@@ -116,14 +142,16 @@
     height: 55%;
     transform: translate(-50%, -50%) rotate(45deg);
     background: linear-gradient(135deg, 
-        rgba(14, 81, 53, 0.2) 0%, 
-        rgba(14, 81, 53, 0.05) 100%);
-    border: 3px solid rgba(14, 81, 53, 0.4);
+        rgba(184, 149, 106, 0.4) 0%, 
+        rgba(196, 165, 123, 0.3) 50%,
+        rgba(184, 149, 106, 0.4) 100%);
+    border: 3px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-md);
     pointer-events: none;
+    box-shadow: inset 0 0 30px rgba(184, 149, 106, 0.2);
 }
 
-/* Infield diamond baseline */
+/* Infield diamond baseline - chalk lines */
 .infield-diamond::before {
     content: '';
     position: absolute;
@@ -132,8 +160,19 @@
     width: 90%;
     height: 90%;
     transform: translate(-50%, -50%);
-    border: 2px dashed rgba(243, 239, 231, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: var(--radius-sm);
+}
+
+/* Pitcher's mound indicator */
+.infield-diamond::after {
+    content: '⚾';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 1.5rem;
+    opacity: 0.4;
 }
 
 /* ==========================================================================
@@ -205,62 +244,142 @@
 }
 
 /* ==========================================================================
-   Infield Zone Positions (Bases)
+   Infield Zone Positions (Bases) - Red Sox Style
    ========================================================================== */
 .zone-home {
     bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--accent-red) 0%, #8a1a25 100%);
-    border-color: var(--accent-red);
+    background: linear-gradient(135deg, var(--redsox-red) 0%, #8a1a25 100%);
+    border: 3px solid var(--redsox-red);
+    box-shadow: 0 0 20px rgba(189, 48, 57, 0.4);
 }
 
 .zone-home:hover,
 .zone-home:focus {
-    background: linear-gradient(135deg, #c82f3d 0%, var(--accent-red) 100%);
-    border-color: #c82f3d;
+    background: linear-gradient(135deg, #d94450 0%, var(--redsox-red) 100%);
+    border-color: #d94450;
+    box-shadow: 0 0 30px rgba(189, 48, 57, 0.6);
 }
 
 .zone-home .zone-label {
     background: var(--chalk-cream);
-    color: var(--accent-red);
+    color: var(--redsox-red);
+    border: 2px solid var(--redsox-red);
 }
 
 .zone-1b {
     top: 50%;
     right: 15%;
     transform: translateY(-50%);
+    border-color: var(--redsox-red);
+}
+
+.zone-1b:hover,
+.zone-1b:focus {
+    border-color: var(--redsox-red);
+    box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
 }
 
 .zone-2b {
     top: 15%;
     left: 50%;
     transform: translateX(-50%);
+    border-color: var(--redsox-red);
+}
+
+.zone-2b:hover,
+.zone-2b:focus {
+    border-color: var(--redsox-red);
+    box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
 }
 
 .zone-3b {
     top: 50%;
     left: 15%;
     transform: translateY(-50%);
+    border-color: var(--redsox-red);
+}
+
+.zone-3b:hover,
+.zone-3b:focus {
+    border-color: var(--redsox-red);
+    box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
 }
 
 /* ==========================================================================
-   Outfield Zone Positions
+   Outfield Zone Positions - Fenway Park Layout
    ========================================================================== */
+/* Left Field - The Green Monster! */
 .zone-lf {
     top: 10%;
     left: 5%;
+    background: var(--green-monster);
+    border: 3px solid var(--fenway-green);
+    position: relative;
+    min-height: 120px;
 }
 
+.zone-lf::before {
+    content: '🟢';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.zone-lf::after {
+    content: 'GREEN MONSTER';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.625rem;
+    color: var(--fenway-green);
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.zone-lf:hover,
+.zone-lf:focus {
+    background: #008855;
+    border-color: var(--ok);
+    box-shadow: 0 0 20px rgba(0, 103, 71, 0.5);
+}
+
+.zone-lf .zone-label {
+    background: var(--chalk-cream);
+    color: var(--green-monster);
+}
+
+/* Center Field */
 .zone-cf {
     top: 5%;
     left: 50%;
     transform: translateX(-50%);
+    border-color: var(--redsox-red);
 }
 
+.zone-cf:hover,
+.zone-cf:focus {
+    border-color: var(--redsox-red);
+    box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
+}
+
+/* Right Field - Pesky's Pole territory */
 .zone-rf {
     top: 10%;
     right: 5%;
+    border-color: var(--redsox-red);
+}
+
+.zone-rf:hover,
+.zone-rf:focus {
+    border-color: var(--redsox-red);
+    box-shadow: 0 0 15px rgba(189, 48, 57, 0.4);
 }
 
 /* ==========================================================================
@@ -421,25 +540,28 @@
 
 .btn-primary {
     padding: var(--space-sm) var(--space-xl);
-    background: var(--fenway-green);
+    background: var(--redsox-red);
     color: var(--chalk-cream);
     border: none;
     border-radius: var(--radius-md);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
     transition: all var(--transition-base);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background: var(--ok);
+    background: #d94450;
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 12px rgba(189, 48, 57, 0.5);
 }
 
 .btn-primary:active {
     transform: translateY(0);
+    background: #a32831;
 }
 
 .btn-secondary {
@@ -482,17 +604,17 @@
 }
 
 .data-table thead {
-    background: var(--fenway-green);
+    background: linear-gradient(135deg, var(--redsox-red) 0%, #a32831 100%);
 }
 
 .data-table th {
     padding: var(--space-md);
     text-align: left;
     color: var(--chalk-cream);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.875rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.75px;
 }
 
 .data-table td {
@@ -501,13 +623,14 @@
     color: var(--text-secondary);
 }
 
-/* Row striping */
+/* Row striping - Red Sox colors */
 .data-table tbody tr:nth-child(even) {
-    background: rgba(14, 81, 53, 0.05);
+    background: rgba(189, 48, 57, 0.05);
 }
 
 .data-table tbody tr:hover {
-    background: rgba(14, 81, 53, 0.15);
+    background: rgba(189, 48, 57, 0.12);
+    border-left: 3px solid var(--redsox-red);
 }
 
 /* ==========================================================================
