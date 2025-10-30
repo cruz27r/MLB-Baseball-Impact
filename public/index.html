@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond UI - MLB Baseball Impact</title>
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/diamond.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title">⚾ MLB Baseball Impact - Diamond UI</h1>
+            <p class="site-subtitle">Navigate the field to explore baseball data</p>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="diamond-section" id="top">
+            <div class="container">
+                <div class="diamond-intro">
+                    <h2>Navigate the Baseball Diamond</h2>
+                    <p>Click each zone to explore related data and statistics. Each field position reveals its story.</p>
+                </div>
+
+                <!-- Baseball Diamond Field Layout -->
+                <div class="diamond-container">
+                    <!-- Outfield zones -->
+                    <a href="#zone-lf" class="zone zone-lf" id="link-lf" aria-label="Left Field - Outfield Statistics">
+                        <span class="zone-label">LF</span>
+                        <span class="zone-title">Left Field</span>
+                    </a>
+
+                    <a href="#zone-cf" class="zone zone-cf" id="link-cf" aria-label="Center Field - Defense Metrics">
+                        <span class="zone-label">CF</span>
+                        <span class="zone-title">Center Field</span>
+                    </a>
+
+                    <a href="#zone-rf" class="zone zone-rf" id="link-rf" aria-label="Right Field - Power Stats">
+                        <span class="zone-label">RF</span>
+                        <span class="zone-title">Right Field</span>
+                    </a>
+
+                    <!-- Infield diamond -->
+                    <div class="infield-diamond">
+                        <!-- Third Base -->
+                        <a href="#zone-3b" class="zone zone-3b" id="link-3b" aria-label="Third Base - Hot Corner Stats">
+                            <span class="zone-label">3B</span>
+                            <span class="zone-title">Third Base</span>
+                        </a>
+
+                        <!-- Second Base -->
+                        <a href="#zone-2b" class="zone zone-2b" id="link-2b" aria-label="Second Base - Double Play Data">
+                            <span class="zone-label">2B</span>
+                            <span class="zone-title">Second Base</span>
+                        </a>
+
+                        <!-- First Base -->
+                        <a href="#zone-1b" class="zone zone-1b" id="link-1b" aria-label="First Base - Batting Statistics">
+                            <span class="zone-label">1B</span>
+                            <span class="zone-title">First Base</span>
+                        </a>
+
+                        <!-- Home Plate -->
+                        <a href="#zone-home" class="zone zone-home" id="link-home" aria-label="Home Plate - People Directory">
+                            <span class="zone-label">⚾</span>
+                            <span class="zone-title">Home</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Legend and instructions -->
+                <div class="legend">
+                    <h3>Field Guide</h3>
+                    <ul>
+                        <li><strong>Home Plate:</strong> People directory and player information</li>
+                        <li><strong>1B:</strong> Batting statistics and offensive metrics</li>
+                        <li><strong>2B:</strong> Awards and recognition</li>
+                        <li><strong>3B:</strong> Pitching and defensive data</li>
+                        <li><strong>LF/CF/RF:</strong> Team and season summaries</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data reveal panels (hidden until zone is targeted) -->
+        
+        <!-- Home Plate Panel -->
+        <section class="data-panel" id="zone-home">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>🏠 Home Plate - People Directory</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <!-- Filter form -->
+                    <form method="GET" action="people.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="search-name">Player Name:</label>
+                            <input type="text" id="search-name" name="name" placeholder="Search by name..." />
+                        </div>
+                        <div class="form-group">
+                            <label for="search-year">Year:</label>
+                            <input type="number" id="search-year" name="year" placeholder="e.g., 2023" min="1871" max="2024" />
+                        </div>
+                        <div class="form-group">
+                            <label for="search-team">Team:</label>
+                            <input type="text" id="search-team" name="team" placeholder="e.g., BOS" maxlength="3" />
+                        </div>
+                        <button type="submit" class="btn-primary">Search People</button>
+                    </form>
+
+                    <!-- Sample data table -->
+                    <table class="data-table">
+                        <caption>Sample Player Directory (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Player ID</th>
+                                <th>Name</th>
+                                <th>Birth Year</th>
+                                <th>Birth Country</th>
+                                <th>Debut Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ruthba01</td>
+                                <td>Babe Ruth</td>
+                                <td>1895</td>
+                                <td>USA</td>
+                                <td>1914</td>
+                            </tr>
+                            <tr>
+                                <td>bondsba01</td>
+                                <td>Barry Bonds</td>
+                                <td>1964</td>
+                                <td>USA</td>
+                                <td>1986</td>
+                            </tr>
+                            <tr>
+                                <td>rodrial01</td>
+                                <td>Alex Rodriguez</td>
+                                <td>1975</td>
+                                <td>USA</td>
+                                <td>1994</td>
+                            </tr>
+                            <tr>
+                                <td>suzukic01</td>
+                                <td>Ichiro Suzuki</td>
+                                <td>1973</td>
+                                <td>Japan</td>
+                                <td>2001</td>
+                            </tr>
+                            <tr>
+                                <td>pujolal01</td>
+                                <td>Albert Pujols</td>
+                                <td>1980</td>
+                                <td>Dominican Republic</td>
+                                <td>2001</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- First Base Panel -->
+        <section class="data-panel" id="zone-1b">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>⚾ First Base - Batting Statistics</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <form method="GET" action="forms.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="batting-year">Season:</label>
+                            <input type="number" id="batting-year" name="year" placeholder="2023" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="min-hr">Min Home Runs:</label>
+                            <input type="number" id="min-hr" name="min_hr" placeholder="20" min="0" />
+                        </div>
+                        <button type="submit" class="btn-primary">Filter Results</button>
+                    </form>
+
+                    <table class="data-table">
+                        <caption>Top Batting Leaders (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>AVG</th>
+                                <th>HR</th>
+                                <th>RBI</th>
+                                <th>OPS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mike Trout</td>
+                                <td>LAA</td>
+                                <td>.305</td>
+                                <td>40</td>
+                                <td>104</td>
+                                <td>.991</td>
+                            </tr>
+                            <tr>
+                                <td>Aaron Judge</td>
+                                <td>NYY</td>
+                                <td>.311</td>
+                                <td>62</td>
+                                <td>131</td>
+                                <td>1.111</td>
+                            </tr>
+                            <tr>
+                                <td>Mookie Betts</td>
+                                <td>LAD</td>
+                                <td>.293</td>
+                                <td>35</td>
+                                <td>82</td>
+                                <td>.895</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Second Base Panel -->
+        <section class="data-panel" id="zone-2b">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>🏆 Second Base - Awards & Recognition</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <form method="GET" action="forms.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="award-year">Year:</label>
+                            <input type="number" id="award-year" name="year" placeholder="2023" />
+                        </div>
+                        <div class="form-group">
+                            <label for="award-type">Award Type:</label>
+                            <select id="award-type" name="award">
+                                <option value="">All Awards</option>
+                                <option value="MVP">MVP</option>
+                                <option value="CY">Cy Young</option>
+                                <option value="ROY">Rookie of the Year</option>
+                                <option value="AS">All-Star</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Filter Awards</button>
+                    </form>
+
+                    <table class="data-table">
+                        <caption>Recent Award Winners (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Award</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2023</td>
+                                <td>AL MVP</td>
+                                <td>Shohei Ohtani</td>
+                                <td>LAA</td>
+                                <td>Japan</td>
+                            </tr>
+                            <tr>
+                                <td>2023</td>
+                                <td>NL MVP</td>
+                                <td>Ronald Acuña Jr.</td>
+                                <td>ATL</td>
+                                <td>Venezuela</td>
+                            </tr>
+                            <tr>
+                                <td>2023</td>
+                                <td>AL Cy Young</td>
+                                <td>Gerrit Cole</td>
+                                <td>NYY</td>
+                                <td>USA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Third Base Panel -->
+        <section class="data-panel" id="zone-3b">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>⚡ Third Base - Pitching & Defense</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <form method="GET" action="forms.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="pitch-year">Season:</label>
+                            <input type="number" id="pitch-year" name="year" placeholder="2023" />
+                        </div>
+                        <div class="form-group">
+                            <label for="min-ip">Min Innings:</label>
+                            <input type="number" id="min-ip" name="min_ip" placeholder="150" />
+                        </div>
+                        <button type="submit" class="btn-primary">Filter Pitchers</button>
+                    </form>
+
+                    <table class="data-table">
+                        <caption>Top Pitchers (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>W-L</th>
+                                <th>ERA</th>
+                                <th>SO</th>
+                                <th>WHIP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Gerrit Cole</td>
+                                <td>NYY</td>
+                                <td>15-4</td>
+                                <td>2.63</td>
+                                <td>222</td>
+                                <td>1.02</td>
+                            </tr>
+                            <tr>
+                                <td>Blake Snell</td>
+                                <td>SD</td>
+                                <td>14-9</td>
+                                <td>2.25</td>
+                                <td>234</td>
+                                <td>1.19</td>
+                            </tr>
+                            <tr>
+                                <td>Zack Wheeler</td>
+                                <td>PHI</td>
+                                <td>13-6</td>
+                                <td>3.61</td>
+                                <td>212</td>
+                                <td>1.08</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Left Field Panel -->
+        <section class="data-panel" id="zone-lf">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>🌟 Left Field - Team Statistics</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <form method="GET" action="forms.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="team-year">Season:</label>
+                            <input type="number" id="team-year" name="year" placeholder="2023" />
+                        </div>
+                        <div class="form-group">
+                            <label for="league">League:</label>
+                            <select id="league" name="league">
+                                <option value="">Both Leagues</option>
+                                <option value="AL">American League</option>
+                                <option value="NL">National League</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Filter Teams</button>
+                    </form>
+
+                    <table class="data-table">
+                        <caption>Team Standings (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>W-L</th>
+                                <th>PCT</th>
+                                <th>GB</th>
+                                <th>Runs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Atlanta Braves</td>
+                                <td>104-58</td>
+                                <td>.642</td>
+                                <td>-</td>
+                                <td>947</td>
+                            </tr>
+                            <tr>
+                                <td>Los Angeles Dodgers</td>
+                                <td>100-62</td>
+                                <td>.617</td>
+                                <td>-</td>
+                                <td>906</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Center Field Panel -->
+        <section class="data-panel" id="zone-cf">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>📊 Center Field - Defense Metrics</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <form method="GET" action="forms.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="def-year">Season:</label>
+                            <input type="number" id="def-year" name="year" placeholder="2023" />
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position:</label>
+                            <select id="position" name="position">
+                                <option value="">All Positions</option>
+                                <option value="IF">Infield</option>
+                                <option value="OF">Outfield</option>
+                                <option value="C">Catcher</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Filter Defense</button>
+                    </form>
+
+                    <table class="data-table">
+                        <caption>Defensive Leaders (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Position</th>
+                                <th>Team</th>
+                                <th>Fielding %</th>
+                                <th>DRS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nolan Arenado</td>
+                                <td>3B</td>
+                                <td>STL</td>
+                                <td>.981</td>
+                                <td>+18</td>
+                            </tr>
+                            <tr>
+                                <td>Mookie Betts</td>
+                                <td>OF</td>
+                                <td>LAD</td>
+                                <td>.988</td>
+                                <td>+15</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Field Panel -->
+        <section class="data-panel" id="zone-rf">
+            <div class="container">
+                <div class="panel-header">
+                    <h2>💪 Right Field - Power Statistics</h2>
+                    <a href="#top" class="back-link" aria-label="Back to diamond view">✕ Back to Diamond</a>
+                </div>
+                
+                <div class="panel-content">
+                    <form method="GET" action="forms.html" class="filter-form">
+                        <div class="form-group">
+                            <label for="power-year">Season:</label>
+                            <input type="number" id="power-year" name="year" placeholder="2023" />
+                        </div>
+                        <div class="form-group">
+                            <label for="stat-type">Stat Type:</label>
+                            <select id="stat-type" name="stat">
+                                <option value="hr">Home Runs</option>
+                                <option value="slg">Slugging</option>
+                                <option value="iso">ISO Power</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Filter Stats</button>
+                    </form>
+
+                    <table class="data-table">
+                        <caption>Power Hitters (Mock Data)</caption>
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>HR</th>
+                                <th>SLG</th>
+                                <th>ISO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aaron Judge</td>
+                                <td>NYY</td>
+                                <td>62</td>
+                                <td>.686</td>
+                                <td>.375</td>
+                            </tr>
+                            <tr>
+                                <td>Kyle Schwarber</td>
+                                <td>PHI</td>
+                                <td>46</td>
+                                <td>.504</td>
+                                <td>.288</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 MLB Baseball Impact Project - CS437</p>
+            <p>Data from SABR Lahman Database, Retrosheet, and Baseball-Reference</p>
+        </div>
+    </footer>
+</body>
+</html>

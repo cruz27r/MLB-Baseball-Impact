@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search & Filter - MLB Baseball Impact</title>
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title">Search & Filter Forms</h1>
+            <nav>
+                <a href="index.html">← Back to Diamond</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="container">
+            <h2>Data Search and Filtering</h2>
+            <p class="lead">
+                Use these forms to search and filter baseball statistics. All forms use GET method 
+                to demonstrate query string parameters (no backend processing yet).
+            </p>
+
+            <!-- Player Search Form -->
+            <div class="card">
+                <h3>Player Search</h3>
+                <form method="GET" action="people.html" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="player-name">Player Name:</label>
+                            <input 
+                                type="text" 
+                                id="player-name" 
+                                name="name" 
+                                placeholder="Enter player name" 
+                                aria-describedby="name-help"
+                            />
+                            <small id="name-help" class="form-help">First or last name</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="player-country">Birth Country:</label>
+                            <select id="player-country" name="country">
+                                <option value="">All Countries</option>
+                                <option value="USA">United States</option>
+                                <option value="DOM">Dominican Republic</option>
+                                <option value="VEN">Venezuela</option>
+                                <option value="PUR">Puerto Rico</option>
+                                <option value="CUB">Cuba</option>
+                                <option value="JPN">Japan</option>
+                                <option value="MEX">Mexico</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="debut-year">Debut Year:</label>
+                            <input 
+                                type="number" 
+                                id="debut-year" 
+                                name="debut" 
+                                placeholder="e.g., 2000" 
+                                min="1871" 
+                                max="2024"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="final-year">Final Year:</label>
+                            <input 
+                                type="number" 
+                                id="final-year" 
+                                name="final" 
+                                placeholder="e.g., 2023" 
+                                min="1871" 
+                                max="2024"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Search Players</button>
+                        <button type="reset" class="btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Batting Statistics Filter -->
+            <div class="card">
+                <h3>Batting Statistics Filter</h3>
+                <form method="GET" action="forms.html" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="batting-season">Season:</label>
+                            <input 
+                                type="number" 
+                                id="batting-season" 
+                                name="year" 
+                                placeholder="2023" 
+                                required 
+                                min="1871" 
+                                max="2024"
+                            />
+                            <small class="form-help">Required field</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="batting-team">Team:</label>
+                            <input 
+                                type="text" 
+                                id="batting-team" 
+                                name="team" 
+                                placeholder="e.g., BOS, NYY" 
+                                maxlength="3" 
+                                pattern="[A-Z]{3}"
+                            />
+                            <small class="form-help">3-letter team code</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="min-hr">Minimum Home Runs:</label>
+                            <input 
+                                type="number" 
+                                id="min-hr" 
+                                name="min_hr" 
+                                placeholder="20" 
+                                min="0" 
+                                max="80"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="min-avg">Minimum Batting Average:</label>
+                            <input 
+                                type="number" 
+                                id="min-avg" 
+                                name="min_avg" 
+                                placeholder="0.300" 
+                                step="0.001" 
+                                min="0" 
+                                max="1"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sort-by">Sort By:</label>
+                        <select id="sort-by" name="sort">
+                            <option value="hr">Home Runs (Descending)</option>
+                            <option value="avg">Batting Average</option>
+                            <option value="rbi">RBI</option>
+                            <option value="ops">OPS</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Filter Batting</button>
+                        <button type="reset" class="btn-secondary">Reset Filters</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Pitching Statistics Filter -->
+            <div class="card">
+                <h3>Pitching Statistics Filter</h3>
+                <form method="GET" action="forms.html" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pitch-season">Season:</label>
+                            <input 
+                                type="number" 
+                                id="pitch-season" 
+                                name="year" 
+                                placeholder="2023" 
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pitch-league">League:</label>
+                            <select id="pitch-league" name="league">
+                                <option value="">Both Leagues</option>
+                                <option value="AL">American League</option>
+                                <option value="NL">National League</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="min-ip">Minimum Innings Pitched:</label>
+                            <input 
+                                type="number" 
+                                id="min-ip" 
+                                name="min_ip" 
+                                placeholder="150" 
+                                min="0"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="max-era">Maximum ERA:</label>
+                            <input 
+                                type="number" 
+                                id="max-era" 
+                                name="max_era" 
+                                placeholder="4.00" 
+                                step="0.01" 
+                                min="0"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Filter Pitchers</button>
+                        <button type="reset" class="btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Awards Filter -->
+            <div class="card">
+                <h3>Awards Search</h3>
+                <form method="GET" action="forms.html" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="award-year">Year:</label>
+                            <input 
+                                type="number" 
+                                id="award-year" 
+                                name="year" 
+                                placeholder="2023"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="award-type">Award Type:</label>
+                            <select id="award-type" name="award_type">
+                                <option value="">All Awards</option>
+                                <option value="MVP">Most Valuable Player</option>
+                                <option value="CY">Cy Young Award</option>
+                                <option value="ROY">Rookie of the Year</option>
+                                <option value="AS">All-Star Selection</option>
+                                <option value="GG">Gold Glove</option>
+                                <option value="SS">Silver Slugger</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="award-country">Player Country:</label>
+                        <select id="award-country" name="country">
+                            <option value="">All Countries</option>
+                            <option value="USA">United States</option>
+                            <option value="DOM">Dominican Republic</option>
+                            <option value="VEN">Venezuela</option>
+                            <option value="PUR">Puerto Rico</option>
+                            <option value="JPN">Japan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Search Awards</button>
+                        <button type="reset" class="btn-secondary">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Current Filter Display -->
+            <div class="card">
+                <h3>Active Query Parameters</h3>
+                <p>Current URL query string parameters:</p>
+                <div id="query-display" class="code-block">
+                    <code id="query-string">No parameters yet - submit a form to see query string</code>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 MLB Baseball Impact Project - CS437</p>
+            <p>Form demonstration - GET method with query string parameters</p>
+        </div>
+    </footer>
+
+    <!-- Simple script to display query parameters -->
+    <script>
+        // Display current query string
+        const queryString = window.location.search;
+        const queryDisplay = document.getElementById('query-string');
+        
+        if (queryString) {
+            queryDisplay.textContent = decodeURIComponent(queryString);
+            
+            // Parse and display as a list
+            const params = new URLSearchParams(queryString);
+            const paramList = document.createElement('ul');
+            paramList.style.marginTop = '1rem';
+            paramList.style.listStyle = 'none';
+            
+            params.forEach((value, key) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${key}:</strong> ${value}`;
+                paramList.appendChild(li);
+            });
+            
+            queryDisplay.parentElement.appendChild(paramList);
+        }
+    </script>
+</body>
+</html>

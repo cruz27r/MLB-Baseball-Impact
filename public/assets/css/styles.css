@@ -1,0 +1,716 @@
+/**
+ * Diamond UI - Main Stylesheet
+ * 
+ * Styles for the interactive baseball diamond navigation with CSS-only zoom effects.
+ * Uses :target pseudo-class for zone expansion and content reveal.
+ * Responsive layout with Flexbox and Grid.
+ */
+
+/* ==========================================================================
+   Header and Footer
+   ========================================================================== */
+.site-header {
+    background: var(--panel);
+    border-bottom: 2px solid var(--fenway-green);
+    padding: var(--space-lg) 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--chalk-cream);
+    margin: 0;
+    font-weight: 700;
+}
+
+.site-subtitle {
+    color: var(--text-secondary);
+    margin: var(--space-xs) 0 0;
+    font-size: 1rem;
+}
+
+.site-footer {
+    background: var(--panel);
+    border-top: 2px solid var(--border);
+    padding: var(--space-xl) 0;
+    margin-top: var(--space-3xl);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.site-footer p {
+    margin: var(--space-xs) 0;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--fenway-green);
+    color: var(--chalk-cream);
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    z-index: 200;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ==========================================================================
+   Container and Layout
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+/* ==========================================================================
+   Diamond Section (Main Navigation)
+   ========================================================================== */
+.diamond-section {
+    padding: var(--space-3xl) 0;
+    min-height: 80vh;
+}
+
+.diamond-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-3xl);
+}
+
+.diamond-intro h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: var(--space-md);
+    color: var(--chalk-cream);
+}
+
+.diamond-intro p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Diamond Container - Field Layout
+   ========================================================================== */
+.diamond-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto var(--space-3xl);
+    padding: var(--space-3xl) var(--space-lg);
+    aspect-ratio: 1;
+}
+
+/* Infield diamond shape */
+.infield-diamond {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 55%;
+    height: 55%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: linear-gradient(135deg, 
+        rgba(14, 81, 53, 0.2) 0%, 
+        rgba(14, 81, 53, 0.05) 100%);
+    border: 3px solid rgba(14, 81, 53, 0.4);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+}
+
+/* Infield diamond baseline */
+.infield-diamond::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 90%;
+    transform: translate(-50%, -50%);
+    border: 2px dashed rgba(243, 239, 231, 0.3);
+    border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   Zone Buttons (Bases and Outfield)
+   ========================================================================== */
+.zone {
+    position: absolute;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    color: var(--chalk-cream);
+    min-width: 100px;
+    min-height: 100px;
+    z-index: 10;
+}
+
+.zone:hover,
+.zone:focus {
+    transform: translateY(-6px) scale(1.08);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--fenway-green);
+    background: var(--bg-elevated);
+    text-decoration: none;
+}
+
+.zone:focus-visible {
+    outline: 3px solid var(--fenway-green);
+    outline-offset: 4px;
+}
+
+.zone:active {
+    transform: translateY(-3px) scale(1.04);
+}
+
+/* Zone labels */
+.zone-label {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background: var(--fenway-green);
+    color: var(--chalk-cream);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: var(--space-sm);
+    transition: all var(--transition-base);
+}
+
+.zone:hover .zone-label,
+.zone:focus .zone-label {
+    background: var(--ok);
+    transform: scale(1.15);
+}
+
+.zone-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   Infield Zone Positions (Bases)
+   ========================================================================== */
+.zone-home {
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--accent-red) 0%, #8a1a25 100%);
+    border-color: var(--accent-red);
+}
+
+.zone-home:hover,
+.zone-home:focus {
+    background: linear-gradient(135deg, #c82f3d 0%, var(--accent-red) 100%);
+    border-color: #c82f3d;
+}
+
+.zone-home .zone-label {
+    background: var(--chalk-cream);
+    color: var(--accent-red);
+}
+
+.zone-1b {
+    top: 50%;
+    right: 15%;
+    transform: translateY(-50%);
+}
+
+.zone-2b {
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.zone-3b {
+    top: 50%;
+    left: 15%;
+    transform: translateY(-50%);
+}
+
+/* ==========================================================================
+   Outfield Zone Positions
+   ========================================================================== */
+.zone-lf {
+    top: 10%;
+    left: 5%;
+}
+
+.zone-cf {
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.zone-rf {
+    top: 10%;
+    right: 5%;
+}
+
+/* ==========================================================================
+   Legend
+   ========================================================================== */
+.legend {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-top: var(--space-2xl);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.legend h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-md);
+    color: var(--chalk-cream);
+}
+
+.legend ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.legend li {
+    padding: var(--space-sm) 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.legend strong {
+    color: var(--chalk-cream);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Data Panels (Content revealed via :target)
+   ========================================================================== */
+.data-panel {
+    display: none;
+    padding: var(--space-3xl) 0;
+    min-height: 100vh;
+    background: var(--bg);
+}
+
+.data-panel:target {
+    display: block;
+    animation: fadeIn var(--transition-base);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hide diamond section when any panel is active */
+.diamond-section:has(~ .data-panel:target) {
+    display: none;
+}
+
+/* Panel header */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.panel-header h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--chalk-cream);
+    margin: 0;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--chalk-cream);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-base);
+}
+
+.back-link:hover,
+.back-link:focus {
+    background: var(--fenway-green);
+    border-color: var(--fenway-green);
+    transform: translateX(-4px);
+}
+
+/* Panel content area */
+.panel-content {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--border);
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--chalk-cream);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--chalk-cream);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--fenway-green);
+    box-shadow: 0 0 0 3px rgba(14, 81, 53, 0.2);
+}
+
+.form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.btn-primary {
+    padding: var(--space-sm) var(--space-xl);
+    background: var(--fenway-green);
+    color: var(--chalk-cream);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--ok);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    padding: var(--space-sm) var(--space-xl);
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    border-color: var(--text-secondary);
+    color: var(--chalk-cream);
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-lg);
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.data-table caption {
+    caption-side: top;
+    padding: var(--space-md);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--chalk-cream);
+    text-align: left;
+}
+
+.data-table thead {
+    background: var(--fenway-green);
+}
+
+.data-table th {
+    padding: var(--space-md);
+    text-align: left;
+    color: var(--chalk-cream);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table td {
+    padding: var(--space-md);
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+/* Row striping */
+.data-table tbody tr:nth-child(even) {
+    background: rgba(14, 81, 53, 0.05);
+}
+
+.data-table tbody tr:hover {
+    background: rgba(14, 81, 53, 0.15);
+}
+
+/* ==========================================================================
+   Cards (for additional content)
+   ========================================================================== */
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    color: var(--chalk-cream);
+    margin-bottom: var(--space-md);
+}
+
+.card p,
+.card li {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.card strong {
+    color: var(--chalk-cream);
+}
+
+.lead {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+@media (max-width: 768px) {
+    .diamond-container {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
+    .zone {
+        min-width: 80px;
+        min-height: 80px;
+        padding: var(--space-sm);
+    }
+
+    .zone-label {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        font-size: 1rem;
+    }
+
+    .zone-title {
+        font-size: 0.75rem;
+    }
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-form {
+        flex-direction: column;
+    }
+
+    .form-group {
+        min-width: 100%;
+    }
+
+    .data-table {
+        font-size: 0.875rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .zone {
+        min-width: 60px;
+        min-height: 60px;
+    }
+
+    .zone-label {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 0.875rem;
+    }
+
+    .zone-title {
+        font-size: 0.625rem;
+    }
+
+    /* Stack table for mobile */
+    .data-table thead {
+        display: none;
+    }
+
+    .data-table,
+    .data-table tbody,
+    .data-table tr,
+    .data-table td {
+        display: block;
+    }
+
+    .data-table tr {
+        margin-bottom: var(--space-lg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+    }
+
+    .data-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-top: 1px solid var(--border);
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: var(--space-md);
+        font-weight: 600;
+        color: var(--chalk-cream);
+    }
+}
+
+/* ==========================================================================
+   Form Pages Specific Styles
+   ========================================================================== */
+.search-form {
+    background: var(--bg-elevated);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.form-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.form-help {
+    display: block;
+    margin-top: var(--space-xs);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+}
+
+.filter-info {
+    background: var(--panel);
+    border-left: 4px solid var(--fenway-green);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-xl);
+    border-radius: var(--radius-sm);
+}
+
+.filter-info ul {
+    margin-top: var(--space-sm);
+    color: var(--text-secondary);
+}
+
+.code-block {
+    background: var(--bg);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-top: var(--space-md);
+}
+
+.code-block code {
+    color: var(--ok);
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+}
+
+/* Ensure proper accessibility for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
