@@ -258,6 +258,10 @@ MLB_DB_PASS=secure_password   # database password
 
 2. **Load sample data:**
    ```bash
+   # Verify database exists first
+   mysql -u root -p -e "SHOW DATABASES LIKE 'mlb';"
+   
+   # Load the data warehouse schema
    mysql -u root -p mlb < sql_mysql/04_build_dw.sql
    ```
 
@@ -311,13 +315,20 @@ Create `public/health.php`:
 require_once __DIR__ . '/../app/db.php';
 header('Content-Type: application/json');
 
-$health = [
-    'status' => 'ok',
-    'timestamp' => date('c'),
-    'database' => Db::isConnected() ? 'connected' : 'disconnected'
-];
-
-echo json_encode($health);
+try {
+    $health = [
+        'status' => 'ok',
+        'timestamp' => date('c'),
+        'database' => Db::isConnected() ? 'connected' : 'disconnected'
+    ];
+    echo json_encode($health);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Health check failed'
+    ]);
+}
 ```
 
 ### Monitor with Uptime Robot
