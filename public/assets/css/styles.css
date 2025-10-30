@@ -73,23 +73,68 @@
 }
 
 /* ==========================================================================
-   Diamond Section (Main Navigation)
+   Diamond Section (Main Navigation) - Stadium Atmosphere
    ========================================================================== */
 .diamond-section {
     padding: var(--space-3xl) 0;
     min-height: 80vh;
+    background: 
+        radial-gradient(ellipse at center top, 
+            rgba(26, 58, 92, 0.6) 0%,
+            rgba(12, 35, 64, 0.9) 50%,
+            rgba(8, 25, 45, 1) 100%);
+    position: relative;
+}
+
+/* Stadium lights effect */
+.diamond-section::after {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 30%,
+        transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: stadium-glow 4s ease-in-out infinite;
+}
+
+@keyframes stadium-glow {
+    0%, 100% {
+        opacity: 0.4;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .diamond-section::after {
+        animation: none;
+        opacity: 0.5;
+    }
 }
 
 .diamond-intro {
     text-align: center;
     max-width: 700px;
     margin: 0 auto var(--space-3xl);
+    position: relative;
+    z-index: 1;
 }
 
 .diamond-intro h2 {
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     margin-bottom: var(--space-md);
     color: var(--chalk-cream);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .diamond-intro p {
@@ -99,22 +144,79 @@
 }
 
 /* ==========================================================================
-   Diamond Container - Fenway Park Field Layout
+   Diamond Container - Fenway Park Field Layout with Stadium
    ========================================================================== */
 .diamond-container {
     position: relative;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto var(--space-3xl);
-    padding: var(--space-3xl) var(--space-lg);
+    padding: var(--space-2xl) var(--space-lg);
     aspect-ratio: 1;
-    background: radial-gradient(circle at center, 
-        rgba(14, 81, 53, 0.15) 0%,
-        rgba(0, 103, 71, 0.08) 50%,
-        rgba(12, 35, 64, 0.3) 100%);
+    /* Bright green grass field */
+    background: radial-gradient(ellipse at 50% 70%, 
+        #1a7e44 0%,
+        #167a3f 30%,
+        #0e5135 70%,
+        #0a3d28 100%);
+    border-radius: var(--radius-lg);
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.4),
+                0 10px 40px rgba(0, 0, 0, 0.5);
+    overflow: visible;
 }
 
-/* Outfield grass background */
+/* Stadium seating/stands border */
 .diamond-container::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: 
+        linear-gradient(135deg, 
+            rgba(12, 35, 64, 0.95) 0%,
+            rgba(20, 48, 77, 0.9) 50%,
+            rgba(12, 35, 64, 0.95) 100%);
+    border-radius: calc(var(--radius-lg) + 8px);
+    z-index: -1;
+    box-shadow: 
+        0 0 0 3px rgba(189, 48, 57, 0.6),
+        0 0 0 6px rgba(12, 35, 64, 1),
+        inset 0 0 20px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+/* Stadium seats pattern */
+.diamond-container::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 3px,
+            rgba(189, 48, 57, 0.2) 3px,
+            rgba(189, 48, 57, 0.2) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(255, 255, 255, 0.05) 8px,
+            rgba(255, 255, 255, 0.05) 9px
+        );
+    border-radius: calc(var(--radius-lg) + 8px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Grass mowing pattern - more visible stripes */
+.diamond-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -123,17 +225,33 @@
     bottom: 0;
     background: repeating-linear-gradient(
         90deg,
-        rgba(14, 81, 53, 0.1) 0px,
-        rgba(14, 81, 53, 0.1) 40px,
-        rgba(0, 103, 71, 0.15) 40px,
-        rgba(0, 103, 71, 0.15) 80px
+        rgba(255, 255, 255, 0.03) 0px,
+        rgba(255, 255, 255, 0.03) 35px,
+        rgba(0, 0, 0, 0.08) 35px,
+        rgba(0, 0, 0, 0.08) 70px
     );
-    opacity: 0.3;
     pointer-events: none;
+    z-index: 0;
     border-radius: var(--radius-lg);
 }
 
-/* Infield diamond shape - Clay/dirt infield */
+/* Warning track around the field */
+.diamond-grid::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(135deg, 
+        rgba(196, 165, 123, 0.3) 0%, 
+        rgba(180, 140, 100, 0.3) 100%);
+    border-radius: calc(var(--radius-lg) + 4px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Infield diamond shape - Clay/dirt infield with richer color */
 .infield-diamond {
     position: absolute;
     top: 50%;
@@ -141,17 +259,20 @@
     width: 55%;
     height: 55%;
     transform: translate(-50%, -50%) rotate(45deg);
-    background: linear-gradient(135deg, 
-        rgba(184, 149, 106, 0.4) 0%, 
-        rgba(196, 165, 123, 0.3) 50%,
-        rgba(184, 149, 106, 0.4) 100%);
-    border: 3px solid rgba(255, 255, 255, 0.6);
+    background: 
+        radial-gradient(circle at 30% 30%, 
+            rgba(210, 180, 140, 0.6) 0%,
+            rgba(184, 149, 106, 0.7) 40%,
+            rgba(160, 120, 80, 0.6) 100%);
+    border: 3px solid rgba(255, 255, 255, 0.9);
     border-radius: var(--radius-md);
     pointer-events: none;
-    box-shadow: inset 0 0 30px rgba(184, 149, 106, 0.2);
+    box-shadow: 
+        inset 0 0 40px rgba(139, 90, 43, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Infield diamond baseline - chalk lines */
+/* Infield diamond baseline - bright white chalk lines */
 .infield-diamond::before {
     content: '';
     position: absolute;
@@ -160,8 +281,9 @@
     width: 90%;
     height: 90%;
     transform: translate(-50%, -50%);
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: 3px solid rgba(255, 255, 255, 0.95);
     border-radius: var(--radius-sm);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 /* Pitcher's mound indicator */
@@ -172,7 +294,8 @@
     left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
     font-size: 1.5rem;
-    opacity: 0.4;
+    opacity: 0.5;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 /* ==========================================================================
@@ -310,49 +433,102 @@
 /* ==========================================================================
    Outfield Zone Positions - Fenway Park Layout
    ========================================================================== */
-/* Left Field - The Green Monster! */
+/* Left Field - The Green Monster Wall! */
 .zone-lf {
     top: 10%;
     left: 5%;
-    background: var(--green-monster);
-    border: 3px solid var(--fenway-green);
+    background: 
+        linear-gradient(180deg, 
+            rgba(0, 80, 50, 0.3) 0%,
+            var(--green-monster) 10%,
+            var(--green-monster) 90%,
+            rgba(0, 60, 40, 0.8) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(0, 0, 0, 0.1) 8px,
+            rgba(0, 0, 0, 0.1) 9px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 15px,
+            rgba(0, 0, 0, 0.08) 15px,
+            rgba(0, 0, 0, 0.08) 16px
+        );
+    border: 4px solid rgba(0, 80, 50, 0.9);
     position: relative;
-    min-height: 120px;
+    min-height: 140px;
+    min-width: 120px;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Scoreboard on Green Monster */
 .zone-lf::before {
-    content: '🟢';
+    content: '';
     position: absolute;
-    top: -25px;
+    top: 8px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.5rem;
-    opacity: 0.8;
+    width: 80%;
+    height: 25px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #333;
+    border-radius: 3px;
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 .zone-lf::after {
     content: 'GREEN MONSTER';
     position: absolute;
-    bottom: -20px;
+    bottom: -22px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.625rem;
     color: var(--fenway-green);
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .zone-lf:hover,
 .zone-lf:focus {
-    background: #008855;
+    background: 
+        linear-gradient(180deg, 
+            rgba(0, 100, 60, 0.3) 0%,
+            #008855 10%,
+            #008855 90%,
+            rgba(0, 80, 50, 0.8) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(0, 0, 0, 0.1) 8px,
+            rgba(0, 0, 0, 0.1) 9px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 15px,
+            rgba(0, 0, 0, 0.08) 15px,
+            rgba(0, 0, 0, 0.08) 16px
+        );
     border-color: var(--ok);
-    box-shadow: 0 0 20px rgba(0, 103, 71, 0.5);
+    box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.3),
+        0 0 25px rgba(0, 136, 85, 0.6);
 }
 
 .zone-lf .zone-label {
     background: var(--chalk-cream);
     color: var(--green-monster);
+    border: 2px solid var(--green-monster);
 }
 
 /* Center Field */
