@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB Baseball Impact Analytics</title>
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+    
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="site-title">⚾ MLB Baseball Impact</h1>
+                    <span class="tagline">Global Player Analytics Platform</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="#overview" class="nav-link active">Overview</a>
+                    <a href="#analytics" class="nav-link">Analytics</a>
+                    <a href="#data-upload" class="nav-link">Upload Data</a>
+                    <a href="people.html" class="nav-link">Players</a>
+                    <a href="forms.html" class="nav-link">Search</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="dashboard-main">
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container-fluid">
+                <div class="hero-content">
+                    <h2 class="hero-title">Analyzing the Global Impact of MLB Players</h2>
+                    <p class="hero-description">Comprehensive data analytics platform exploring how international players have transformed Major League Baseball</p>
+                    <div class="hero-actions">
+                        <a href="#analytics" class="btn btn-primary">Explore Analytics</a>
+                        <a href="#data-upload" class="btn btn-secondary">Upload Data</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Overview Cards -->
+        <section class="stats-section">
+            <div class="container-fluid">
+                <div class="stats-grid">
+                    <div class="stat-card card-animate">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" data-count="10000">0</div>
+                        <div class="stat-label">Total Players</div>
+                        <div class="stat-trend positive">+12% this season</div>
+                    </div>
+                    <div class="stat-card card-animate">
+                        <div class="stat-icon">🌍</div>
+                        <div class="stat-value" data-count="45">0</div>
+                        <div class="stat-label">Countries Represented</div>
+                        <div class="stat-trend positive">+3 countries</div>
+                    </div>
+                    <div class="stat-card card-animate">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value" data-count="250">0</div>
+                        <div class="stat-label">International MVPs</div>
+                        <div class="stat-trend neutral">All-time</div>
+                    </div>
+                    <div class="stat-card card-animate">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-value" data-count="35">0</div>
+                        <div class="stat-label">% Foreign Born</div>
+                        <div class="stat-trend positive">+8% since 2000</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Dashboard -->
+        <section id="analytics" class="analytics-section">
+            <div class="container-fluid">
+                <h2 class="section-title">Performance Analytics</h2>
+                <div class="analytics-grid">
+                    
+                    <!-- Chart Card 1 -->
+                    <div class="chart-card card-hover">
+                        <div class="card-header">
+                            <h3>Player Distribution by Country</h3>
+                            <button class="btn-icon" aria-label="More options">⋮</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-placeholder">
+                                <div class="chart-bar" style="height: 80%; --bar-color: var(--redsox-red);">
+                                    <span class="bar-label">USA</span>
+                                    <span class="bar-value">6,500</span>
+                                </div>
+                                <div class="chart-bar" style="height: 40%; --bar-color: var(--green-monster);">
+                                    <span class="bar-label">DR</span>
+                                    <span class="bar-value">1,200</span>
+                                </div>
+                                <div class="chart-bar" style="height: 25%; --bar-color: var(--redsox-red);">
+                                    <span class="bar-label">VEN</span>
+                                    <span class="bar-value">800</span>
+                                </div>
+                                <div class="chart-bar" style="height: 20%; --bar-color: var(--green-monster);">
+                                    <span class="bar-label">PR</span>
+                                    <span class="bar-value">600</span>
+                                </div>
+                                <div class="chart-bar" style="height: 15%; --bar-color: var(--redsox-red);">
+                                    <span class="bar-label">JP</span>
+                                    <span class="bar-value">450</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Card 2 -->
+                    <div class="chart-card card-hover">
+                        <div class="card-header">
+                            <h3>Awards by Region</h3>
+                            <button class="btn-icon" aria-label="More options">⋮</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="metric-list">
+                                <div class="metric-item">
+                                    <span class="metric-label">MVP Awards</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 75%; background: var(--redsox-red);"></div>
+                                    </div>
+                                    <span class="metric-value">185</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Cy Young</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 60%; background: var(--green-monster);"></div>
+                                    </div>
+                                    <span class="metric-value">142</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Rookie of the Year</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 45%; background: var(--redsox-red);"></div>
+                                    </div>
+                                    <span class="metric-value">98</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">All-Star</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 85%; background: var(--green-monster);"></div>
+                                    </div>
+                                    <span class="metric-value">1,250</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="chart-card card-hover">
+                        <div class="card-header">
+                            <h3>Recent Data Updates</h3>
+                            <button class="btn-icon" aria-label="More options">⋮</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--redsox-red);">📊</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">2023 Season Stats Updated</div>
+                                        <div class="activity-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--green-monster);">🏆</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">New MVP Data Added</div>
+                                        <div class="activity-time">5 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--redsox-red);">👤</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">45 Player Records Updated</div>
+                                        <div class="activity-time">1 day ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Upload Section -->
+        <section id="data-upload" class="upload-section">
+            <div class="container-fluid">
+                <h2 class="section-title">Upload Baseball Data</h2>
+                <div class="upload-container">
+                    
+                    <div class="upload-card">
+                        <div class="upload-area" id="dropZone">
+                            <div class="upload-icon">📁</div>
+                            <h3>Drag & Drop Files Here</h3>
+                            <p>or click to browse</p>
+                            <input type="file" id="fileInput" accept=".csv,.xlsx,.json" multiple hidden>
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                Select Files
+                            </button>
+                            <div class="upload-info">
+                                <p>Supported formats: CSV, XLSX, JSON</p>
+                                <p>Maximum file size: 50MB</p>
+                            </div>
+                        </div>
+
+                        <div class="upload-form">
+                            <h3>Data Upload Options</h3>
+                            <form id="uploadForm" class="data-form">
+                                <div class="form-group">
+                                    <label for="dataType">Data Type</label>
+                                    <select id="dataType" name="dataType" required>
+                                        <option value="">Select data type...</option>
+                                        <option value="players">Player Information</option>
+                                        <option value="batting">Batting Statistics</option>
+                                        <option value="pitching">Pitching Statistics</option>
+                                        <option value="fielding">Fielding Statistics</option>
+                                        <option value="awards">Awards & Honors</option>
+                                        <option value="teams">Team Data</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="season">Season</label>
+                                    <input type="number" id="season" name="season" min="1871" max="2024" value="2023" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea id="description" name="description" rows="3" placeholder="Brief description of the data being uploaded..."></textarea>
+                                </div>
+
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" name="validateData" checked>
+                                        <span>Validate data before import</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="overwriteExisting">
+                                        <span>Overwrite existing records</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="btn-text">Upload to Database</span>
+                                        <span class="btn-loader" style="display: none;">⏳</span>
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary">Clear</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Upload History -->
+                    <div class="upload-history">
+                        <h3>Recent Uploads</h3>
+                        <div class="history-list">
+                            <div class="history-item">
+                                <div class="history-icon success">✓</div>
+                                <div class="history-content">
+                                    <div class="history-title">batting_stats_2023.csv</div>
+                                    <div class="history-meta">1,250 records • 2 hours ago</div>
+                                </div>
+                                <div class="history-status">Success</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-icon success">✓</div>
+                                <div class="history-content">
+                                    <div class="history-title">player_awards_2023.json</div>
+                                    <div class="history-meta">85 records • 1 day ago</div>
+                                </div>
+                                <div class="history-status">Success</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-icon error">✗</div>
+                                <div class="history-content">
+                                    <div class="history-title">pitching_data.xlsx</div>
+                                    <div class="history-meta">Failed validation • 2 days ago</div>
+                                </div>
+                                <div class="history-status error">Error</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container-fluid">
+            <p>&copy; 2024 MLB Baseball Impact Project - CS437</p>
+            <p>Data from SABR Lahman Database, Retrosheet, and Baseball-Reference</p>
+        </div>
+    </footer>
+
+    <!-- Scripts for animations -->
+    <script>
+        // Counter animation for stat cards
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 16);
+            });
+        }
+
+        // Trigger animations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card-animate, .card-hover').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Drag and drop file upload
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('drag-over');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('drag-over');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            console.log('Files selected:', files);
+            // Show file preview (implementation would go here)
+        }
+
+        // Form submission with loading state
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoader = btn.querySelector('.btn-loader');
+            
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            btn.disabled = true;
+
+            // Simulate upload (replace with actual API call)
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
+            btn.disabled = false;
+            
+            alert('Data uploaded successfully!');
+        });
+
+        // Initialize animations when page loads
+        window.addEventListener('load', () => {
+            animateCounters();
+        });
+    </script>
+
+</body>
+</html>
