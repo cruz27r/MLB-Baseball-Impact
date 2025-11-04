@@ -31,7 +31,6 @@
                     <li><a href="/index.php">Home</a></li>
                     <li><a href="/datasets.php">Datasets</a></li>
                     <li><a href="/reports/final.php">Final Report</a></li>
-                    <li><a href="/ml/compare.php">ML Analysis</a></li>
                 </ul>
             </nav>
         </div>
