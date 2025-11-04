@@ -4,6 +4,109 @@
 
 Analyzing the impact of foreign players on Major League Baseball through comprehensive data analysis and visualization.
 
+## Class-Compliant Analytics Portal
+
+This project includes a **class-compliant data analytics website** that follows the taught structure with semantic HTML/CSS, PHP/mysqli integration, SQL queries, descriptive statistics, and machine learning.
+
+### Quick Start (Analytics Portal)
+
+```bash
+# From the project root directory
+cd public
+php -S localhost:8080
+
+# Open in browser
+# http://localhost:8080/
+```
+
+**Database Configuration:**
+
+The portal uses these default database credentials (can be overridden with environment variables):
+
+```bash
+DB_HOST=127.0.0.1
+DB_USER=rafacruz
+DB_PASS=Ricky072701
+DB_NAME=mlb_impact
+```
+
+To use different credentials, set environment variables before starting the server:
+
+```bash
+export MLB_DB_HOST=127.0.0.1
+export MLB_DB_USER=root
+export MLB_DB_PASS=Ricky072701
+export MLB_DB_NAME=mlb_impact
+```
+
+**Note:** The user can be `root` with the same password for full privileges.
+
+### Portal Features (L1-L13 Compliant)
+
+**Pages:**
+- `/index.php` - Landing page with navigation
+- `/datasets.php` - List of available datasets
+- `/datasets/view.php?table=...` - Dataset viewer with filters and stats
+- `/reports/final.php` - Final report with executive summary
+- `/ml/compare.php` - K-means clustering analysis
+
+**Technical Features:**
+- ✅ **Semantic HTML/CSS** (L1-L6): Accessible forms, tables, responsive Grid/Flex
+- ✅ **mysqli Integration** (L11): Prepared statements, mysqli_connect/close
+- ✅ **SQL Features** (L11): WHERE, ORDER BY, GROUP BY, HAVING, JOINs, pagination
+- ✅ **Descriptive Statistics** (L12): Count, min, max, mean, std dev, distributions
+- ✅ **ML Module** (L13): K-means clustering with SSE/elbow analysis
+- ✅ **Forms**: GET (shareable URLs) and POST methods with proper labels
+- ✅ **CSV Export**: Download filtered datasets
+- ✅ **Data Cleaning**: NULL handling, regex validation, outlier detection
+
+### SQL Features Demonstrated
+
+**WHERE with IS NULL:**
+```sql
+WHERE year_id >= 1990 AND birth_country IS NOT NULL
+```
+
+**ORDER BY with pagination:**
+```sql
+ORDER BY year_id DESC LIMIT 50 OFFSET 0
+```
+
+**GROUP BY with HAVING:**
+```sql
+SELECT birth_country, COUNT(*) as count
+FROM dw_player_origin
+GROUP BY birth_country
+HAVING COUNT(*) >= 10
+```
+
+**JOINs:**
+```sql
+SELECT a.year_id, o.origin, COUNT(*)
+FROM staging_appearances a
+JOIN dw_player_origin o ON o.retro_id = a.retro_id
+GROUP BY a.year_id, o.origin
+```
+
+### Data Cleaning Documentation
+
+The analytics portal handles data quality issues:
+
+1. **Missing Values:**
+   - Empty birth_country → 'Unknown'
+   - NULL player IDs are filtered out
+   - Numeric fields validated with REGEXP before calculations
+
+2. **Standardization:**
+   - Country names normalized (USA, United States → USA)
+   - Year values validated (must be 4 digits)
+   - Whitespace trimmed from text fields
+
+3. **Outliers:**
+   - Statistical calculations only include validated numeric columns
+   - Extreme values are visible in min/max stats
+   - User can filter/sort to investigate outliers
+
 ## Project Overview
 
 This project explores how international players have transformed Major League Baseball by examining:
