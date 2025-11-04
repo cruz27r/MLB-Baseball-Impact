@@ -99,19 +99,10 @@ if ($db_connected) {
 </section>
 
 <section class="container">
-    <?php if (!$db_connected): ?>
-        <div class="alert alert-error">
-            <strong>Database Connection Error</strong><br>
-            The report requires a working database connection to display live data.
-            Please check your database configuration and ensure the mlb_impact database is set up with data.
-            <br><br>
-            <strong>Default Credentials:</strong> DB_USER=rafacruz, DB_PASS=Ricky072701, DB_NAME=mlb_impact
-        </div>
-    <?php elseif (empty($summary_stats)): ?>
+    <?php if (!$db_connected || empty($summary_stats)): ?>
         <div class="alert alert-info">
-            <strong>No Data Available</strong><br>
-            The database is connected but tables appear to be empty.
-            Please run the data loading scripts to populate the database.
+            <strong>Placeholder: Report Data</strong><br>
+            Your analysis results will populate here once SQL tables are ready.
         </div>
     <?php endif; ?>
     

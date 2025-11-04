@@ -36,15 +36,18 @@ require __DIR__ . '/includes/header.php';
     <div class="card">
         <h2>About This Project</h2>
         <p>
-            This analytics portal demonstrates class-compliant data analysis techniques using:
+            Class-compliant data analytics portal with SQL connections configured.
         </p>
         <ul style="line-height: 2; margin-left: 2rem;">
-            <li><strong>Semantic HTML/CSS:</strong> Accessible forms, tables, and responsive design</li>
-            <li><strong>PHP with mysqli:</strong> Prepared statements, pagination, and query optimization</li>
-            <li><strong>SQL Features:</strong> WHERE, ORDER BY, GROUP BY, HAVING, and JOINs</li>
-            <li><strong>Descriptive Statistics:</strong> Mean, median, std dev, histograms</li>
-            <li><strong>Machine Learning:</strong> K-means clustering with SSE/elbow analysis</li>
+            <li><strong>Semantic HTML/CSS:</strong> Responsive design ready</li>
+            <li><strong>PHP with mysqli:</strong> Connection configured (rafacruz/mlb_impact)</li>
+            <li><strong>SQL Features:</strong> Queries ready for WHERE, ORDER BY, GROUP BY, HAVING, JOINs</li>
+            <li><strong>Descriptive Statistics:</strong> Calculations ready for mean, median, std dev</li>
+            <li><strong>Machine Learning:</strong> K-means clustering structure in place</li>
         </ul>
+        <p style="margin-top: 1rem; padding: 1rem; background: rgba(44, 95, 45, 0.1); border-radius: 4px;">
+            <strong>Ready for Data:</strong> Add your SQL tables to mlb_impact database to populate the pages.
+        </p>
     </div>
 </section>
 

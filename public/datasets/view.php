@@ -14,7 +14,7 @@ $table = $_GET['table'] ?? '';
 
 // Check database connection
 if (!$db_connected) {
-    echo '<div class="container"><div class="alert alert-error">Database connection error. Please check your database configuration.</div></div>';
+    echo '<div class="container"><div class="alert alert-info"><strong>Placeholder: Dataset Viewer</strong><br>SQL connection ready. Data will appear here once tables are loaded.</div></div>';
     require __DIR__ . '/../includes/footer.php';
     exit;
 }

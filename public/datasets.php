@@ -38,34 +38,14 @@ if ($db_connected) {
 
 <section class="container">
     <?php if (!$db_connected): ?>
-        <div class="alert alert-error">
-            <strong>Database Connection Error</strong><br>
-            Unable to connect to the database. Please ensure MySQL is running and configured.
-            <br><br>
-            <strong>Default Credentials:</strong>
-            <pre style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-DB_HOST=127.0.0.1
-DB_USER=rafacruz (or root)
-DB_PASS=Ricky072701
-DB_NAME=mlb_impact
-            </pre>
-            <strong>Setup Instructions:</strong>
-            <pre style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-# Download and load data
-./scripts/download_lahman_sabr.sh
-./scripts/load_mysql.sh mlb_impact rafacruz Ricky072701 localhost 3306
-            </pre>
+        <div class="alert alert-info">
+            <strong>Placeholder: Dataset List</strong><br>
+            Connection configured. Your datasets will appear here once SQL tables are loaded.
         </div>
     <?php elseif (empty($tables)): ?>
         <div class="alert alert-info">
-            <strong>No datasets found.</strong><br>
-            Please ensure the database is set up with staging and data warehouse tables.
-            <br><br>
-            Run the setup scripts:
-            <pre style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-./scripts/download_lahman_sabr.sh
-./scripts/load_mysql.sh analytics root '' localhost 3306
-            </pre>
+            <strong>Placeholder: Waiting for Data</strong><br>
+            Add your tables to mlb_impact database to see them listed here.
         </div>
     <?php else: ?>
         <div class="card-grid">

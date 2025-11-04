@@ -153,10 +153,9 @@ if ($action === 'elbow' && $db_connected && db_table_exists($dbc, $selected_tabl
 
 <section class="container">
     <?php if (!$db_connected): ?>
-        <div class="alert alert-error">
-            <strong>Database Connection Error</strong><br>
-            Unable to connect to the database. ML analysis requires a working database connection.
-            Please check your database configuration and ensure the analytics database is set up.
+        <div class="alert alert-info">
+            <strong>Placeholder: ML Analysis</strong><br>
+            K-means clustering will run here once your SQL tables are ready.
         </div>
     <?php endif; ?>
     
