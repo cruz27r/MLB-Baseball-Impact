@@ -38,7 +38,7 @@ require __DIR__ . '/includes/header.php';
             The question we explore: <strong>Despite MLB being a USA-run company, is the sport's success and impact most driven by foreign-born players?</strong>
         </p>
         <p style="margin-top: 1rem;">
-            Recent evidence speaks volumes. Just days ago, the Los Angeles Dodgers captured another World Series championship, powered significantly by international talent. <strong>Shohei Ohtani</strong>, the two-way superstar from Japan, and the World Series MVP pitcher <strong>Yoshinobu Yamamoto</strong>, also from Japan, were instrumental in bringing the trophy home. Their performances exemplify how foreign-born players are not just participating—they're leading, dominating, and redefining what excellence looks like in Major League Baseball.
+            Recent evidence speaks volumes. Just days ago, the Los Angeles Dodgers captured another World Series championship, powered significantly by international talent. <strong>Shohei Ohtani</strong>, the two-way superstar from Japan, and <strong>Yoshinobu Yamamoto</strong>, the elite starting pitcher also from Japan, were instrumental in bringing the trophy home. Their performances exemplify how foreign-born players are not just participating—they're leading, dominating, and redefining what excellence looks like in Major League Baseball.
         </p>
         <p style="margin-top: 1rem;">
             This analysis examines decades of data to understand the true scope of foreign players' contributions to MLB's success, from everyday roster composition to championship-winning performances.
