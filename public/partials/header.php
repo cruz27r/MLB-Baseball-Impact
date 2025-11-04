@@ -37,12 +37,8 @@
                 <nav class="main-nav" aria-label="Main navigation">
                     <ul>
                         <li><a href="/index.php">Home</a></li>
-                        <li><a href="/players.php">Players</a></li>
-                        <li><a href="/performance.php">Performance</a></li>
-                        <li><a href="/awards.php">Awards</a></li>
-                        <li><a href="/championships.php">Championships</a></li>
-                        <li><a href="/salaries.php">Salaries</a></li>
-                        <li><a href="/conclusion.php">Conclusion</a></li>
+                        <li><a href="/datasets.php">Datasets</a></li>
+                        <li><a href="/reports/final.php">Final Report</a></li>
                     </ul>
                 </nav>
             </div>
