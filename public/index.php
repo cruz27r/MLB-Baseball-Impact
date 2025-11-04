@@ -45,7 +45,7 @@ require __DIR__ . '/includes/header.php';
             <li><strong>Descriptive Statistics:</strong> Calculations ready for mean, median, std dev</li>
             <li><strong>Machine Learning:</strong> K-means clustering structure in place</li>
         </ul>
-        <p style="margin-top: 1rem; padding: 1rem; background: rgba(44, 95, 45, 0.1); border-radius: 4px;">
+        <p style="margin-top: 1rem; padding: 1rem; background: rgba(220, 20, 60, 0.1); border-radius: 4px; border-left: 4px solid var(--color-secondary);">
             <strong>Ready for Data:</strong> Add your SQL tables to mlb_impact database to populate the pages.
         </p>
     </div>
