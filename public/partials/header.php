@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : ''; ?>MLB Baseball Impact</title>
+    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : ''; ?>Foreign players in the MLB</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -27,7 +27,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="site-title">
-                    <a href="/index.php">⚾ MLB Baseball Impact</a>
+                    <a href="/index.php">⚾ Foreign players in the MLB</a>
                 </div>
                 
                 <button class="mobile-menu-toggle" aria-expanded="false" aria-label="Toggle navigation menu">

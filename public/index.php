@@ -10,8 +10,8 @@ require __DIR__ . '/includes/header.php';
 
 <section class="hero">
     <div class="container">
-        <h1>Analytics Portal</h1>
-        <p class="lead">Explore datasets, run filters, view descriptive statistics, and generate final reports.</p>
+        <h1>Foreign players in the MLB</h1>
+        <p class="lead">Are the foreign born players the most impactful?</p>
     </div>
 </section>
 
@@ -25,28 +25,23 @@ require __DIR__ . '/includes/header.php';
             <h2>📄 View Final Report</h2>
             <p>Executive summary with methodology, key findings, and reproducible visualizations.</p>
         </a>
-        <a class="card" href="/ml/compare.php">
-            <h2>🤖 ML Analysis</h2>
-            <p>K-means clustering and machine learning insights on player performance data.</p>
-        </a>
     </nav>
 </section>
 
 <section class="container">
     <div class="card">
-        <h2>About This Project</h2>
+        <h2>The Global Impact on America's Pastime</h2>
         <p>
-            Class-compliant data analytics portal with SQL connections configured.
+            Major League Baseball has long been considered America's pastime, operated and managed by a USA-based organization. However, as time has progressed, the sport has evolved into a truly international phenomenon. Players from dozens of countries now compete at the highest level, bringing diverse skills, perspectives, and playing styles that have fundamentally transformed the game.
         </p>
-        <ul style="line-height: 2; margin-left: 2rem;">
-            <li><strong>Semantic HTML/CSS:</strong> Responsive design ready</li>
-            <li><strong>PHP with mysqli:</strong> Connection configured (rafacruz/mlb_impact)</li>
-            <li><strong>SQL Features:</strong> Queries ready for WHERE, ORDER BY, GROUP BY, HAVING, JOINs</li>
-            <li><strong>Descriptive Statistics:</strong> Calculations ready for mean, median, std dev</li>
-            <li><strong>Machine Learning:</strong> K-means clustering structure in place</li>
-        </ul>
-        <p style="margin-top: 1rem; padding: 1rem; background: rgba(220, 20, 60, 0.1); border-radius: 4px; border-left: 4px solid var(--color-secondary);">
-            <strong>Ready for Data:</strong> Add your SQL tables to mlb_impact database to populate the pages.
+        <p style="margin-top: 1rem;">
+            The question we explore: <strong>Despite MLB being a USA-run company, is the sport's success and impact most driven by foreign-born players?</strong>
+        </p>
+        <p style="margin-top: 1rem;">
+            Recent evidence speaks volumes. Just days ago, the Los Angeles Dodgers captured another World Series championship, powered significantly by international talent. <strong>Shohei Ohtani</strong>, the two-way superstar from Japan, and the World Series MVP pitcher, also from Japan, were instrumental in bringing the trophy home. Their performances exemplify how foreign-born players are not just participating—they're leading, dominating, and redefining what excellence looks like in Major League Baseball.
+        </p>
+        <p style="margin-top: 1rem;">
+            This analysis examines decades of data to understand the true scope of foreign players' contributions to MLB's success, from everyday roster composition to championship-winning performances.
         </p>
     </div>
 </section>

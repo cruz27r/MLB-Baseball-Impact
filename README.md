@@ -462,11 +462,12 @@ MLB-Baseball-Impact/
 ├── etl/                   # ETL pipeline
 │   ├── mlb_metrics_polars.py # Python ETL script using Polars
 │   └── ingest_bref_war.py     # Baseball-Reference WAR parser (NEW)
-├── scripts/               # Automation scripts
+├── scripts/               # Data download and database loading scripts
 │   ├── download_lahman_sabr.sh   # Download SABR Lahman data
 │   ├── download_retrosheet.sh    # Download Retrosheet data
-│   ├── download_bref_war.sh      # Download B-Ref WAR data
-│   └── load_mysql.sh             # Load data into MySQL database
+│   ├── download_bref_war.sh      # Download Baseball-Reference WAR data
+│   ├── load_mysql.sh             # Load data into MySQL database
+│   └── list_all_data_files.py    # Utility to list downloaded data files
 ├── sql_mysql/             # MySQL database schema and queries
 │   ├── 01_create_schemas.sql     # Schema and table definitions
 │   ├── 02_create_staging.sql     # Staging tables
@@ -475,6 +476,7 @@ MLB-Baseball-Impact/
 ├── app/                   # Database connection layer
 │   ├── db.php             # PDO database connection singleton
 │   └── MLBData.php        # Data access methods
+├── load_all_data.py       # Alternative Python-based data loader
 ├── mlb_out/               # Output directory (gitignored)
 ├── .gitignore             # Git ignore rules
 └── README.md              # This file
