@@ -25,32 +25,36 @@
    CSS Variables - Design Tokens
    ========================================================================== */
 :root {
-    /* Colors - Boston Red Sox & Fenway Park Palette */
-    --bg: #0C2340;              /* Red Sox Navy Blue (primary background) */
-    --panel: #14304d;           /* Slightly lighter navy for panels */
-    --redsox-red: #BD3039;      /* Official Red Sox Red */
-    --fenway-green: #0e5135;    /* Fenway Park Green Monster */
-    --green-monster: #006747;   /* Deep Green Monster green */
-    --infield-clay: #b8956a;    /* Warm infield dirt */
-    --warning-track: #c4a57b;   /* Warning track tan */
-    --chalk-cream: #ffffff;     /* Bright white chalk lines */
-    --muted: #7c8794;
-    --ok: #2e8751;
-    --warn: #c27b12;
-    
-    /* Extended palette */
-    --bg-elevated: #1a3a5c;     /* Elevated Red Sox navy */
-    --border: #BD3039;          /* Red Sox red for borders */
-    --text-primary: #ffffff;
-    --text-secondary: #c8d3e0;
-    --text-muted: #8899aa;
+    /* Modern Neutral Color Palette */
+    --bg: #ffffff;              /* White background */
+    --panel: #f8fafc;           /* Very light gray for panels */
+    --primary: #1e3a8a;         /* Navy blue accent */
+    --primary-light: #2563eb;   /* Lighter navy blue */
+    --primary-dark: #1e40af;    /* Darker navy blue */
+    --text-primary: #000000;    /* Black text */
+    --text-secondary: #475569;  /* Dark gray */
+    --text-muted: #64748b;      /* Medium gray */
+    --border: #e2e8f0;          /* Light gray border */
     
     /* Semantic colors */
-    --success: #2e8751;
-    --warning: #c27b12;
-    --error: #BD3039;           /* Red Sox red for errors */
-    --info: #2a5ea8;
-    --accent-red: #BD3039;      /* Red Sox red accent */
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --error: #dc2626;
+    --info: #2563eb;
+    --accent: #3b82f6;          /* Bright blue accent */
+    
+    /* Legacy color mappings for compatibility */
+    --redsox-red: var(--primary);
+    --fenway-green: var(--primary);
+    --green-monster: var(--primary-dark);
+    --infield-clay: var(--text-muted);
+    --warning-track: var(--warning);
+    --chalk-cream: var(--bg);
+    --muted: var(--text-muted);
+    --ok: var(--success);
+    --warn: var(--warning);
+    --bg-elevated: var(--panel);
+    --accent-red: var(--accent);
     
     /* Spacing scale */
     --space-xs: 0.25rem;
@@ -68,10 +72,10 @@
     --radius-xl: 16px;
     
     /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.6);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.1);
     
     /* Typography */
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -114,10 +118,6 @@ body {
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg);
-    background-image: 
-        radial-gradient(ellipse at top, rgba(14, 81, 53, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(178, 31, 45, 0.08) 0%, transparent 50%);
-    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -130,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    color: var(--chalk-cream);
+    color: var(--text-primary);
     margin-bottom: var(--space-md);
 }
 
@@ -167,18 +167,18 @@ p.lead {
 }
 
 a {
-    color: var(--fenway-green);
+    color: var(--primary);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
 a:hover {
-    color: var(--ok);
+    color: var(--primary-dark);
     text-decoration: underline;
 }
 
 a:focus-visible {
-    outline: 2px solid var(--fenway-green);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
 }
@@ -224,16 +224,16 @@ a:focus-visible {
    Header
    ========================================================================== */
 .site-header {
-    background: linear-gradient(135deg, var(--bg) 0%, var(--panel) 100%);
-    border-bottom: 2px solid var(--border);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
 }
 
 .site-header.scrolled {
-    background: rgba(11, 18, 32, 0.95);
+    background: var(--bg);
     box-shadow: var(--shadow-md);
 }
 
@@ -247,13 +247,13 @@ a:focus-visible {
 .site-title a {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--chalk-cream);
+    color: var(--text-primary);
     text-decoration: none;
     letter-spacing: -0.02em;
 }
 
 .site-title a:hover {
-    color: var(--fenway-green);
+    color: var(--primary);
 }
 
 /* Main Navigation */
@@ -276,14 +276,15 @@ a:focus-visible {
 
 .main-nav a:hover,
 .main-nav a:focus {
-    color: var(--chalk-cream);
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--primary);
+    background: var(--panel);
     text-decoration: none;
 }
 
 .main-nav a.active {
-    color: var(--fenway-green);
-    background: rgba(14, 81, 53, 0.15);
+    color: var(--primary);
+    background: var(--panel);
+    font-weight: 600;
 }
 
 /* Mobile menu toggle */
@@ -291,7 +292,7 @@ a:focus-visible {
     display: none;
     background: transparent;
     border: 2px solid var(--border);
-    color: var(--chalk-cream);
+    color: var(--text-primary);
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -438,37 +439,39 @@ a:focus-visible {
 }
 
 .btn-primary {
-    background: var(--fenway-green);
-    color: var(--chalk-cream);
+    background: var(--primary);
+    color: white;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background: var(--ok);
+    background: var(--primary-dark);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
     text-decoration: none;
 }
 
 .btn-secondary {
-    background: var(--infield-clay);
-    color: var(--chalk-cream);
+    background: var(--panel);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus {
-    background: #a06b4d;
+    background: var(--bg);
+    border-color: var(--primary);
     text-decoration: none;
 }
 
 .btn-accent {
-    background: var(--accent-red);
-    color: var(--chalk-cream);
+    background: var(--accent);
+    color: white;
 }
 
 .btn-accent:hover,
 .btn-accent:focus {
-    background: #c82f3d;
+    background: var(--primary);
     text-decoration: none;
 }
 
@@ -486,8 +489,8 @@ a:focus-visible {
     position: relative;
     padding: var(--space-3xl) 0;
     margin-bottom: var(--space-2xl);
-    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-elevated) 100%);
-    border-bottom: 3px solid var(--fenway-green);
+    background: var(--primary);
+    color: white;
     overflow: hidden;
 }
 
@@ -499,8 +502,8 @@ a:focus-visible {
     right: 0;
     bottom: 0;
     background-image: 
-        radial-gradient(circle at 20% 50%, rgba(14, 81, 53, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 50%, rgba(138, 90, 59, 0.08) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -515,11 +518,14 @@ a:focus-visible {
 .hero h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     margin-bottom: var(--space-md);
+    color: white;
 }
 
 .hero .lead {
     font-size: 1.25rem;
     margin-bottom: var(--space-xl);
+    color: white;
+    opacity: 0.95;
 }
 
 /* ==========================================================================
@@ -572,8 +578,8 @@ th, td {
 }
 
 th {
-    background: var(--bg-elevated);
-    color: var(--chalk-cream);
+    background: var(--panel);
+    color: var(--text-primary);
     font-weight: 600;
     position: sticky;
     top: 0;
@@ -581,7 +587,7 @@ th {
 }
 
 tr:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--panel);
 }
 
 /* ==========================================================================
@@ -595,19 +601,19 @@ tr:hover {
 }
 
 .alert-info {
-    background: rgba(42, 94, 168, 0.1);
+    background: rgba(37, 99, 235, 0.05);
     border-color: var(--info);
     color: var(--text-primary);
 }
 
 .alert-success {
-    background: rgba(46, 135, 81, 0.1);
+    background: rgba(22, 163, 74, 0.05);
     border-color: var(--success);
     color: var(--text-primary);
 }
 
 .alert-warning {
-    background: rgba(194, 123, 18, 0.1);
+    background: rgba(245, 158, 11, 0.05);
     border-color: var(--warning);
     color: var(--text-primary);
 }
