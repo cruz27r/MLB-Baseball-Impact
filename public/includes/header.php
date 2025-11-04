@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : ''; ?>Analytics Portal</title>
+    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - ' : ''; ?>Foreign players in the MLB</title>
     
     <!-- External CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
@@ -23,7 +23,7 @@
     <header class="site-header">
         <div class="container">
             <h1 class="site-title">
-                <a href="/index.php">📊 Analytics Portal</a>
+                <a href="/index.php">⚾ Foreign players in the MLB</a>
             </h1>
             
             <nav class="main-nav" aria-label="Main navigation">

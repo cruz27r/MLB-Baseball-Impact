@@ -10,8 +10,8 @@ require __DIR__ . '/includes/header.php';
 
 <section class="hero">
     <div class="container">
-        <h1>Analytics Portal</h1>
-        <p class="lead">Explore datasets, run filters, view descriptive statistics, and generate final reports.</p>
+        <h1>Foreign players in the MLB</h1>
+        <p class="lead">Are the foreign born players the most impactful?</p>
     </div>
 </section>
 
