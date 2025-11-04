@@ -12,6 +12,13 @@ require __DIR__ . '/../includes/db.php';
 // Get table name from query string
 $table = $_GET['table'] ?? '';
 
+// Check database connection
+if (!$db_connected) {
+    echo '<div class="container"><div class="alert alert-error">Database connection error. Please check your database configuration.</div></div>';
+    require __DIR__ . '/../includes/footer.php';
+    exit;
+}
+
 // Validate table exists
 if (!$table || !db_table_exists($dbc, $table)) {
     echo '<div class="container"><div class="alert alert-error">Invalid or missing table parameter.</div></div>';

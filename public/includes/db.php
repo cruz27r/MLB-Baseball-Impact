@@ -8,26 +8,33 @@
 
 // Database configuration
 $DB_HOST = getenv('MLB_DB_HOST') ?: '127.0.0.1';
-$DB_USER = getenv('MLB_DB_USER') ?: 'root';
-$DB_PASS = getenv('MLB_DB_PASS') ?: '';
-$DB_NAME = getenv('MLB_DB_NAME') ?: 'analytics';
+$DB_USER = getenv('MLB_DB_USER') ?: 'rafacruz';
+$DB_PASS = getenv('MLB_DB_PASS') ?: 'Ricky072701';
+$DB_NAME = getenv('MLB_DB_NAME') ?: 'mlb_impact';
 
-// Establish mysqli connection
-$dbc = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+// Establish mysqli connection with proper error handling
+$dbc = false;
+$db_connected = false;
 
-if (!$dbc) {
-    die('<div class="error">Database connection error: ' . mysqli_connect_error() . '</div>');
+try {
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    $dbc = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+    $db_connected = true;
+    
+    // Set charset to utf8mb4
+    mysqli_set_charset($dbc, 'utf8mb4');
+    
+    // Register shutdown function to close connection
+    register_shutdown_function(function() use ($dbc) {
+        if ($dbc && @mysqli_ping($dbc)) {
+            mysqli_close($dbc);
+        }
+    });
+} catch (mysqli_sql_exception $e) {
+    // Connection failed, but we'll handle it gracefully
+    $db_connected = false;
+    $dbc = false;
 }
-
-// Set charset to utf8mb4
-mysqli_set_charset($dbc, 'utf8mb4');
-
-// Register shutdown function to close connection
-register_shutdown_function(function() use ($dbc) {
-    if ($dbc && mysqli_ping($dbc)) {
-        mysqli_close($dbc);
-    }
-});
 
 /**
  * Helper function to safely escape table/column names

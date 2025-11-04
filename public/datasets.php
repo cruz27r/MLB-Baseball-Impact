@@ -10,20 +10,23 @@ require __DIR__ . '/includes/db.php';
 
 // Get list of available tables using mysqli
 $tables = [];
-$result = mysqli_query($dbc, "SHOW TABLES");
-if ($result) {
-    while ($row = mysqli_fetch_row($result)) {
-        $table_name = $row[0];
-        // Filter to show only relevant tables
-        if (strpos($table_name, 'staging_') === 0 || strpos($table_name, 'dw_') === 0) {
-            $tables[] = $table_name;
-        }
-    }
-    mysqli_free_result($result);
-}
 
-// Sort tables alphabetically
-sort($tables);
+if ($db_connected) {
+    $result = mysqli_query($dbc, "SHOW TABLES");
+    if ($result) {
+        while ($row = mysqli_fetch_row($result)) {
+            $table_name = $row[0];
+            // Filter to show only relevant tables
+            if (strpos($table_name, 'staging_') === 0 || strpos($table_name, 'dw_') === 0) {
+                $tables[] = $table_name;
+            }
+        }
+        mysqli_free_result($result);
+    }
+
+    // Sort tables alphabetically
+    sort($tables);
+}
 ?>
 
 <section class="hero">
@@ -34,7 +37,26 @@ sort($tables);
 </section>
 
 <section class="container">
-    <?php if (empty($tables)): ?>
+    <?php if (!$db_connected): ?>
+        <div class="alert alert-error">
+            <strong>Database Connection Error</strong><br>
+            Unable to connect to the database. Please ensure MySQL is running and configured.
+            <br><br>
+            <strong>Default Credentials:</strong>
+            <pre style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+DB_HOST=127.0.0.1
+DB_USER=rafacruz (or root)
+DB_PASS=Ricky072701
+DB_NAME=mlb_impact
+            </pre>
+            <strong>Setup Instructions:</strong>
+            <pre style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+# Download and load data
+./scripts/download_lahman_sabr.sh
+./scripts/load_mysql.sh mlb_impact rafacruz Ricky072701 localhost 3306
+            </pre>
+        </div>
+    <?php elseif (empty($tables)): ?>
         <div class="alert alert-info">
             <strong>No datasets found.</strong><br>
             Please ensure the database is set up with staging and data warehouse tables.
@@ -50,7 +72,7 @@ sort($tables);
             <?php foreach ($tables as $table): ?>
                 <?php
                 // Get row count
-                $count_result = mysqli_query($dbc, "SELECT COUNT(*) as cnt FROM " . db_escape_identifier($table));
+                $count_result = @mysqli_query($dbc, "SELECT COUNT(*) as cnt FROM " . db_escape_identifier($table));
                 $count = 0;
                 if ($count_result) {
                     $count_row = mysqli_fetch_assoc($count_result);
