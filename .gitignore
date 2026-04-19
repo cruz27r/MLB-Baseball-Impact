@@ -84,6 +84,8 @@ data/
 raw_data/
 mlb_data/
 *.pyc
+mainfiles/
+etl/fetch_sources(1).py
 
 # Keep README files in ignored directories
 !data/README.md

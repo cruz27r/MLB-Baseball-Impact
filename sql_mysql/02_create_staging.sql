@@ -13,7 +13,7 @@ CREATE TABLE staging_appearances (
 DROP TABLE IF EXISTS staging_teams;
 CREATE TABLE staging_teams (
   year_id TEXT, lg_id TEXT, team_id TEXT, franch_id TEXT, div_id TEXT,
-  rank TEXT, g TEXT, w TEXT, l TEXT, name TEXT
+  `rank` TEXT, g TEXT, w TEXT, l TEXT, name TEXT
 );
 
 DROP TABLE IF EXISTS staging_war_bat;

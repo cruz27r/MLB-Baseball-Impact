@@ -14,7 +14,7 @@ class MLBData {
      * Constructor
      */
     public function __construct() {
-        $this->db = Database::getInstance();
+        $this->db = Db::getInstance();
     }
     
     /**
@@ -34,7 +34,7 @@ class MLBData {
         }
         
         if ($team !== null) {
-            $sql .= " AND team_name ILIKE :team";
+            $sql .= " AND team_name LIKE :team";
             $params[':team'] = "%{$team}%";
         }
         
@@ -61,12 +61,12 @@ class MLBData {
         }
         
         if ($country !== null) {
-            $sql .= " AND birth_country ILIKE :country";
+            $sql .= " AND birth_country LIKE :country";
             $params[':country'] = "%{$country}%";
         }
         
         if ($awardType !== null) {
-            $sql .= " AND award_type ILIKE :award_type";
+            $sql .= " AND award_type LIKE :award_type";
             $params[':award_type'] = "%{$awardType}%";
         }
         
@@ -94,7 +94,7 @@ class MLBData {
         }
         
         if ($country !== null) {
-            $sql .= " AND birth_country ILIKE :country";
+            $sql .= " AND birth_country LIKE :country";
             $params[':country'] = "%{$country}%";
         }
         
@@ -128,7 +128,7 @@ class MLBData {
         $params = [];
         
         if ($country !== null) {
-            $sql .= " AND birth_country ILIKE :country";
+            $sql .= " AND birth_country LIKE :country";
             $params[':country'] = "%{$country}%";
         }
         

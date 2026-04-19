@@ -160,17 +160,18 @@ include __DIR__ . '/components/metric-chip.php';
         </div>
 
         <!-- Call to Action -->
-        <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--fenway-green) 0%, var(--ok) 100%); border: none;">
-            <h3 style="color: var(--chalk-cream); font-size: 1.5rem; margin-bottom: var(--space-md);">
+        <div class="card" style="text-align:center; background:linear-gradient(135deg, rgba(217,32,32,0.15) 0%, rgba(13,27,46,1) 100%); border-color:var(--primary);">
+            <h3 style="font-family:var(--font-display); font-size:2.2rem; color:var(--text-primary); margin-bottom:var(--space-md);">
                 Explore the Data
             </h3>
-            <p style="color: var(--chalk-cream); opacity: 0.95; margin-bottom: var(--space-lg);">
+            <p style="color:var(--text-secondary); margin-bottom:var(--space-lg); max-width:500px; margin-left:auto; margin-right:auto;">
                 Dive deeper into each analysis section to see the complete evidence behind these conclusions.
             </p>
-            <div class="btn-group" style="justify-content: center;">
-                <a href="/players.php" class="btn btn-secondary">Players Analysis</a>
-                <a href="/performance.php" class="btn btn-secondary">Performance Data</a>
-                <a href="/awards.php" class="btn btn-secondary">Awards Overview</a>
+            <div class="btn-group" style="justify-content:center;">
+                <a href="/players.php" class="btn btn-primary">Players Analysis</a>
+                <a href="/performance.php" class="btn">Performance Data</a>
+                <a href="/awards.php" class="btn">Awards Overview</a>
+                <a href="/championships.php" class="btn">Championships</a>
             </div>
         </div>
     </div>

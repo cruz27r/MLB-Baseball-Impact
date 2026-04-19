@@ -14,7 +14,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 require_once __DIR__ . '/../../app/db.php';
 
 try {
-    $db = Database::getInstance();
+    $db = Db::getInstance();
     
     // Get schemas
     $schemas = $db->fetchAll("

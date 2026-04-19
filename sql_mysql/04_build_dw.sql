@@ -12,7 +12,7 @@ SELECT
   TRIM(p.last)  AS last_name
 FROM staging_people p;
 
-CREATE INDEX IF NOT EXISTS idx_dw_origin_retro ON dw_player_origin(retro_id);
+CREATE INDEX idx_dw_origin_retro ON dw_player_origin(retro_id(16));
 
 DROP TABLE IF EXISTS dw_roster_composition;
 CREATE TABLE dw_roster_composition AS

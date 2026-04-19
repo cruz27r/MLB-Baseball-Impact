@@ -141,4 +141,23 @@ class Db {
     public static function getHelp() {
         return $_ENV['DB_HELP'] ?? null;
     }
+
+    /**
+     * Execute a query and return all rows
+     */
+    public function fetchAll(string $sql, array $params = []): array {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Execute a query and return a single row
+     */
+    public function fetchOne(string $sql, array $params = []): ?array {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetch();
+        return $result ?: null;
+    }
 }
